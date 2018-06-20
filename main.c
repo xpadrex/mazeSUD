@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include "location.h"
 
 
 static char input[100];                         // buffer for keyboard input
@@ -28,10 +29,10 @@ static int parse_input()
       return 0;
     }
     else if (strcasecmp(verb, "LOOK") == 0) {
-      printf("There is nothing to look at yet!\n");
+      execute_look(noun);
     }
     else if (strcasecmp(verb, "GO") == 0) {
-      printf("There is nowhere to go yet!\n");
+      execute_go(noun);
     }
     else {
       printf("I'm sorry, I don't know how to %s.\n", verb);
@@ -45,6 +46,8 @@ int main()
 {
   printf("\n--Welcome to maze-rpg v0.1 Alpha--\n\n");
   printf("uncopyright 2018 - by: xpadrex\n\n");
+
+  execute_look("around");
 
   while (get_input() && parse_input());
 
