@@ -30,7 +30,7 @@ void execute_look(const char *noun)
     printf("You are in %s.\n", areas[player_location].description);
   }
   else {
-    printf("I'm not sure what you want to look at.\n", noun);
+    printf("I'm not sure what you want to look at.\n");
   }
 }
 
