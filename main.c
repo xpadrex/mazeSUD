@@ -44,7 +44,7 @@ static int parse_input()
 
 int main()
 {
-  printf("\n--Welcome to maze-rpg v0.1 Alpha--\n\n");
+  printf("\n--Welcome to mazeSUD v0.1 Alpha--\n\n");
   printf("uncopyright 2018 - by: xpadrex\n\n");
 
   execute_look("around");

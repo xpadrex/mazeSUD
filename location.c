@@ -14,7 +14,9 @@ struct location {
 areas[] = {
   {"town square", "town"},
   {"seedy tavern", "tavern"},
-  {"temple of the old gods","temple"}
+  {"temple of the old gods","temple"},
+  {"dark forest", "forest"},
+  {"open field", "field"}
 };
 
 #define number_of_locations (sizeof(areas) / sizeof(*areas))
@@ -35,8 +37,8 @@ void execute_look(const char *noun)
 }
 
 /* execute_go() function - searches the locations list to make sure the location 
- * exists and then checks to make sure your not there already.  If your not already there
- * moves you to that location */
+ * exists and then checks to make sure your not there already.  If your not already
+ * there moves you to that location */
 void execute_go(const char *noun)
 {
   unsigned i;
