@@ -9,14 +9,15 @@
 struct location {
   const char *description;
   const char *tag;
+  const char *exits[4];
 }
 
 areas[] = {
-  {"town square", "town"},
-  {"seedy tavern", "tavern"},
-  {"temple of the old gods","temple"},
-  {"dark forest", "forest"},
-  {"open field", "field"}
+  {"town square", "town", {"tavern", "temple", "forest", NULL}},
+  {"seedy tavern", "tavern", {"town",NULL,NULL,NULL}},
+  {"temple of the old gods","temple", {"town", NULL, NULL, NULL}},
+  {"dark forest", "forest", {"town", "field", NULL, NULL}},
+  {"open field", "field", {"forest", NULL, NULL, NULL}}
 };
 
 #define number_of_locations (sizeof(areas) / sizeof(*areas))
@@ -30,6 +31,11 @@ void execute_look(const char *noun)
 {
   if (noun != NULL && strcasecmp(noun, "AROUND") == 0) {
     printf("You are in %s.\n", areas[player_location].description);
+    printf("Possible exits: %s", areas[player_location].exits[0]);    
+    for (int i = 1; areas[player_location].exits[i] != NULL; i++) {
+      printf(", %s", areas[player_location].exits[i]);
+    }
+    printf("\n");
   }
   else {
     printf("I'm not sure what you want to look at.\n");
