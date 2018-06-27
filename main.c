@@ -51,7 +51,7 @@ int main()
 
   while (get_input() && parse_input());
 
-  printf("See you soon!");
+  printf("See you soon!\n");
 
   return 0;
 }
