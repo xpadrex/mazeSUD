@@ -6,20 +6,21 @@
 #include <string.h>
 #include "location.h"
 
-typedef enum {town, tavern, temple, forest, clearing} path ;
-
 struct location {
   const char *description;
   const char *tag;
-  const int *exits[4];
+  const char *north;
+  const char *south;
+  const char *east;
+  const char *west;
 }
 
 areas[] = {
-  {"town square", "town", {tavern, temple, forest, NULL}},
-  {"seedy tavern", "tavern", {NULL, town, NULL, NULL}},
-  {"temple of the old gods","temple", {town, NULL, NULL, NULL}},
-  {"dark forest", "forest", {NULL, NULL, clearing, town}},
-  {"large clearing", "clearing", {NULL, NULL, NULL, forest}}
+  {"town square", "town", "tavern", "temple", "forest", NULL},
+  {"seedy tavern", "tavern", NULL, "town", NULL, NULL},
+  {"temple of the old gods","temple", "town", NULL, NULL, NULL},
+  {"dark forest", "forest", NULL, NULL, "clearing", "town"},
+  {"large clearing", "clearing", NULL, NULL, NULL, "forest"}
 };
 
 #define number_of_locations (sizeof(areas) / sizeof(*areas))
@@ -32,24 +33,17 @@ void execute_look(const char *noun)
 {
   if (noun != NULL && strcasecmp(noun, "AROUND") == 0) {
     printf("You are in %s.\n", areas[player_location].description);
-    printf("Possible exits: ");
-    /*    
-    for (int i = 1; areas[player_location].exits[i] != NULL; i++) {
-      printf(", %s", areas[player_location].exits[i]);
+    if (areas[player_location].north != NULL) {
+      printf("There is a %s to the north.  ", areas[player_location].north);
     }
-    printf("\n");
-    */
-    if (areas[player_location].exits[0] != NULL) {
-      printf("North ");
+    if (areas[player_location].south != NULL) {
+      printf("To the south is a %s.  ", areas[player_location].south);
     }
-    if (areas[player_location].exits[1] != NULL) {
-      printf("South ");
+    if (areas[player_location].east != NULL) {
+      printf("There is a %s to the east.  ", areas[player_location].east);
     }
-    if (areas[player_location].exits[2] != NULL) {
-      printf("East ");
-     }
-    if (areas[player_location].exits[3] != NULL) {
-      printf("West");
+    if (areas[player_location].west != NULL) {
+      printf("To the west is a %s.  ", areas[player_location].west);
     }
     printf("\n");
   }
@@ -58,26 +52,25 @@ void execute_look(const char *noun)
   }
 }
 
-/* execute_go() function - searches the locations list to make sure 
- * the location exists and then checks to make sure your not there 
- * already.  If your not already there moves you to that location */
+/* execute_go() function - checks the direction the player input to make sure it is a valid path,
+ * if it is, calles the move_player() function */
 void execute_go(const char *noun)
 {
   if (noun != NULL) {
-    if (strcasecmp(noun, "north") == 0 && areas[player_location].exits[0] != NULL) {
-      move_player(areas[player_location].exits[0]);
+    if (strcasecmp(noun, "north") == 0 && areas[player_location].north != NULL) {
+      move_player(areas[player_location].north);
     }
-    else if (strcasecmp(noun, "south") == 0 && areas[player_location].exits[1] != NULL) {
-      move_player(areas[player_location].exits[1]);
+    else if (strcasecmp(noun, "south") == 0 && areas[player_location].south != NULL) {
+      move_player(areas[player_location].south);
     }
-    else if (strcasecmp(noun, "east") == 0 && areas[player_location].exits[2] != NULL) {
-      move_player(areas[player_location].exits[2]);
+    else if (strcasecmp(noun, "east") == 0 && areas[player_location].east != NULL) {
+      move_player(areas[player_location].east);
     }
-    else if (strcasecmp(noun, "west") == 0 && areas[player_location].exits[3] != NULL) {
-      move_player(areas[player_location].exits[3]);
+    else if (strcasecmp(noun, "west") == 0 && areas[player_location].west != NULL) {
+      move_player(areas[player_location].west);
     }
     else {
-      printf("Are you sure you know where your going?\n");
+      printf("You can't go that way right now.\n");
     }
   }
   return;
@@ -85,10 +78,15 @@ void execute_go(const char *noun)
 
 
 /* move_player() function - moves the player to the area passed to the function */
-void move_player(const int *direction)
+void move_player(const char *direction)
 {
+  int i = 0;
+
+  while (strcasecmp(direction, areas[i].tag) != 0) {
+    i++;
+  }
   printf("Walking...\n");
-  player_location = direction;
+  player_location = i;
   execute_look("around");
 
   return;
