@@ -6,16 +6,16 @@
 #include <string.h>
 #include "location.h"
 
-struct location {
+typedef struct {
   const char *description;
   const char *tag;
   const char *north;
   const char *south;
   const char *east;
   const char *west;
-}
+} location;
 
-areas[] = {
+location areas[] = {
   {"town square", "town", "tavern", "temple", "forest", NULL},
   {"seedy tavern", "tavern", NULL, "town", NULL, NULL},
   {"temple of the old gods","temple", "town", NULL, NULL, NULL},
@@ -85,7 +85,7 @@ void move_player(const char *direction)
   while (strcasecmp(direction, areas[i].tag) != 0) {
     i++;
   }
-  printf("Walking...\n");
+  printf("Walking to %s\n\n", areas[i].tag);
   player_location = i;
   execute_look("around");
 
