@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "location.h"
+#include "object.h"
 
 
 static char input[60];                         // buffer for keyboard input

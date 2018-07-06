@@ -1,10 +1,12 @@
 # makefile for mazeSUD
 
-main.o: main.c location.h
+main.o: main.c location.h object.h
 	gcc -c main.c
 
-location.o: location.c location.h
+location.o: location.c location.h object.h
 	gcc -c location.c
 
-mazeSUD: main.o location.o
-	gcc main.o location.o -o mazeSUD
+object.o: object.c location.h object.h
+
+mazeSUD: main.o location.o object.o
+	gcc main.o location.o object.o -o mazeSUD

@@ -15,7 +15,7 @@ typedef struct {
   const char *west;
 } location;
 
-location areas[] = {
+extern location areas[] = {
   {"town square", "town", "tavern", "temple", "forest", NULL},
   {"seedy tavern", "tavern", NULL, "town", NULL, NULL},
   {"temple of the old gods","temple", "town", NULL, NULL, NULL},
@@ -26,7 +26,7 @@ location areas[] = {
 
 /* reads the size of the areas array to get the number of locations */
 #define number_of_locations (sizeof(areas) / sizeof(*areas))
-player_location = 0;
+int player_location = 0;
 
 /* execute_look() function - looks around the area of the player and 
  * reads the area description to them */
