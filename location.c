@@ -20,11 +20,13 @@ location areas[] = {
   {"seedy tavern", "tavern", NULL, "town", NULL, NULL},
   {"temple of the old gods","temple", "town", NULL, NULL, NULL},
   {"dark forest", "forest", NULL, NULL, "clearing", "town"},
-  {"large clearing", "clearing", NULL, NULL, NULL, "forest"}
+  {"large clearing", "clearing", NULL, NULL, "river", "forest"},
+  {"raging river", "river", NULL, NULL, NULL, "clearing"}
 };
 
+/* reads the size of the areas array to get the number of locations */
 #define number_of_locations (sizeof(areas) / sizeof(*areas))
-static int player_location = 0;
+player_location = 0;
 
 /* execute_look() function - looks around the area of the player and 
  * reads the area description to them */

@@ -7,7 +7,7 @@
 #include "location.h"
 
 
-static char input[100];                         // buffer for keyboard input
+static char input[60];                         // buffer for keyboard input
 
 /* get_input() function - gets keyboard input from the user and stores it in the static array 'input[]' */
 static int get_input()
