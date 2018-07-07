@@ -6,6 +6,8 @@
 #include <string.h>
 #include "objects.h"
 
+int player_location = 0;
+
 typedef struct {
   char *description;
   char *tag;
@@ -30,12 +32,16 @@ typedef struct {
     char *location;
 } object;
 
-object objects[] = {"crumpled map", "map", "town"};
-
+object objects[] = {
+  {"crumpled map", "map", "town"},
+  {"broken idol", "idol", "temple"},
+  {"mug of ale", "ale", "tavern"},
+  {"broken twig", "twig", "forest"},
+  {"gold coin", "coin", "forest"}
+};
 
 /* reads the size of the areas array to get the number of locations */
 #define number_of_locations (sizeof(areas) / sizeof(*areas))
-int player_location = 0;
 
 /* reads the size of the objects array to get the number of objects in game */
 #define number_of_objects (sizeof(objects) / sizeof(*objects))
@@ -43,17 +49,10 @@ int player_location = 0;
 /* list_objects() - function to list the objects in a location */
 void list_objects(const char *here)
 {
-  int items = 0;
-
-  printf("You see ");
   for (int i = 0; i < number_of_objects; i++) {
     if (strcasecmp(objects[i].location, here) == 0) {
-      printf("a %s\n", objects[i].description);
-      items++;
+      printf("You see a %s\n", objects[i].description);
     }
-  }
-  if (items < 1) {
-    printf("nothing of interest here.\n");
   }
   printf("\n");
 
@@ -62,24 +61,23 @@ void list_objects(const char *here)
 
 /* execute_look() function - looks around the area of the player and 
  * reads the area description to them */
-
 void execute_look(const char *noun)
 {
   if (noun != NULL && strcasecmp(noun, "AROUND") == 0) {
-    printf("You are in %s.\n", areas[player_location].description);
+    printf("You are in %s. There is", areas[player_location].description);
     if (areas[player_location].north != NULL) {
-      printf("There is a %s to the north.  ", areas[player_location].north);
+      printf(" a %s to the north", areas[player_location].north);
     }
     if (areas[player_location].south != NULL) {
-      printf("To the south is a %s.  ", areas[player_location].south);
+      printf(" a %s to the south", areas[player_location].south);
     }
     if (areas[player_location].east != NULL) {
-      printf("There is a %s to the east.  ", areas[player_location].east);
+      printf(" a %s to the east", areas[player_location].east);
     }
     if (areas[player_location].west != NULL) {
-      printf("To the west is a %s.  ", areas[player_location].west);
+      printf(" a %s to the west", areas[player_location].west);
     }
-    printf("\n");
+    printf(".\n");
     list_objects(areas[player_location].tag);
   }
   else {

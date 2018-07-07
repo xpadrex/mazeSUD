@@ -28,6 +28,9 @@ static int parse_input()
     if (strcasecmp(verb, "QUIT") == 0) {
       return 0;
     }
+    else if (strcasecmp(verb, "CLEAR") == 0) {  // ASCII codes to clear the terminal
+      printf("\e[1;1H\e[2J");
+    }
     else if (strcasecmp(verb, "LOOK") == 0) {
       execute_look(noun);
     }
@@ -35,7 +38,7 @@ static int parse_input()
       execute_go(noun);
     }
     else {
-      printf("I'm sorry, I don't know how to %s.\n", verb);
+      printf("I'm sorry, I don't know what you mean by %s.\n", verb);
     }
   }
 
