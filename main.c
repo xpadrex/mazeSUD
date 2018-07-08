@@ -12,7 +12,7 @@ static char input[60];                         // buffer for keyboard input
 /* get_input() function - gets keyboard input from the user and stores it in the static array 'input[]' */
 static int get_input()
 {
-  printf("> ");                              // Player prompt
+  printf("\n> ");                              // Player prompt
   return fgets(input, sizeof(input), stdin) != NULL;
 }
 
@@ -39,6 +39,9 @@ static int parse_input()
     }
     else if (strcasecmp(verb, "INVENTORY") == 0) {
       list_inventory();
+    }
+    else if (strcasecmp(verb, "GET") == 0) {
+      execute_get(noun);
     }
     else {
       printf("I'm sorry, I don't know what you mean by %s.\n", verb);

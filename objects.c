@@ -55,11 +55,33 @@ void list_objects(const char *here)
       printf("You see a %s\n", objects[i].description);
     }
   }
-  printf("\n");
 
   return;
 }
 
+/* execute_get() function - takes an item from the players location and puts it in their inventory */
+void execute_get(const char *noun)
+{
+  if (noun != NULL) {  
+    for (int i = 0; i < number_of_objects; i++) {
+      if (strcasecmp(objects[i].tag, noun) == 0 && strcasecmp(objects[i].location, locations[player_location].tag) == 0) {
+        objects[i].location = "player";
+        printf("You take the %s and put it in your pack.\n", objects[i].description);
+
+        return;
+      }
+    }
+
+    printf("There is no %s here.\n", noun);
+
+    return;
+  }
+  else {
+    printf("You'll have to let me know what you want to get.\n");
+  }
+}
+
+/* list_inventory() - fuction to list all items on the player */
 void list_inventory()
 {
   int player_items = 0;
@@ -71,9 +93,8 @@ void list_inventory()
     }
   }
   if (player_items < 1) {
-    printf("You aren't carrying anything.");
+    printf("You aren't carrying anything.\n");
   }
-  printf("\n");
 
   return;  
 }
