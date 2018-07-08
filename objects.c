@@ -6,7 +6,7 @@
 #include <string.h>
 #include "objects.h"
 
-int player_location = 1;
+int player_location = 1;            // start location of player
 
 typedef struct {
   char *description;
@@ -60,6 +60,24 @@ void list_objects(const char *here)
   return;
 }
 
+void list_inventory()
+{
+  int player_items = 0;
+
+  for (int i = 0; i < number_of_objects; i++) {
+    if (strcasecmp(objects[i].location, "player") == 0) {
+      printf("You have a %s\n", objects[i].description);
+      player_items++;
+    }
+  }
+  if (player_items < 1) {
+    printf("You aren't carrying anything.");
+  }
+  printf("\n");
+
+  return;  
+}
+
 /* execute_look() function - looks around the area of the player and 
  * reads the area description to them */
 void execute_look(const char *noun)
@@ -80,6 +98,9 @@ void execute_look(const char *noun)
     }
     printf(".\n");
     list_objects(locations[player_location].tag);
+  }
+  else if (noun != NULL && strcasecmp(noun, "SELF") == 0) {
+    list_objects("PLAYER");
   }
   else {
     printf("I'm not sure what you want to look at.\n");

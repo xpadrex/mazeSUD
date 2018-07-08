@@ -37,6 +37,9 @@ static int parse_input()
     else if (strcasecmp(verb, "GO") == 0) {
       execute_go(noun);
     }
+    else if (strcasecmp(verb, "INVENTORY") == 0) {
+      list_inventory();
+    }
     else {
       printf("I'm sorry, I don't know what you mean by %s.\n", verb);
     }
@@ -48,13 +51,13 @@ static int parse_input()
 int main()
 {
   printf("\n--Welcome to mazeSUD v0.1 Alpha--\n\n");
-  printf("uncopyright 2018 - by: xpadrex\n\n");
+  printf("--uncopyright 2018  by: xpadrex--\n\n");
 
   execute_look("around");
 
   while (get_input() && parse_input());
 
-  printf("See you soon!\n");
+  printf("\nThanks for playing!\n");
 
   return 0;
 }
