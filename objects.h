@@ -8,3 +8,4 @@ extern void move_player(const char *direction);
 extern void list_objects(const char *here);
 extern void list_inventory();
 extern void execute_get(const char *noun);
+extern void execute_drop(const char *noun);

@@ -43,6 +43,9 @@ static int parse_input()
     else if (strcasecmp(verb, "GET") == 0) {
       execute_get(noun);
     }
+    else if (strcasecmp(verb, "DROP") == 0) {
+      execute_drop(noun);
+    }
     else {
       printf("I'm sorry, I don't know what you mean by %s.\n", verb);
     }

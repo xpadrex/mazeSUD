@@ -77,8 +77,33 @@ void execute_get(const char *noun)
     return;
   }
   else {
-    printf("You'll have to let me know what you want to get.\n");
+    printf("I don't know what you want to get.\n");
   }
+
+  return;
+}
+
+/* execute_drop() function - drops an object from the players inventory */
+void execute_drop(const char *noun)
+{
+  if (noun != NULL) {
+    for (int i = 0; i < number_of_objects; i++) {
+      if (strcasecmp(objects[i].tag, noun) == 0 && objects[i].location == "player") {
+        objects[i].location = locations[player_location].tag;
+        printf("You drop the %s on the ground.\n", objects[i].description);
+
+        return;
+      }
+    }
+    printf("You don't have a %s.\n", noun);
+
+    return;    
+  }
+  else {
+    printf("What do you wan't to drop?\n");
+  }
+
+  return;
 }
 
 /* list_inventory() - fuction to list all items on the player */
