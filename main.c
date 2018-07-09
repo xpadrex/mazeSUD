@@ -3,8 +3,10 @@
  */
 
 #include <stdio.h>
+#include <strings.h>
 #include <string.h>
 #include "objects.h"
+#include "player.h"
 
 
 static char input[60];                         // buffer for keyboard input
@@ -12,7 +14,7 @@ static char input[60];                         // buffer for keyboard input
 /* get_input() function - gets keyboard input from the user and stores it in the static array 'input[]' */
 static int get_input()
 {
-  printf("> ");                              // Player prompt
+  printf("\n> ");                              // Player prompt
   return fgets(input, sizeof(input), stdin) != NULL;
 }
 
@@ -37,6 +39,15 @@ static int parse_input()
     else if (strcasecmp(verb, "GO") == 0) {
       execute_go(noun);
     }
+    else if (strcasecmp(verb, "INVENTORY") == 0) {
+      list_inventory();
+    }
+    else if (strcasecmp(verb, "GET") == 0) {
+      execute_get(noun);
+    }
+    else if (strcasecmp(verb, "DROP") == 0) {
+      execute_drop(noun);
+    }
     else {
       printf("I'm sorry, I don't know what you mean by %s.\n", verb);
     }
@@ -48,13 +59,15 @@ static int parse_input()
 int main()
 {
   printf("\n--Welcome to mazeSUD v0.1 Alpha--\n\n");
-  printf("uncopyright 2018 - by: xpadrex\n\n");
+  printf("--uncopyright 2018  by: xpadrex--\n\n");
+
+  create_character();
 
   execute_look("around");
 
   while (get_input() && parse_input());
 
-  printf("See you soon!\n");
+  printf("\nThanks for playing!\n");
 
   return 0;
 }
