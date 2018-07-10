@@ -23,6 +23,8 @@ void create_character()
   i[strlen(i) - 1] = '\0';            // removes the "\n" from the end of fgets string
   player.name = i;
 
+  printf("Hello %s, welcome to mazeSUD.\n", player.name);
+
   return;
 }
 

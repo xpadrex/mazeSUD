@@ -12,3 +12,13 @@ void clear_screen()
 
   return;
 }
+
+void wait_for_keypress()
+{
+  char any_key[10];
+
+  printf("\nPress <ENTER> to continue...\n");
+  fgets(any_key, sizeof(any_key), stdin);
+
+  return;
+}

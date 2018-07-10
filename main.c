@@ -63,7 +63,8 @@ int main()
   printf("--uncopyright 2018  by: xpadrex--\n\n");
 
   create_character();
-
+  wait_for_keypress();
+  clear_screen();
   execute_look("around");
 
   while (get_input() && parse_input());
