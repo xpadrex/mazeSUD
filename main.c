@@ -7,6 +7,7 @@
 #include <string.h>
 #include "objects.h"
 #include "player.h"
+#include "misc.h"
 
 
 static char input[60];                         // buffer for keyboard input
@@ -14,7 +15,7 @@ static char input[60];                         // buffer for keyboard input
 /* get_input() function - gets keyboard input from the user and stores it in the static array 'input[]' */
 static int get_input()
 {
-  printf("\n> ");                              // Player prompt
+  printf("\n[%d|%d]> ", player.health, player.energy);                              // Player prompt
   return fgets(input, sizeof(input), stdin) != NULL;
 }
 
@@ -30,8 +31,8 @@ static int parse_input()
     if (strcasecmp(verb, "QUIT") == 0) {
       return 0;
     }
-    else if (strcasecmp(verb, "CLEAR") == 0) {  // ASCII codes to clear the terminal
-      printf("\e[1;1H\e[2J");
+    else if (strcasecmp(verb, "CLEAR") == 0) { 
+      clear_screen();
     }
     else if (strcasecmp(verb, "LOOK") == 0) {
       execute_look(noun);

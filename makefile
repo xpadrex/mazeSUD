@@ -1,13 +1,16 @@
 # makefile for mazeSUD
 
-main.o: main.c objects.h player.h
+main.o: main.c objects.h player.h misc.h
 	gcc -c main.c
 
-objects.o: objects.c objects.h player.h
+objects.o: objects.c objects.h player.h misc.h
 	gcc -c objects.c
 
-player.o: player.c objects.h player.h
+player.o: player.c objects.h player.h misc.h
 	gcc -c player.c
 
-mazeSUD: main.o objects.o player.o
-	gcc main.o objects.o player.o -o mazeSUD
+misc.o: misc.c objects.h player.h misc.h
+	gcc -c misc.c
+
+mazeSUD: main.o objects.o player.o misc.o
+	gcc main.o objects.o player.o misc.o -o mazeSUD

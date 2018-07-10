@@ -6,6 +6,7 @@
 #include <strings.h>
 #include "objects.h"
 #include "player.h"
+#include "misc.h"
 
 int player_location = 1;            // start location of player
 

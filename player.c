@@ -3,29 +3,24 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 #include <strings.h>
 #include "objects.h"
 #include "player.h"
+#include "misc.h"
 
-static char i[20];
+static char i[20];             // variable for input of player name
 
-typedef struct {
-  char *name;
-  int armour;
-  int health;
-  int energy;
-  char *hands;
-  char *body;
-} character;
-
+/* declaring the player variable (character type) */
 character player = {NULL, 1, 25, 100, NULL, "stylish clothing"};
 
 /* create_character() function - creates the player character when you first start the game */
 void create_character()
 {
   printf("By what name do you wish to be called? ");
-  scanf("%19s", i);
-  //while (fgets(i, sizeof(i-1), stdin) == NULL);
+  //scanf("%19s", i);
+  while (fgets(i, sizeof(i), stdin) == NULL);
+  i[strlen(i) - 1] = '\0';            // removes the "\n" from the end of fgets string
   player.name = i;
 
   return;
@@ -42,7 +37,7 @@ void look_self()
     printf("\nYou have nothing in your hands.\n");
   }
   else {
-    printf("\nYou have a %s in your hand.\n", player.hands);
+    printf("\nYou have a %s equiped.\n", player.hands);
   }
   if (player.body == NULL) {
     printf("You are naked\n");
