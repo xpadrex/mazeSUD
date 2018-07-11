@@ -9,6 +9,8 @@
 #include "misc.h"
 
 int player_location = 1;            // start location of player
+int player_items = 0;               /* count of number of items carried by the  
+                                     * player */
 
 typedef struct {
   char *description;
@@ -29,18 +31,14 @@ location locations[] = {
   {"raging river", "river", NULL, NULL, NULL, "clearing"}
 };
 
-typedef struct {
-    char *description;
-    char *tag;
-    char *location;
-} object;
-
 object objects[] = {
-  {"crumpled map", "map", "town"},
-  {"broken idol", "idol", "temple"},
-  {"mug of ale", "ale", "tavern"},
-  {"broken twig", "twig", "forest"},
-  {"gold coin", "coin", "forest"}
+  {"crumpled map", "map", "town", 0, 0, 0},
+  {"broken idol", "idol", "temple", 5, 0, 0},
+  {"mug of ale", "ale", "tavern", 0, 0, 0},
+  {"broken twig", "twig", "forest", 0, 1, 0},
+  {"gold coin", "coin", "forest", 1, 0, 0},
+  {"Weathered Axe", "axe", "town", 1, 5, 0},
+  {"Tattered Leather Vest", "vest", "town", 1, 0, 1}
 };
 
 /* reads the size of the locations array to get the number of locations */
@@ -61,14 +59,19 @@ void list_objects(const char *here)
   return;
 }
 
-/* execute_get() function - takes an item from the players location and puts it in their inventory */
+/* execute_get() function - takes an item from the players location and puts it 
+ * in their inventory */
 void execute_get(const char *noun)
 {
   if (noun != NULL) {  
     for (int i = 0; i < number_of_objects; i++) {
-      if (strcasecmp(objects[i].tag, noun) == 0 && strcasecmp(objects[i].location, locations[player_location].tag) == 0) {
+      if (strcasecmp(objects[i].tag, noun) == 0 && 
+      strcasecmp(objects[i].location, locations[player_location].tag) == 0) {
         objects[i].location = "player";
-        printf("You take the %s and put it in your pack.\n", objects[i].description);
+        printf("You take the %s and put it in your pack.\n", 
+        objects[i].description);
+        player_items++;
+        printf("player_items = %d", player_items);
 
         return;
       }
@@ -90,9 +93,11 @@ void execute_drop(const char *noun)
 {
   if (noun != NULL) {
     for (int i = 0; i < number_of_objects; i++) {
-      if (strcasecmp(objects[i].tag, noun) == 0 && objects[i].location == "player") {
+      if (strcasecmp(objects[i].tag, noun) == 0 &&
+      objects[i].location == "player") {
         objects[i].location = locations[player_location].tag;
         printf("You drop the %s on the ground.\n", objects[i].description);
+        player_items--;
 
         return;
       }
@@ -111,16 +116,16 @@ void execute_drop(const char *noun)
 /* list_inventory() - fuction to list all items on the player */
 void list_inventory()
 {
-  int player_items = 0;
+  if (player_items < 1) {
+    printf("You aren't carrying anything.\n");
+
+    return;
+  }
 
   for (int i = 0; i < number_of_objects; i++) {
     if (strcasecmp(objects[i].location, "player") == 0) {
       printf("You have a %s\n", objects[i].description);
-      player_items++;
     }
-  }
-  if (player_items < 1) {
-    printf("You aren't carrying anything.\n");
   }
 
   return;  
@@ -157,21 +162,25 @@ void execute_look(const char *noun)
   return;
 }
 
-/* execute_go() function - checks the direction the player input to make sure it is a valid path,
- * if it is, calles the move_player() function */
+/* execute_go() function - checks the direction the player input to make sure  
+ * it is a valid path, if it is, calles the move_player() function */
 void execute_go(const char *noun)
 {
   if (noun != NULL) {
-    if (strcasecmp(noun, "north") == 0 && locations[player_location].north != NULL) {
+    if (strcasecmp(noun, "north") == 0 &&
+    locations[player_location].north !=NULL) {
       move_player(locations[player_location].north);
     }
-    else if (strcasecmp(noun, "south") == 0 && locations[player_location].south != NULL) {
+    else if (strcasecmp(noun, "south") == 0 &&
+    locations[player_location].south != NULL) {
       move_player(locations[player_location].south);
     }
-    else if (strcasecmp(noun, "east") == 0 && locations[player_location].east != NULL) {
+    else if (strcasecmp(noun, "east") == 0 &&
+    locations[player_location].east != NULL) {
       move_player(locations[player_location].east);
     }
-    else if (strcasecmp(noun, "west") == 0 && locations[player_location].west != NULL) {
+    else if (strcasecmp(noun, "west") == 0 &&
+    locations[player_location].west != NULL) {
       move_player(locations[player_location].west);
     }
     else {
@@ -182,7 +191,8 @@ void execute_go(const char *noun)
 }
 
 
-/* move_player() function - moves the player to the area passed to the function */
+/* move_player() function - moves the player to the area passed to the function 
+*/
 void move_player(const char *direction)
 {
   int i = 0;
@@ -193,6 +203,40 @@ void move_player(const char *direction)
   printf("Walking to %s\n\n", locations[i].tag);
   player_location = i;
   execute_look("around");
+
+  return;
+}
+
+/* execute_equip() function - checks if the item can be equiped and if so equip
+ * the item either on the body or in the hand */
+void execute_equip(const char *noun)
+{
+  if (noun != NULL) {
+    if (player_items == 0) {
+      printf("You don't have any items to equip");
+
+      return;
+    }
+
+    for (int i = 0; i < number_of_objects; i++) {
+      if (strcasecmp(noun, objects[i].tag) == 0) {
+        if (strcasecmp("player", objects[i].location) == 0) {
+          if (objects[i].damage > 0) {            
+            player.hands = &objects[i];
+            printf("You equip the %s.\n", player.hands->description);
+        
+          }
+          else if (objects[i].armour > 0) {
+            player.body = &objects[i];
+            printf("You put on the %s.\n", player.body->description);
+          }
+          else {
+            printf("You can't equip a %s", objects[i].description);
+          }
+        }
+      } 
+    }
+  }
 
   return;
 }

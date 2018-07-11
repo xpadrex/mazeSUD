@@ -12,7 +12,7 @@
 static char i[20];             // variable for input of player name
 
 /* declaring the player variable (character type) */
-character player = {NULL, 1, 25, 100, NULL, "stylish clothing"};
+character player = {NULL, 1, 25, 100, NULL, NULL};
 
 /* create_character() function - creates the player character when you first start the game */
 void create_character()
@@ -39,15 +39,14 @@ void look_self()
     printf("\nYou have nothing in your hands.\n");
   }
   else {
-    printf("\nYou have a %s equiped.\n", player.hands);
+    printf("\nYou have a %s in your main hand.\n", player.hands->description);
   }
   if (player.body == NULL) {
-    printf("You are naked\n");
+    printf("You aren't wearing any armour.\n");
   }
   else {
-    printf("You are wearing %s.\n", player.body);
+    printf("You are wearing a %s.\n", player.body->description);
   }
-  list_inventory();
-
+  
   return;
 }

@@ -9,3 +9,18 @@ extern void list_objects(const char *here);
 extern void list_inventory();
 extern void execute_get(const char *noun);
 extern void execute_drop(const char *noun);
+extern void execute_equip(const char *noun);
+
+#ifndef __OBJECT__
+#define __OBJECT__
+typedef struct {
+    char *description;
+    char *tag;
+    char *location;
+    int value;
+    int damage;
+    int armour;
+} object;
+#endif
+
+//extern object objects[];
