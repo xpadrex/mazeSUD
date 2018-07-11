@@ -71,7 +71,6 @@ void execute_get(const char *noun)
         printf("You take the %s and put it in your pack.\n", 
         objects[i].description);
         player_items++;
-        printf("player_items = %d", player_items);
 
         return;
       }
