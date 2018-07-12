@@ -18,9 +18,8 @@ character player = {NULL, 1, 25, 100, NULL, NULL};
 void create_character()
 {
   printf("By what name do you wish to be called? ");
-  //scanf("%19s", i);
   while (fgets(i, sizeof(i), stdin) == NULL);
-  i[strlen(i) - 1] = '\0';            // removes the "\n" from the end of fgets string
+  i[strlen(i) - 1] = '\0';     // removes the "\n" from the end of fgets string
   player.name = i;
 
   printf("Hello %s, welcome to mazeSUD.\n", player.name);

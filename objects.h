@@ -21,6 +21,6 @@ typedef struct {
     int damage;
     int armour;
 } object;
-#endif
 
 //extern object objects[];
+#endif

@@ -92,11 +92,18 @@ void execute_drop(const char *noun)
 {
   if (noun != NULL) {
     for (int i = 0; i < number_of_objects; i++) {
-      if (strcasecmp(objects[i].tag, noun) == 0 &&
+      if (strcasecmp(objects[i].tag, noun) == 0 && 
       objects[i].location == "player") {
+        if (player.hands != NULL && player.hands->tag == objects[i].tag) {
+          player.hands = NULL;
+        }
+        else if (player.body != NULL && player.body->tag == objects[i].tag) {
+          player.body = NULL;
+        }
         objects[i].location = locations[player_location].tag;
-        printf("You drop the %s on the ground.\n", objects[i].description);
         player_items--;
+
+        printf("You drop the %s on the ground.\n", objects[i].description);
 
         return;
       }
