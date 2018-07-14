@@ -52,6 +52,9 @@ static int parse_input()
     else if (strcasecmp(verb, "EQUIP") == 0) {
       execute_equip(noun);
     }
+    else if (strcasecmp(verb, "UNEQUIP") == 0) {
+      execute_unequip(noun);
+    }
     else {
       printf("I'm sorry, I don't know what you mean by %s.\n", verb);
     }

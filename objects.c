@@ -229,20 +229,68 @@ void execute_equip(const char *noun)
         if (strcasecmp("player", objects[i].location) == 0) {
           if (objects[i].damage > 0) {            
             player.hands = &objects[i];
-            printf("You equip the %s.\n", player.hands->description);
-        
+            printf("You ready the %s in your hand.\n",
+                    player.hands->description);
+
+            return;        
           }
           else if (objects[i].armour > 0) {
             player.body = &objects[i];
             printf("You put on the %s.\n", player.body->description);
+
+            return;
           }
           else {
-            printf("You can't equip a %s", objects[i].description);
+            printf("You can't equip a %s.\n", objects[i].description);
+
+            return;
           }
         }
       } 
     }
+    printf("You don't have a %s.\n", noun);
   }
+  return;
+}
 
+/*
+ * execute_unequip() function - removes your equipped item and returns it to
+ * your inventory as a carried item
+ */
+void execute_unequip(const char *noun)
+{
+  if (noun != NULL) {
+    if (player.hands == NULL && player.body == NULL) {
+      printf("You don't have any items equipped.\n");
+
+      return;
+    }
+    for (int i = 0; i < number_of_objects; i++) {
+      if (strcasecmp(noun, objects[i].tag) == 0) {
+        if (player.hands != NULL && 
+            strcasecmp(player.hands->tag, objects[i].tag) == 0) {
+          printf("You put the %s in your pack.\n", 
+                  objects[i].description);
+          player.hands = NULL;
+
+          return;
+        }
+        else if (player.body != NULL && 
+                strcasecmp(player.body->tag, objects[i].tag) == 0) {
+          printf("You remove the %s and put it in your pack.\n",
+                  objects[i].description);
+          player.body = NULL;
+
+          return;
+        }
+        else {
+          printf("You don't have a %s equiped.\n", noun);
+
+          return;
+        }
+      }
+    }
+    printf("You don't have a %s.\n", noun);
+  }
   return;
 }

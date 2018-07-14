@@ -22,3 +22,21 @@ void wait_for_keypress()
 
   return;
 }
+
+int yes_or_no()
+{
+  char answer[4];
+
+  printf("[Y/n]? ");
+  fgets(answer, sizeof(answer), stdin);
+
+  if (strcasecmp(answer, "N") == 0) {
+    return 0;
+  }
+  else if (strcasecmp(answer, "NO") == 0) {
+    return 0;
+  }
+  else {
+    return 1;
+  }
+}

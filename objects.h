@@ -1,5 +1,6 @@
 /* 
- * objects.h - declares external functions for the LOOK, GO, MOVE and to list objects
+ * objects.h - declares external functions for the LOOK, GO, MOVE and to list 
+ * objects
  */
 
 extern void execute_look(const char *noun);
@@ -10,6 +11,7 @@ extern void list_inventory();
 extern void execute_get(const char *noun);
 extern void execute_drop(const char *noun);
 extern void execute_equip(const char *noun);
+extern void execute_unequip(const char *noun);
 
 #ifndef __OBJECT__
 #define __OBJECT__

@@ -9,28 +9,35 @@
 #include "player.h"
 #include "misc.h"
 
-static char i[20];             // variable for input of player name
+static char input_name[20];             // variable for input of player name
 
 /* declaring the player variable (character type) */
 character player = {NULL, 1, 25, 100, NULL, NULL};
 
-/* create_character() function - creates the player character when you first start the game */
+/* 
+ * create_character() function - creates the player character when you first 
+ * start the game 
+ */
 void create_character()
 {
   printf("By what name do you wish to be called? ");
-  while (fgets(i, sizeof(i), stdin) == NULL);
-  i[strlen(i) - 1] = '\0';     // removes the "\n" from the end of fgets string
-  player.name = i;
+  while (fgets(input_name, sizeof(input_name), stdin) == NULL);
+  /* removes the newline from the end of the string */
+  input_name[strlen(input_name) - 1] = '\0';
+  player.name = input_name;
 
   printf("Hello %s, welcome to mazeSUD.\n", player.name);
 
   return;
 }
 
-/* look_self() function - looks at the player and shows all relevant player information */
+/*
+ * look_self() function - looks at the player and shows all relevant player 
+ * information 
+ */
 void look_self() 
 {
-  printf("        Name : %s\n", player.name);
+  printf("\n        Name : %s\n", player.name);
   printf("Armour Class : %d\n", player.armour);
   printf("      Health : %d\n", player.health);
   printf("      Energy : %d\n", player.energy);
