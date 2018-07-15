@@ -8,19 +8,21 @@
 #include "objects.h"
 #include "player.h"
 #include "misc.h"
+#include "locations.h"
 
 
 static char input[60];                         // buffer for keyboard input
 
-/* get_input() function - gets keyboard input from the user and stores it in the static array 'input[]' */
+/* get_input() function - gets keyboard input from the user and stores it in 
+ * the static array 'input[]' */
 static int get_input()
 {
   printf("\n[%d|%d]> ", player.health, player.energy);                              // Player prompt
   return fgets(input, sizeof(input), stdin) != NULL;
 }
 
-/* parse_input() funstion - function to parse user input string into tokens 'verb' and 'noun' and run commands 
- * based on the verb/noun combination */
+/* parse_input() funstion - function to parse user input string into tokens 
+ * 'verb' and 'noun' and run commands based on the verb/noun combination */
 static int parse_input()
 {
   char *verb = strtok(input, " \n");            // Break the input string down into 2 tokens

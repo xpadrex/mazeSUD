@@ -15,6 +15,7 @@ typedef struct {
   int energy;
   object *hands;
   object *body;
+  int location;
 } character;
 
 extern character player;

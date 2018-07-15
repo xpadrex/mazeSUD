@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <strings.h>
+#include <ctype.h>
 #include "objects.h"
 #include "player.h"
 #include "misc.h"
@@ -12,7 +13,7 @@
 static char input_name[20];             // variable for input of player name
 
 /* declaring the player variable (character type) */
-character player = {NULL, 1, 25, 100, NULL, NULL};
+character player = {NULL, 1, 25, 100, NULL, NULL, 1};
 
 /* 
  * create_character() function - creates the player character when you first 
@@ -24,6 +25,11 @@ void create_character()
   while (fgets(input_name, sizeof(input_name), stdin) == NULL);
   /* removes the newline from the end of the string */
   input_name[strlen(input_name) - 1] = '\0';
+  /* converts the first letter of the name to uppercase if it isn't already */
+  input_name[0] = toupper(input_name[0]);
+  for (int i = 1; i != strlen(input_name); i++) {
+    input_name[i] = tolower(input_name[i]);
+  }
   player.name = input_name;
 
   printf("Hello %s, welcome to mazeSUD.\n", player.name);
