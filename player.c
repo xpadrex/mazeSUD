@@ -25,8 +25,9 @@ void create_character()
   while (fgets(input_name, sizeof(input_name), stdin) == NULL);
   /* removes the newline from the end of the string */
   input_name[strlen(input_name) - 1] = '\0';
-  /* converts the first letter of the name to uppercase if it isn't already */
+  // converts the first letter of the name to uppercase if it isn't already
   input_name[0] = toupper(input_name[0]);
+  // converts the rest of the name to lower case
   for (int i = 1; i != strlen(input_name); i++) {
     input_name[i] = tolower(input_name[i]);
   }
