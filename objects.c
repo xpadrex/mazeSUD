@@ -11,6 +11,37 @@
 
 int player_items = 0;               /* count of number of items carried by the  
                                      * player */
+extern object objects[];
+
+/* load_objects() function - loads data from DATA/objects.dat into the objects[]
+ * array 
+void load_objects()
+{
+  char line[100];
+  int i = 0;
+
+  FILE *in = fopen("DATA/objects.dat", "r");
+
+  while (fscanf(in, "%99[^\n]\n", line) == 1) {
+    objects[i].description = strcpy(line);
+    fscanf(in, "%99[^\n]\n", line);
+    objects[i].tag = strcpy(line);
+    fscanf(in, "%99[^\n]\n", line);
+    objects[i].location = strcpy(line);
+    fscanf(in, "%99[^\n]\n", line);
+    objects[i].value = line;
+    fscanf(in, "%99[^\n]\n", line);
+    objects[i].damage = line;
+    fscanf(in, "%99[^\n]\n", line);
+    objects[i].armour = line;
+    i++;
+  }
+  fclose(in);
+
+  #define number_of_objects = i + 1;
+  return 0;
+}
+*/
 
 object objects[] = {
   {"crumpled map", "map", "town", 0, 0, 0},
