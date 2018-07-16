@@ -6,6 +6,7 @@
 #include "player.h"
 #include "misc.h"
 #include "locations.h"
+#include "monsters.h"
 
 location locations[] = {
   {"Yourself", "player", NULL, NULL, NULL, NULL},
@@ -18,7 +19,8 @@ location locations[] = {
 };
 
 /* reads the size of the locations array to get the number of locations */
-#define number_of_locations (sizeof(locations) / sizeof(*locations))
+//#define number_of_locations (sizeof(locations) / sizeof(*locations))
+int number_of_locations = (sizeof(locations) / sizeof(*locations));
 
 /* execute_look() function - looks around the area of the player and 
  * reads the area description to them */
@@ -42,7 +44,14 @@ void execute_look(const char *noun)
       printf(" a %s to the west", locations[player.location].west);
     }
     printf(".\n");
+    for (int i = 0; i < number_of_monsters; i++) {
+      if (player.location == monsters[i].location) {
+        printf("You see a %s in the area.\n", 
+        monsters[i].name);
+      }
+
     list_objects(locations[player.location].tag);
+    }
   }
   else {
     printf("I'm not sure what you want to look at.\n");

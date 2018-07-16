@@ -9,6 +9,7 @@
 #include "player.h"
 #include "misc.h"
 #include "locations.h"
+#include "monsters.h"
 
 
 static char input[60];                         // buffer for keyboard input
@@ -70,6 +71,7 @@ int main()
   printf("\n--Welcome to mazeSUD v0.1 Alpha--\n\n");
   printf("--uncopyright 2018  by: xpadrex--\n\n");
 
+  init_monsters();
   create_character();
   wait_for_keypress();
   clear_screen();

@@ -1,7 +1,7 @@
 # makefile for mazeSUD
 
-mazeSUD: main.o objects.o player.o misc.o locations.o
-	gcc main.o objects.o player.o misc.o locations.o -o mazeSUD
+mazeSUD: main.o objects.o player.o misc.o locations.o monsters.o
+	gcc main.o objects.o player.o misc.o locations.o monsters.o  -o mazeSUD
 
 main.o: main.c objects.h player.h misc.h locations.h
 	gcc -c main.c
@@ -18,5 +18,8 @@ misc.o: misc.c objects.h player.h misc.h locations.h
 locations.o: locations.c objects.h player.h misc.h locations.h
 	gcc -c locations.c
 
+monsters.o: monsters.c objects.h player.h locations.h misc.h monsters.h
+	gcc -c monsters.c
+
 clean:
-	rm mazeSUD main.o objects.o player.o misc.o locations.o
+	rm mazeSUD main.o objects.o player.o misc.o locations.o monsters.o
