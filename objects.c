@@ -9,10 +9,7 @@
 #include "misc.h"
 #include "locations.h"
 
-int player_items = 0;               /* count of number of items carried by the  
-                                     * player */
-//extern object objects[];
-//int number_of_objects;
+int player_items = 0;   // count of number of items carried by the player
 
 /* load_objects() function - loads data from DATA/objects.dat into the objects[]
  * array 
