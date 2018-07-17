@@ -51,11 +51,18 @@ object objects[] = {
 /* list_objects() - function to list the objects in a location */
 void list_objects(const char *here)
 {
+  int obj = 0;
+
   for (int i = 0; i < number_of_objects; i++) {
-    if (strcasecmp(objects[i].location, here) == 0) {
-      printf("You see a %s\n", objects[i].description);
+    if (strcasecmp(objects[i].location, here) == 0 && obj == 0) {
+      printf("You see a %s", objects[i].description);
+      obj = 1;
+    }
+    else if (strcasecmp(objects[i].location, here) == 0 && obj != 0) {
+      printf(", a %s", objects[i].description);
     }
   }
+  printf("\n");
 
   return;
 }
@@ -64,7 +71,7 @@ void list_objects(const char *here)
  * in their inventory */
 void execute_get(const char *noun)
 {
-  if (noun != NULL) {  
+  if (noun != NULL && player_items < 20) {  
     for (int i = 0; i < number_of_objects; i++) {
       if (strcasecmp(objects[i].tag, noun) == 0 && 
       strcasecmp(objects[i].location, locations[player.location].tag) == 0) {
@@ -81,6 +88,11 @@ void execute_get(const char *noun)
 
     return;
   }
+  else if (player_items > 19) {
+    printf("You can't carry any more items.\n");
+
+    return;
+  }
   else {
     printf("I don't know what you want to get.\n");
   }
@@ -88,7 +100,7 @@ void execute_get(const char *noun)
   return;
 }
 
-/* execute_drop() function - drops an object from the players inventory */
+/* execute_drop() function - drops an object or equipped item from the players inventory */
 void execute_drop(const char *noun)
 {
   if (noun != NULL) {
@@ -120,7 +132,7 @@ void execute_drop(const char *noun)
   return;
 }
 
-/* list_inventory() - fuction to list all items on the player */
+/* list_inventory() fuction - list all items on the player */
 void list_inventory()
 {
   if (player_items < 1) {
@@ -128,10 +140,10 @@ void list_inventory()
 
     return;
   }
-
+  printf("You are carrying: \n");
   for (int i = 0; i < number_of_objects; i++) {
     if (strcasecmp(objects[i].location, "player") == 0) {
-      printf("You have a %s\n", objects[i].description);
+      printf("  A %s\n", objects[i].description);
     }
   }
 

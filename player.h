@@ -10,6 +10,8 @@ extern void create_character();
 #define __CHARACTER__
 typedef struct {
   char *name;
+  int level;
+  int xp;
   int armour;
   int health;
   int energy;

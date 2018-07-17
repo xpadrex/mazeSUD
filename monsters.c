@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <strings.h>
-#include <ctype.h>
 #include <time.h>
 #include "objects.h"
 #include "player.h"
@@ -15,14 +14,15 @@
 #include "monsters.h"
 
 character types[] = {
-  {"Troll", 2, 15, 0, NULL, NULL, 0},
-  {"Orc", 3, 18, 0, NULL, NULL, 0},
-  {"Dire wolf", 2, 12, 0, NULL, NULL, 0},
-  {"Bore", 2, 10, 0, NULL, NULL, 0}
+  {"Troll", 1, 15, 2, 15, 0, NULL, NULL, 0},
+  {"Orc", 1, 20, 3, 18, 0, NULL, NULL, 0},
+  {"Dire wolf", 1, 12, 2, 12, 0, NULL, NULL, 0},
+  {"Bore", 1, 8, 2, 10, 0, NULL, NULL, 0}
 };
 
-int number_of_monsters = 4;  // const for total monsters on map
-character monsters[4];       // set array size to value of int number_of_monsters
+int number_of_monsters = 6;  // const for total monsters on map
+character monsters[6];       // set array size to value of int number_of_monsters
+
 
 /* reads the size of the monsters array to get the number of types in game */
 #define types_of_monsters (sizeof(types) / sizeof(*types))

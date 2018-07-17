@@ -13,7 +13,7 @@
 static char input_name[20];             // variable for input of player name
 
 /* declaring the player variable (character type) */
-character player = {NULL, 1, 25, 100, NULL, NULL, 1};
+character player = {NULL, 1, 0, 1, 25, 100, NULL, NULL, 1};
 
 /* 
  * create_character() function - creates the player character when you first 
