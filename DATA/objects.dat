@@ -1,42 +1,8 @@
-"crumpled map"
-"map"
-"town"
-0
-0
-0
-"broken idol"
-"idol"
-"temple"
-5
-0
-0
-"mug of ale"
-"ale"
-"tavern"
-0
-0
-0
-"broken twig"
-"twig"
-"forest"
-0
-1
-0
-"gold coin"
-"coin"
-"forest"
-1
-0
-0
-"Weathered Axe"
-"axe"
-"town"
-1
-5
-0
-"Tattered Leather Vest"
-"vest"
-"town"
-1
-0
-1
+"crumpled map","map","town",0,0,0
+"broken idol","idol","temple",5,0,0
+"mug of ale","ale","tavern",0,0,0
+"broken twig","twig","forest",0,1,0
+"gold coin","coin","forest",1,0,0
+"Weathered Axe","axe","town",1,5,0
+"Tattered Leather Vest","vest","town",1,0,1
+

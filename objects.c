@@ -11,35 +11,30 @@
 
 int player_items = 0;               /* count of number of items carried by the  
                                      * player */
-extern object objects[];
+//extern object objects[];
+//int number_of_objects;
 
 /* load_objects() function - loads data from DATA/objects.dat into the objects[]
  * array 
+ * THIS FUNCTION NEEDS MAJOR WORK.   I CAN'T SEEM TO GET THE HANG OF HOW TO MAKE IT WORK 
+ * PROPERLY.   HAS BEEN PUT ON THE BACKBURNER FOR NOW
 void load_objects()
 {
-  char line[100];
+  char line[250];
   int i = 0;
 
   FILE *in = fopen("DATA/objects.dat", "r");
 
   while (fscanf(in, "%99[^\n]\n", line) == 1) {
-    objects[i].description = strcpy(line);
-    fscanf(in, "%99[^\n]\n", line);
-    objects[i].tag = strcpy(line);
-    fscanf(in, "%99[^\n]\n", line);
-    objects[i].location = strcpy(line);
-    fscanf(in, "%99[^\n]\n", line);
-    objects[i].value = line;
-    fscanf(in, "%99[^\n]\n", line);
-    objects[i].damage = line;
-    fscanf(in, "%99[^\n]\n", line);
-    objects[i].armour = line;
+    fscanf(line, "%s,%s,%s,%d,%d,%d", &objects[i].description, &objects[i].tag,
+                                &objects[i].location, objects[i].value, 
+                                objects[i].damage, objects[i].armour);
     i++;
   }
   fclose(in);
+  number_of_objects = i + 1;
 
-  #define number_of_objects = i + 1;
-  return 0;
+  return;
 }
 */
 
@@ -52,7 +47,6 @@ object objects[] = {
   {"Weathered Axe", "axe", "town", 1, 5, 0},
   {"Tattered Leather Vest", "vest", "town", 1, 0, 1}
 };
-
 
 /* reads the size of the objects array to get the number of objects in game */
 #define number_of_objects (sizeof(objects) / sizeof(*objects))

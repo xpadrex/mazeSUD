@@ -46,12 +46,11 @@ void execute_look(const char *noun)
     printf(".\n");
     for (int i = 0; i < number_of_monsters; i++) {
       if (player.location == monsters[i].location) {
-        printf("You see a %s in the area.\n", 
+        printf("You see a %s.\n", 
         monsters[i].name);
       }
-
-    list_objects(locations[player.location].tag);
     }
+    list_objects(locations[player.location].tag);
   }
   else {
     printf("I'm not sure what you want to look at.\n");

@@ -22,12 +22,10 @@ character types[] = {
 };
 
 int number_of_monsters = 4;  // const for total monsters on map
-character monsters[4];
+character monsters[4];       // set array size to value of int number_of_monsters
 
 /* reads the size of the monsters array to get the number of types in game */
 #define types_of_monsters (sizeof(types) / sizeof(*types))
-/* reads the size of the locations array to get the number of locations */
-//#define number_of_locations (sizeof(locations) / sizeof(*locations))
 
 
 /* init_monsters() function - randomizes the types and location of all
