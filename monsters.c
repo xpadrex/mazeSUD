@@ -16,8 +16,8 @@
 character types[] = {
   {"Troll", 1, 15, 2, 15, 0, NULL, NULL, 0},
   {"Orc", 1, 20, 3, 18, 0, NULL, NULL, 0},
-  {"Dire wolf", 1, 12, 2, 12, 0, NULL, NULL, 0},
-  {"Bore", 1, 8, 2, 10, 0, NULL, NULL, 0}
+  {"Wolf", 1, 12, 2, 12, 0, NULL, NULL, 0},
+  {"Boar", 1, 8, 2, 10, 0, NULL, NULL, 0}
 };
 
 int number_of_monsters = 6;  // const for total monsters on map
@@ -37,7 +37,7 @@ void init_monsters()
   srand(time(0));
 
   for (int i = 0; i < number_of_monsters; i++) {
-    monsters[i] = types[rand() % number_of_monsters];
+    monsters[i] = types[rand() % types_of_monsters];
     monsters[i].location = rand() % number_of_locations;
   }
 

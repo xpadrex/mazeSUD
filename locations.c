@@ -26,10 +26,12 @@ int number_of_locations = (sizeof(locations) / sizeof(*locations));
  * reads the area description to them */
 void execute_look(const char *noun)
 {
+  int monsters_near = 0;
+
   if (noun != NULL && strcasecmp(noun, "SELF") == 0) {
     look_self();
   }
-  else if (noun != NULL && strcasecmp(noun, "AROUND") == 0) {
+  else if (noun == NULL || strcasecmp(noun, "AROUND") == 0) {
     printf("You are in a %s. There is", locations[player.location].description);
     if (locations[player.location].north != NULL) {
       printf(" a %s to the north", locations[player.location].north);
@@ -46,16 +48,43 @@ void execute_look(const char *noun)
     printf(".\n");
     for (int i = 0; i < number_of_monsters; i++) {
       if (player.location == monsters[i].location) {
-        printf("You see a %s.\n", 
-        monsters[i].name);
+        if (monsters_near == 0) {
+          printf("There is a %s", monsters[i].name);
+          monsters_near++;
+        }
+        else if (monsters_near > 0) {
+          printf(" and a %s", monsters[i].name);
+          monsters_near++;
+        }
       }
+    }
+    if (monsters_near > 0) {
+      printf(" nearby.\n");
     }
     list_objects(locations[player.location].tag);
   }
-  else {
-    printf("I'm not sure what you want to look at.\n");
+  else if (noun != NULL) {
+    for (int i = 0; i < number_of_monsters; i++) {
+      if (strcasecmp(noun, monsters[i].name) == 0 && 
+          player.location == monsters[i].location) {
+            printf("Your looking eye to eye with a level %d %s.  ", 
+            monsters[i].level, monsters[i].name);
+            if (player.health < monsters[i].health) {
+              printf("He looks alot stronger than you are.\n");
+              return;
+            }
+            else if ((player.health / 2) > monsters[i].health) {
+              printf("He doesn't look chalenging at all.\n");
+              return;
+            }
+            else {
+              printf("He looks to be a worthy aponent.\n");
+              return;
+            }
+          } 
+    }
+    printf("There isn't any %s here.\n", noun);
   }
-
   return;
 }
 
