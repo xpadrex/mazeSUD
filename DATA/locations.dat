@@ -1,6 +1,3 @@
-# locations data file for mazeSUD
-# description, tag, north, south, east, west
-
 "Yourself", "player", NULL, NULL, NULL, NULL
 "town square", "town", "tavern", "temple", "forest", NULL
 "seedy tavern", "tavern", NULL, "town", NULL, NULL
