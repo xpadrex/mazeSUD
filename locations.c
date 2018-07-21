@@ -10,12 +10,12 @@
 
 location locations[] = {
   {"Yourself", "player", NULL, NULL, NULL, NULL},
-  {"town square", "town", "tavern", "temple", "forest", NULL},
-  {"seedy tavern", "tavern", NULL, "town", NULL, NULL},
-  {"temple of the old gods","temple", "town", NULL, NULL, NULL},
-  {"dark forest", "forest", NULL, NULL, "clearing", "town"},
-  {"large clearing", "clearing", NULL, NULL, "river", "forest"},
-  {"raging river", "river", NULL, NULL, NULL, "clearing"}
+  {"in the town square", "town", "tavern", "temple", "forest", NULL},
+  {"in a seedy tavern", "tavern", NULL, "town", NULL, NULL},
+  {"at the temple of the old gods","temple", "town", NULL, NULL, NULL},
+  {"in a thick dark forest", "forest", NULL, NULL, "clearing", "town"},
+  {"in a large clearing", "clearing", NULL, NULL, "river", "forest"},
+  {"at a washed out river bank", "river", NULL, NULL, NULL, "clearing"}
 };
 
 /* reads the size of the locations array to get the number of locations */
@@ -32,7 +32,7 @@ void execute_look(const char *noun)
     look_self();
   }
   else if (noun == NULL || strcasecmp(noun, "AROUND") == 0) {
-    printf("You are in a %s. There is", locations[player.location].description);
+    printf("You are %s. There is", locations[player.location].description);
     if (locations[player.location].north != NULL) {
       printf(" a %s to the north", locations[player.location].north);
     }
