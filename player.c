@@ -21,16 +21,24 @@ character player = {NULL, 1, 0, 1, 25, 25, 100, NULL, NULL, 1};
  */
 void create_character()
 {
-  printf("By what name do you wish to be called? ");
-  while (fgets(input_name, sizeof(input_name), stdin) == NULL);
-  /* removes the newline from the end of the string */
-  input_name[strlen(input_name) - 1] = '\0';
-  // converts the first letter of the name to uppercase if it isn't already
-  input_name[0] = toupper(input_name[0]);
-  // converts the rest of the name to lower case
-  for (int i = 1; i != strlen(input_name); i++) {
-    input_name[i] = tolower(input_name[i]);
-  }
+  int ok;
+
+  do {
+    printf("By what name do you wish to be called? ");
+    while (fgets(input_name, sizeof(input_name), stdin) == NULL);
+    /* removes the newline from the end of the string */
+    input_name[strlen(input_name) - 1] = '\0';
+    // converts the first letter of the name to uppercase if it isn't already
+    input_name[0] = toupper(input_name[0]);
+    // converts the rest of the name to lower case
+    for (int i = 1; i != strlen(input_name); i++) {
+      input_name[i] = tolower(input_name[i]);
+    }
+    printf("%s, is that the name you would like to use? ", input_name);
+
+    ok = yes_or_no();
+  } while (ok < 1);
+
   player.name = input_name;
 
   printf("Hello %s, welcome to mazeSUD.\n", player.name);

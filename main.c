@@ -3,8 +3,10 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <strings.h>
 #include <string.h>
+#include <time.h>
 #include "objects.h"
 #include "player.h"
 #include "misc.h"
@@ -69,6 +71,9 @@ static int parse_input()
 /* mazeSUD main program loop */
 int main()
 {
+  /* Intializes random number generator - ONCE ONLY */
+  srand(time(0));
+
   printf("\n--Welcome to mazeSUD v0.1 Alpha--\n\n");
   printf("--uncopyright 2018  by: xpadrex--\n\n");
 

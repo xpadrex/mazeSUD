@@ -11,8 +11,8 @@
 location locations[] = {
   {"Yourself", "player", NULL, NULL, NULL, NULL},
   {"in the town square", "town", "tavern", "temple", "forest", NULL},
-  {"in a seedy tavern", "tavern", NULL, "town", NULL, NULL},
   {"at the temple of the old gods","temple", "town", NULL, NULL, NULL},
+  {"in a seedy tavern", "tavern", NULL, "town", NULL, NULL},
   {"in a thick dark forest", "forest", NULL, NULL, "clearing", "town"},
   {"in a large clearing", "clearing", NULL, NULL, "river", "forest"},
   {"at a washed out river bank", "river", NULL, NULL, NULL, "clearing"}

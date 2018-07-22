@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <strings.h>
-#include <time.h>
 #include "objects.h"
 #include "player.h"
 #include "locations.h"
@@ -20,8 +19,8 @@ character types[] = {
   {"Boar", 1, 8, 8, 2, 10, 0, NULL, NULL, 0}
 };
 
-int number_of_monsters = 3;  // const for total monsters on map
-character monsters[3];       // set array size to value of int number_of_monsters
+int number_of_monsters = 4;  // const for total monsters on map
+character monsters[4];       // set array size to value of int number_of_monsters
 
 
 /* reads the size of the monsters array to get the number of types in game */
@@ -34,11 +33,11 @@ character monsters[3];       // set array size to value of int number_of_monster
 void init_monsters()
 {
   /* Intializes random number generator */
-  srand(time(0));
+  //srand(time(0));
 
   for (int i = 0; i < number_of_monsters; i++) {
     monsters[i] = types[rand() % types_of_monsters];
-    monsters[i].location = rand() % number_of_locations;
+    monsters[i].location = randomize(3, number_of_locations);
   }
   //init_loot(number_of_monsters);
 
