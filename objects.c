@@ -8,6 +8,7 @@
 #include "player.h"
 #include "misc.h"
 #include "locations.h"
+#include "monsters.h"
 
 int player_items = 0;   // count of number of items carried by the player
 
@@ -42,7 +43,10 @@ object objects[] = {
   {"broken twig", "twig", "forest", 0, 1, 0},
   {"gold coin", "coin", "forest", 1, 0, 0},
   {"Weathered Axe", "axe", "town", 1, 5, 0},
-  {"Tattered Leather Vest", "vest", "town", 1, 0, 1}
+  {"Tattered Leather Vest", "vest", "town", 1, 0, 1},
+  {"Broken Sword","sword", NULL, 10, 0, 0},
+  {"Bag of goodies", "bag", NULL, 20, 0, 0},
+  {"Dead Rabbit", "rabbit", NULL, 1, 0, 0}
 };
 
 /* reads the size of the objects array to get the number of objects in game */
@@ -232,6 +236,7 @@ void execute_unequip(const char *noun)
   return;
 }
 
+/* this function is not complete for now */
 int scan_objects(const char *search)
 {
   for (int i = 0; i < number_of_objects; i++) {
@@ -241,4 +246,18 @@ int scan_objects(const char *search)
   }
 
   return 0;
+}
+
+/* init_loot() function - Takes loot with a NULL location and equips it 
+ * onto an enemy NPC */
+void init_loot(int number_of_monsters)
+{
+  for (int m = 0; m < number_of_monsters; m++) {
+    for (int i = 0; i < number_of_objects; i++) {
+      if (objects[i].location == NULL) {
+        objects[i].location = monsters[m].name;
+        monsters[m].hands = &objects[i];
+      }
+    }
+  }
 }

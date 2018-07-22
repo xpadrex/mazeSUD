@@ -22,7 +22,7 @@ static int get_input()
   return fgets(input, sizeof(input), stdin) != NULL;
 }
 
-/* parse_input() funstion - function to parse user input string into tokens 
+/* parse_input() function - function to parse user input string into tokens 
  * 'verb' and 'noun' and run commands based on the verb/noun combination */
 static int parse_input()
 {

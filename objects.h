@@ -9,6 +9,7 @@ extern void execute_get(const char *noun);
 extern void execute_drop(const char *noun);
 extern void execute_equip(const char *noun);
 extern void execute_unequip(const char *noun);
+extern void init_loot(int number_of_monsters);
 //extern void load_objects();
 extern int scan_objects(const char *search);
 

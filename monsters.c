@@ -40,6 +40,7 @@ void init_monsters()
     monsters[i] = types[rand() % types_of_monsters];
     monsters[i].location = rand() % number_of_locations;
   }
+  init_loot(number_of_monsters);
 
   return;
 }
