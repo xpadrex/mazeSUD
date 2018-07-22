@@ -32,14 +32,10 @@ character monsters[4];       // set array size to value of int number_of_monster
  */
 void init_monsters()
 {
-  /* Intializes random number generator */
-  //srand(time(0));
-
-  for (int i = 0; i < number_of_monsters; i++) {
+  for (int i = 0; i < (number_of_monsters + 1); i++) {
     monsters[i] = types[rand() % types_of_monsters];
     monsters[i].location = randomize(3, number_of_locations);
   }
-  //init_loot(number_of_monsters);
 
   return;
 }
