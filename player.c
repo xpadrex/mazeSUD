@@ -13,7 +13,7 @@
 static char input_name[20];             // variable for input of player name
 
 /* declaring the player variable (character type) */
-character player = {NULL, 1, 0, 1, 25, 100, NULL, NULL, 1};
+character player = {NULL, 1, 0, 1, 25, 25, 100, NULL, NULL, 1};
 
 /* 
  * create_character() function - creates the player character when you first 
@@ -46,8 +46,8 @@ void look_self()
 {
   printf("\n        Name : %s\n", player.name);
   printf("Armour Class : %d\n", player.armour);
-  printf("      Health : %d\n", player.health);
-  printf("      Energy : %d\n", player.energy);
+  printf("      Health : %d/%d\n", player.health, player.max_health);
+  printf("      Energy : %d/100\n", player.energy);
   if (player.hands == NULL) {
     printf("\nYou have nothing in your hands.\n");
   }

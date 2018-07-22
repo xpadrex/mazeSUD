@@ -14,6 +14,7 @@ typedef struct {
   int xp;
   int armour;
   int health;
+  int max_health;
   int energy;
   object *hands;
   object *body;

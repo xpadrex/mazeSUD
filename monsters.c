@@ -14,14 +14,14 @@
 #include "monsters.h"
 
 character types[] = {
-  {"Troll", 1, 15, 2, 15, 0, NULL, NULL, 0},
-  {"Orc", 1, 20, 3, 18, 0, NULL, NULL, 0},
-  {"Wolf", 1, 12, 2, 12, 0, NULL, NULL, 0},
-  {"Boar", 1, 8, 2, 10, 0, NULL, NULL, 0}
+  {"Troll", 1, 15, 15,  2, 15, 0, NULL, NULL, 0},
+  {"Orc", 1, 20, 20, 3, 18, 0, NULL, NULL, 0},
+  {"Wolf", 1, 12, 12, 2, 12, 0, NULL, NULL, 0},
+  {"Boar", 1, 8, 8, 2, 10, 0, NULL, NULL, 0}
 };
 
-int number_of_monsters = 6;  // const for total monsters on map
-character monsters[6];       // set array size to value of int number_of_monsters
+int number_of_monsters = 3;  // const for total monsters on map
+character monsters[3];       // set array size to value of int number_of_monsters
 
 
 /* reads the size of the monsters array to get the number of types in game */
@@ -40,7 +40,7 @@ void init_monsters()
     monsters[i] = types[rand() % types_of_monsters];
     monsters[i].location = rand() % number_of_locations;
   }
-  init_loot(number_of_monsters);
+  //init_loot(number_of_monsters);
 
   return;
 }

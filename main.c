@@ -66,13 +66,15 @@ static int parse_input()
   return 1;
 }
 
+/* mazeSUD main program loop */
 int main()
 {
   printf("\n--Welcome to mazeSUD v0.1 Alpha--\n\n");
   printf("--uncopyright 2018  by: xpadrex--\n\n");
 
-  init_monsters();
-  create_character();
+  init_monsters();  // randomize monster locations
+  init_loot();      // randomize loot for mosters
+  create_character();   
   wait_for_keypress();
   clear_screen();
   execute_look("around");

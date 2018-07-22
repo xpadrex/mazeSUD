@@ -2,8 +2,6 @@
 MUD style single player RPG
 
 To-Do:
-	
-- create NPC mobs
 
 - develope combat system
 

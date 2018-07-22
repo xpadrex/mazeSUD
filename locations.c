@@ -67,8 +67,11 @@ void execute_look(const char *noun)
     for (int i = 0; i < number_of_monsters; i++) {
       if (strcasecmp(noun, monsters[i].name) == 0 && 
           player.location == monsters[i].location) {
-            printf("Your looking eye to eye with a level %d %s.  ", 
+            printf("You nonchalantly eye the level %d %s.  ", 
             monsters[i].level, monsters[i].name);
+            if (monsters[i].hands != NULL) {
+              printf("He is carrying a %s.\n", monsters[i].hands->description);
+            }
             if (player.health < monsters[i].health) {
               printf("He looks alot stronger than you are.\n");
               return;
@@ -80,7 +83,7 @@ void execute_look(const char *noun)
             else {
               printf("He looks to be a worthy aponent.\n");
               return;
-            }
+            }            
           } 
     }
     printf("There isn't any %s here.\n", noun);
@@ -93,19 +96,19 @@ void execute_look(const char *noun)
 void execute_go(const char *noun)
 {
   if (noun != NULL) {
-    if (strcasecmp(noun, "north") == 0 &&
+    if (strcasecmp(noun, "NORTH") == 0 &&
     locations[player.location].north !=NULL) {
       move_player(locations[player.location].north);
     }
-    else if (strcasecmp(noun, "south") == 0 &&
+    else if (strcasecmp(noun, "SOUTH") == 0 &&
     locations[player.location].south != NULL) {
       move_player(locations[player.location].south);
     }
-    else if (strcasecmp(noun, "east") == 0 &&
+    else if (strcasecmp(noun, "EAST") == 0 &&
     locations[player.location].east != NULL) {
       move_player(locations[player.location].east);
     }
-    else if (strcasecmp(noun, "west") == 0 &&
+    else if (strcasecmp(noun, "WEST") == 0 &&
     locations[player.location].west != NULL) {
       move_player(locations[player.location].west);
     }

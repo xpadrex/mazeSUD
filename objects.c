@@ -250,14 +250,18 @@ int scan_objects(const char *search)
 
 /* init_loot() function - Takes loot with a NULL location and equips it 
  * onto an enemy NPC */
-void init_loot(int number_of_monsters)
+void init_loot()
 {
   for (int m = 0; m < number_of_monsters; m++) {
     for (int i = 0; i < number_of_objects; i++) {
       if (objects[i].location == NULL) {
         objects[i].location = monsters[m].name;
         monsters[m].hands = &objects[i];
+
+        break;
       }
     }
   }
+  
+  return;
 }
