@@ -9,4 +9,6 @@ To-Do:
 
 - develope level progression system for players
 
+- create detailed descriptions so all objects can be looked at
+
 - load area and object data from files instead of hardcoding
