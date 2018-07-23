@@ -10,6 +10,13 @@ extern void create_character();
 #define __CHARACTER__
 typedef struct {
   char *name;
+  char *description;
+  float damage;
+  int energy;
+} attack;
+
+typedef struct {
+  char *name;
   int level;
   int xp;
   int armour;
@@ -22,4 +29,6 @@ typedef struct {
 } character;
 
 extern character player;
+extern attack warrior[];
+extern attack mage[];
 #endif

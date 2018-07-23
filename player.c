@@ -15,6 +15,17 @@ static char input_name[20];             // variable for input of player name
 /* declaring the player variable (character type) */
 character player = {NULL, 1, 0, 1, 25, 25, 100, NULL, NULL, 1};
 
+attack warrior[] = {
+  {"Attack", "Attack the target for 100%% of weapon damage", 1.0, 0},
+  {"Crushing Blow", "Land a crushing blow on the target for 200%% of weapon damage", 2.0, 25}
+};
+
+attack mage[] = {
+  {"Bolt", "Fire a bolt of energy at the target for 100%% of magic power as damage", 1.0, 0},
+  {"Magic Missle", "Fire a magical missle at the target for 200%% of magice power as damage",
+  2.0, 25}
+};
+
 /* 
  * create_character() function - creates the player character when you first 
  * start the game 

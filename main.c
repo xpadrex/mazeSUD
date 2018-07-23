@@ -30,7 +30,6 @@ static int parse_input()
 {
   char *verb = strtok(input, " \n");            // Break the input string down into 2 tokens
   char *noun = strtok(NULL, "\n");
-
   // if statements to run commands based on input verb
   if (verb != NULL) {
     if (strcasecmp(verb, "QUIT") == 0) {
@@ -45,6 +44,24 @@ static int parse_input()
     else if (strcasecmp(verb, "GO") == 0) {
       execute_go(noun);
     }
+    /* Commands for singe letter directions */
+    else if (strcasecmp(verb, "N") == 0 &&
+      locations[player.location].north !=NULL) {
+      move_player(locations[player.location].north);
+    }
+    else if (strcasecmp(verb, "S") == 0 &&
+      locations[player.location].south != NULL) {
+      move_player(locations[player.location].south);
+    }
+    else if (strcasecmp(verb, "E") == 0 &&
+      locations[player.location].east != NULL) {
+      move_player(locations[player.location].east);
+    }
+    else if (strcasecmp(verb, "W") == 0 &&
+      locations[player.location].west != NULL) {
+      move_player(locations[player.location].west);
+    }
+    /* end of direction comands */
     else if (strcasecmp(verb, "INVENTORY") == 0) {
       list_inventory();
     }

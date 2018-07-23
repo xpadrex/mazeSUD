@@ -33,7 +33,7 @@ character monsters[4];       // set array size to value of int number_of_monster
 void init_monsters()
 {
   for (int i = 0; i < (number_of_monsters + 1); i++) {
-    monsters[i] = types[rand() % types_of_monsters];
+    monsters[i] = types[randomize(0, (types_of_monsters - 1))];
     monsters[i].location = randomize(3, number_of_locations);
   }
 
