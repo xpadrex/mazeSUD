@@ -91,13 +91,12 @@ int main()
   /* Intializes random number generator - ONCE ONLY */
   srand(time(0));
 
-  printf("\n--Welcome to mazeSUD v0.1 Alpha--\n\n");
+  printf("\n--Welcome to mazeSUD v0.3 Alpha--\n");
   printf("--uncopyright 2018  by: xpadrex--\n\n");
 
   init_monsters();  // randomize monster locations
   init_loot();      // randomize loot for mosters
   create_character();   
-  wait_for_keypress();
   clear_screen();
   execute_look("around");
 

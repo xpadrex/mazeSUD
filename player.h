@@ -17,12 +17,14 @@ typedef struct {
 
 typedef struct {
   char *name;
+  char *combat_class;
   int level;
   int xp;
   int armour;
   int health;
   int max_health;
   int energy;
+  int damage;
   object *hands;
   object *body;
   int location;

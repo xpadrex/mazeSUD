@@ -49,3 +49,13 @@ int randomize(int min, int max)
 {
    return min + rand() / (RAND_MAX / (max - min + 1) + 1);
 }
+
+/* remove_newline() - removes the "\n" from the end of a string */
+void remove_newline(char *s)
+{
+  if (strlen(s) > 1) {
+    s[strlen(s) - 1] = '\0';
+  }
+
+  return;
+}
