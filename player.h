@@ -5,6 +5,7 @@
 
 extern void look_self();
 extern void create_character();
+extern void allocate_stats(int points);
 
 #ifndef __CHARACTER__
 #define __CHARACTER__

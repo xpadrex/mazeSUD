@@ -112,6 +112,7 @@ void execute_drop(const char *noun)
       if (strcasecmp(objects[i].tag, noun) == 0 && 
       objects[i].location == "player") {
         if (player.hands != NULL && player.hands->tag == objects[i].tag) {
+          player.damage = player.damage - player.hands->damage;
           player.hands = NULL;
         }
         else if (player.body != NULL && player.body->tag == objects[i].tag) {
@@ -170,6 +171,7 @@ void execute_equip(const char *noun)
         if (strcasecmp("player", objects[i].location) == 0) {
           if (objects[i].damage > 0) {            
             player.hands = &objects[i];
+            player.damage = player.damage + player.hands->damage;
             printf("You ready the %s in your hand.\n",
                     player.hands->description);
 
@@ -212,6 +214,7 @@ void execute_unequip(const char *noun)
             strcasecmp(player.hands->tag, objects[i].tag) == 0) {
           printf("You put the %s in your pack.\n", 
                   objects[i].description);
+          player.damage = player.damage - player.hands->damage;
           player.hands = NULL;
 
           return;
