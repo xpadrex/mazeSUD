@@ -103,6 +103,8 @@ int main()
   while (get_input() && parse_input());
 
   printf("\nThanks for playing!\n");
+  
+  save_player(player.name);
 
   return 0;
 }

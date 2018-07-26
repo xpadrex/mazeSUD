@@ -41,8 +41,6 @@ void create_character()
     printf("By what name do you wish to be called? ");
     while (fgets(input_name, sizeof(input_name), stdin) == NULL);
     remove_newline(input_name);
-    /* removes the newline from the end of the string */
-    //input_name[strlen(input_name) - 1] = '\0';
     // converts the first letter of the name to uppercase if it isn't already
     input_name[0] = toupper(input_name[0]);
     // converts the rest of the name to lower case
@@ -81,6 +79,7 @@ void create_character()
   printf("Hello %s the %s, welcome to mazeSUD.\n", player.name, player.combat_class);
   wait_for_keypress();
 
+  save_player(player.name);
   return;
 }
 
