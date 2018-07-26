@@ -72,41 +72,46 @@ int save_player(const char *name)
   // always check return values to see if it was opened okay
   if(file == NULL) {
     fprintf(stderr, "Error opening file for writing.\n");
-    return 0;
+    return 1;
   }
 
   // write character type struct 'player'
-  fwrite(&player.name, sizeof(char), strlen(player.name), file);
-  fwrite(&player.combat_class, sizeof(char), strlen(player.combat_class), file);
-  fwrite(&player.level, sizeof(int), 1, file);
-  fwrite(&player.xp, sizeof(int), 1, file);
-  fwrite(&player.armour, sizeof(int), 1, file);
-  fwrite(&player.health, sizeof(int), 1, file);
-  fwrite(&player.max_health, sizeof(int), 1, file);
-  fwrite(&player.energy, sizeof(int), 1, file);
-  fwrite(&player.damage, sizeof(int), 1, file);
-  if (player.hands == NULL) {
-    fwrite(&player.hands, sizeof(char), 1, file);
-  }
-  else {
-    fwrite(&player.hands->tag, sizeof(char), strlen(player.hands->tag), file);
-  }
-  if (player.body == NULL) {
-    fwrite(&player.hands, sizeof(char), 1, file);
-  }
-  else {
-  fwrite(&player.body->tag, sizeof(char), strlen(player.hands->tag), file);
-  }
-  fwrite(&player.location, sizeof(int), 1, file);
-
+  fwrite(player.name, sizeof(char), strlen(player.name)+1, file);
+  fwrite(player.combat_class, sizeof(char), strlen(player.combat_class)+1, file);
+  fwrite(&player.level, sizeof(player.level), 1, file);
+  fwrite(&player.xp, sizeof(player.xp), 1, file);
+  fwrite(&player.armour, sizeof(player.armour), 1, file);
+  fwrite(&player.health, sizeof(player.health), 1, file);
+  fwrite(&player.max_health, sizeof(player.max_health), 1, file);
+  fwrite(&player.energy, sizeof(player.energy), 1, file);
+  fwrite(&player.damage, sizeof(player.damage), 1, file);
+  fwrite(player.hands->tag, sizeof(char), strlen(player.hands->tag)+1, file);
+  fwrite(player.body->tag, sizeof(char), strlen(player.hands->tag)+1, file);
+  fwrite(&player.location, sizeof(player.location), 1, file);
+  //fwrite(&player, sizeof(player), 1, file);
   // never forget to close the file
   fclose(file);
 
-  return 1;
+  return 0;
 }
 
 /* load_player() function - loads player data from a file in binary format */
 int load_player(const char *name)
 {
-  return 1;
+  FILE *file = NULL;
+  file = fopen(name, "rb");
+
+  if (file == NULL) {
+    fprintf(stderr, "Error opening file for writing.\n");
+    return 1;
+  }
+
+  while (1) {
+    fread(&player, sizeof(player), 1, file);
+    if (feof(file)) {
+      break;
+    }
+  }
+
+  return 0;
 }

@@ -13,6 +13,7 @@
 //static char input_name[20];             // variable for input of player name
 
 /* declaring the player variable (character type) */
+
 character player = {NULL, NULL, 1, 0, 0, 25, 25, 100, 5, NULL, NULL, 1};
 
 attack warrior[] = {
@@ -38,7 +39,7 @@ void create_character()
   static char input_class[20];             // variable for input of player name
 
   do {
-    printf("By what name do you wish to be called? ");
+    printf("By what name shall you be called? ");
     while (fgets(input_name, sizeof(input_name), stdin) == NULL);
     remove_newline(input_name);
     // converts the first letter of the name to uppercase if it isn't already

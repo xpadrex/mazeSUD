@@ -17,8 +17,8 @@ typedef struct {
 } attack;
 
 typedef struct {
-  char *name;
-  char *combat_class;
+  char name[20];
+  char combat_class[15];
   int level;
   int xp;
   int armour;
