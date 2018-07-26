@@ -85,6 +85,24 @@ static int parse_input()
   return 1;
 }
 
+/* main login menu to load or create new character */
+void main_menu()
+{
+  char i[10];
+  printf("Enter your name, or NEW: ");
+  while (fgets(i, sizeof(i), stdin) == NULL);
+  remove_newline(i);
+
+  if (strcasecmp(i, "NEW") == 0) {
+    create_character();
+  }
+  else {
+    load_player(i);
+  }
+
+  return;
+}
+
 /* mazeSUD main program loop */
 int main()
 {
@@ -96,13 +114,15 @@ int main()
 
   init_monsters();  // randomize monster locations
   init_loot();      // randomize loot for mosters
-  create_character();   
+  main_menu();   
   clear_screen();
   execute_look("around");
 
   while (get_input() && parse_input());
 
   printf("\nThanks for playing!\n");
+  
+  save_player(player.name);
 
   return 0;
 }

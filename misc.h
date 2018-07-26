@@ -6,3 +6,5 @@ extern int yes_or_no();
 extern int scan_objects(const char *search);
 extern int randomize(int min, int max);
 extern void remove_newline(char *str);
+extern int save_player(const char *name);
+extern int load_player(const char *name);
