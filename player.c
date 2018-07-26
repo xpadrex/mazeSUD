@@ -18,7 +18,7 @@ character player = {NULL, NULL, 1, 0, 0, 25, 25, 100, 5, NULL, NULL, 1};
 attack warrior[] = {
   {"Attack", "Attack the target for 100%% of your attack power.", 1.0, 0},
   {"Crushing Blow", "Land a crushing blow on the target for 200%% of your attack power.", 2.0, 25},
-  {"Leeching Blow", "A percise strike that damages the target for 50%% of your attack power, and heals you for 50%% of the damage caused.", 0.5, 10}
+  {"Leeching Blow", "A percise strike that damages the target for 80%% of your attack power, and heals you for 50%% of the damage caused.", 0.5, 20}
 };
 
 attack mage[] = {
