@@ -10,10 +10,7 @@
 #include "player.h"
 #include "misc.h"
 
-//static char input_name[20];             // variable for input of player name
-
 /* declaring the player variable (character type) */
-
 character player = {NULL, NULL, 1, 0, 0, 25, 25, 100, 5, NULL, NULL, 1};
 
 attack warrior[] = {
