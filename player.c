@@ -11,7 +11,8 @@
 #include "misc.h"
 
 /* declaring the player variable (character type) */
-character player = {NULL, NULL, 1, 0, 0, 25, 25, 100, 5, NULL, NULL, 1};
+//character player;
+character player = {NULL, NULL, 1, 0, 0, 15, 15, 100, 5, NULL, NULL, 1};
 
 attack warrior[] = {
   {"Swing", "Swing your weapon at the target for 100%% of your attack power.", 1.0, 0},
@@ -31,6 +32,7 @@ attack mage[] = {
  */
 void create_character()
 {
+  
   int done;                                 // check for do/while loop
   static char input_name[20];             // variable for input of player name
   static char input_class[20];             // variable for input of player name
@@ -50,7 +52,19 @@ void create_character()
     done = yes_or_no();
   } while (done < 1);
 
+  /*
   player.name = input_name;
+  player.xp = 0;
+  player.level = 1;
+  player.health = 15;
+  player.max_health = 15;
+  player.energy = 100;
+  player.hands = NULL;
+  player.body = NULL;
+  player.armour = 0;
+  player.damage = 5;
+  player.location = 1;
+  */
 
   done = 0; 
   do {

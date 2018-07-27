@@ -268,3 +268,24 @@ void init_loot()
   
   return;
 }
+
+/* load_equip() function - equips the item based on the tag loaded from player
+ * data file */
+void load_equip(const char *item)
+{
+  for (int i = 0; i < number_of_objects; i++) {
+    if (strcasecmp(objects[i].tag, item) == 0) {
+      objects[i].location = "player";
+      if (objects[i].damage > 0) {            
+        player.hands = &objects[i];
+
+        return;        
+      }
+      else if (objects[i].armour > 0) {
+        player.body = &objects[i];
+        
+        return;
+      }  
+    }
+  }
+}

@@ -6,6 +6,7 @@
 #include <string.h>
 #include "misc.h"
 #include "player.h"
+#include "objects.h"
 
 /* clear_screen() function - sends ascii codes to clear the terminal */
 void clear_screen()
@@ -64,10 +65,11 @@ void remove_newline(char *s)
 /* save_player() function - saves the player data to a file in binary format */
 int save_player(const char *name)
 {
+  char *empty = "EMPTY";
   FILE *file = NULL;
 
-  // open the file in write binary mode
-  file = fopen(name, "wb");
+  // open the file in write mode
+  file = fopen(name, "w+");
 
   // always check return values to see if it was opened okay
   if(file == NULL) {
@@ -75,23 +77,31 @@ int save_player(const char *name)
     return 1;
   }
 
-  // write character type struct 'player'
-  fwrite(player.name, sizeof(char), strlen(player.name)+1, file);
-  fwrite(player.combat_class, sizeof(char), strlen(player.combat_class)+1, file);
-  fwrite(&player.level, sizeof(player.level), 1, file);
-  fwrite(&player.xp, sizeof(player.xp), 1, file);
-  fwrite(&player.armour, sizeof(player.armour), 1, file);
-  fwrite(&player.health, sizeof(player.health), 1, file);
-  fwrite(&player.max_health, sizeof(player.max_health), 1, file);
-  fwrite(&player.energy, sizeof(player.energy), 1, file);
-  fwrite(&player.damage, sizeof(player.damage), 1, file);
-  fwrite(player.hands->tag, sizeof(char), strlen(player.hands->tag)+1, file);
-  fwrite(player.body->tag, sizeof(char), strlen(player.hands->tag)+1, file);
-  fwrite(&player.location, sizeof(player.location), 1, file);
-  //fwrite(&player, sizeof(player), 1, file);
+  fprintf(file, "%s\n", player.name);
+  fprintf(file, "%s\n", player.combat_class);
+  fprintf(file, "%d\n", player.level);
+  fprintf(file, "%d\n", player.xp);
+  fprintf(file, "%d\n", player.armour);
+  fprintf(file, "%d\n", player.health);
+  fprintf(file, "%d\n", player.max_health);
+  fprintf(file, "%d\n", player.energy);
+  fprintf(file, "%d\n", player.damage);
+  if (player.hands == NULL) {
+    fprintf(file, "%s\n", empty);
+  }
+  else {
+    fprintf(file, "%s\n", player.hands->tag);
+  }
+  if (player.body == NULL) {
+    fprintf(file, "%s\n", empty);
+  }
+  else {
+    fprintf(file, "%s\n", player.body->tag);
+  }
+  fprintf(file, "%d\n", player.location);
+
   // never forget to close the file
   fclose(file);
-
   return 0;
 }
 
@@ -99,19 +109,72 @@ int save_player(const char *name)
 int load_player(const char *name)
 {
   FILE *file = NULL;
-  file = fopen(name, "rb");
+  char str[25];
+  char tok[25];
+
+
+  file = fopen(name, "r");
 
   if (file == NULL) {
-    fprintf(stderr, "Error opening file for writing.\n");
+    printf("That user name does not exist.\n");
     return 1;
   }
 
-  while (1) {
-    fread(&player, sizeof(player), 1, file);
-    if (feof(file)) {
-      break;
-    }
+  fgets(str, sizeof(str), file);
+  strcpy(tok, strtok(str, "\n"));
+  player.name = malloc(strlen(tok)+1);
+  strcpy(player.name, tok);
+  printf("%s\n", tok);
+  fgets(str, sizeof(str), file);
+  strcpy(tok, strtok(str, "\n"));
+  player.combat_class = malloc(strlen(tok)+1);
+  strcpy(player.combat_class,tok);
+  printf("%s\n", tok);
+  fgets(str, sizeof(str), file);
+  printf("%s\n", str);
+  player.level = atoi(str);
+  fgets(str, sizeof(str), file);
+  printf("%s\n", str);
+  player.xp = atoi(str);
+  fgets(str, sizeof(str), file);
+  printf("%s\n", str);
+  player.armour = atoi(str);
+  fgets(str, sizeof(str), file);
+  printf("%s\n", str);
+  player.health = atoi(str);
+  fgets(str, sizeof(str), file);
+  printf("%s\n", str);
+  player.max_health = atoi(str);
+  fgets(str, sizeof(str), file);
+  printf("%s\n", str);
+  player.energy = atoi(str);
+  fgets(str, sizeof(str), file);
+  printf("%s\n", str);
+  player.damage = atoi(str);
+  fgets(str, sizeof(str), file);
+  printf("%s\n", str);
+  strcpy(tok, strtok(str, "\n"));
+  if (strcasecmp(tok, "EMPTY") == 0) {
+    player.hands = NULL;
   }
+  else {
+    load_equip(tok);
+  }
+  fgets(str, sizeof(str), file);
+  printf("%s\n", str);
+  strcpy(tok, strtok(str, "\n"));
+  if (strcasecmp(tok, "EMPTY") == 0) {
+    player.body = NULL;
+  }
+  else {
+    load_equip(str);
+  }
+  fgets(str, sizeof(str), file);
+  printf("%s\n", str);
+  player.location = atoi(str);
 
+  fclose(file);
+
+  wait_for_keypress();
   return 0;
 }

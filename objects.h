@@ -10,7 +10,7 @@ extern void execute_drop(const char *noun);
 extern void execute_equip(const char *noun);
 extern void execute_unequip(const char *noun);
 extern void init_loot();
-//extern void load_objects();
+extern void load_equip(const char *item);
 extern int scan_objects(const char *search);
 
 #ifndef __OBJECT__

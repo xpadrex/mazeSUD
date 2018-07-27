@@ -88,16 +88,21 @@ static int parse_input()
 /* main login menu to load or create new character */
 void main_menu()
 {
-  char i[10];
-  printf("Enter your name, or NEW: ");
-  while (fgets(i, sizeof(i), stdin) == NULL);
-  remove_newline(i);
+  int ok = 1;
+  char i[15];
 
-  if (strcasecmp(i, "NEW") == 0) {
-    create_character();
-  }
-  else {
-    load_player(i);
+  while (ok > 0) {
+    printf("Enter your name, or NEW: ");
+    while (fgets(i, sizeof(i), stdin) == NULL);
+    remove_newline(i);
+
+    if (strcasecmp(i, "NEW") == 0) {
+      create_character();
+      ok = 1;
+    }
+    else {
+      ok = load_player(i);
+    }
   }
 
   return;
@@ -109,6 +114,7 @@ int main()
   /* Intializes random number generator - ONCE ONLY */
   srand(time(0));
 
+  clear_screen();
   printf("\n--Welcome to mazeSUD v0.3 Alpha--\n");
   printf("--uncopyright 2018  by: xpadrex--\n\n");
 
@@ -123,6 +129,7 @@ int main()
   printf("\nThanks for playing!\n");
   
   save_player(player.name);
+  
 
   return 0;
 }
