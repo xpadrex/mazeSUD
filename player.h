@@ -29,6 +29,7 @@ typedef struct {
   object *hands;
   object *body;
   int location;
+  int gold;
 } character;
 
 extern character player;

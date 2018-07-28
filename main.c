@@ -98,7 +98,7 @@ void main_menu()
 
     if (strcasecmp(i, "NEW") == 0) {
       create_character();
-      ok = 1;
+      ok = 0;
     }
     else {
       ok = load_player(i);

@@ -12,15 +12,15 @@
 
 /* declaring the player variable (character type) */
 //character player;
-character player = {NULL, NULL, 1, 0, 0, 15, 15, 100, 5, NULL, NULL, 1};
+character player = {NULL, NULL, 1, 0, 0, 15, 15, 100, 5, NULL, NULL, 1, 10};
 
-attack warrior[] = {
+attack fighter[] = {
   {"Swing", "Swing your weapon at the target for 100%% of your attack power.", 1.0, 0},
   {"Crushing Blow", "Land a crushing blow on the target for 200%% of your attack power.", 2.0, 25},
   {"Leeching Blow", "A percise strike that damages the target for 80%% of your attack power, and heals you for 50%% of the damage caused.", 0.5, 20}
 };
 
-attack mage[] = {
+attack caster[] = {
   {"Bolt", "Fire a bolt of energy at the target for 100%% of your attack power", 1.0, 0},
   {"Magic Missle", "Fire a magical missle at the target for 200%% of your attack power", 2.0, 25},
   {"Drain Life", "Suck the life from your enemy causing 80%% of your attack power as damage, and healing you for 50%% of the damage caused", 0.5, 20}
@@ -52,20 +52,8 @@ void create_character()
     done = yes_or_no();
   } while (done < 1);
 
-  /*
   player.name = input_name;
-  player.xp = 0;
-  player.level = 1;
-  player.health = 15;
-  player.max_health = 15;
-  player.energy = 100;
-  player.hands = NULL;
-  player.body = NULL;
-  player.armour = 0;
-  player.damage = 5;
-  player.location = 1;
-  */
-
+ 
   done = 0; 
   do {
     printf("\nIn mazeSUD we have 2 types of player classes,\n");
@@ -135,7 +123,7 @@ void allocate_stats(int points)
   do {
     look_self();
     printf("\nYou have %d stat points to allocate towards health or attack power,\n", points);
-    printf("how would you like to allocate them? HEALTH, ATTACK or DONE when complete: ");
+    printf("how would you like to allocate them?\n HEALTH, ATTACK or DONE when complete: ");
     while (fgets(i, sizeof(i), stdin) == NULL);
     remove_newline(i);
     if (strcasecmp(i, "HEALTH") == 0) {
@@ -152,8 +140,12 @@ void allocate_stats(int points)
         player.max_health = player.max_health + s;
         points = points - s;
       }
-      else {
+      else if (s > points) {
         printf("Please enter a valid number.\n");
+      }
+      else {
+        player.health = player.health + points;
+        points = 0;
       }
     }
     else if (strcasecmp(i, "ATTACK") == 0) {
@@ -168,8 +160,12 @@ void allocate_stats(int points)
         player.damage = player.damage + s;
         points = points - s;
       }
-      else {
+      else if (s > points) {
         printf("Please enter a valid number.\n");
+      }
+      else {
+        player.damage = player.damage + points;
+        points = 0;
       }      
     }
     else if (strcasecmp(i, "DONE") == 0) {

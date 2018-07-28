@@ -12,6 +12,7 @@ extern void execute_unequip(const char *noun);
 extern void init_loot();
 extern void load_equip(const char *item);
 extern int scan_objects(const char *search);
+extern int look_objects(const char *item);
 
 #ifndef __OBJECT__
 #define __OBJECT__
@@ -19,6 +20,7 @@ typedef struct {
     char *description;
     char *tag;
     char *location;
+    char *look;
     int value;
     int damage;
     int armour;

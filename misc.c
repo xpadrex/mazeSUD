@@ -99,6 +99,7 @@ int save_player(const char *name)
     fprintf(file, "%s\n", player.body->tag);
   }
   fprintf(file, "%d\n", player.location);
+  fprintf(file, "%d\n", player.gold);
 
   // never forget to close the file
   fclose(file);
@@ -172,6 +173,8 @@ int load_player(const char *name)
   fgets(str, sizeof(str), file);
   printf("%s\n", str);
   player.location = atoi(str);
+  fgets(str, sizeof(str), file);
+  player.gold = atoi(str);
 
   fclose(file);
 

@@ -37,16 +37,23 @@ void load_objects()
 */
 
 object objects[] = {
-  {"crumpled map", "map", "town", 0, 0, 0},
-  {"broken idol", "idol", "temple", 5, 0, 0},
-  {"mug of ale", "ale", "tavern", 0, 0, 0},
-  {"broken twig", "twig", "forest", 0, 1, 0},
-  {"gold coin", "coin", "forest", 1, 0, 0},
-  {"Weathered Axe", "axe", "town", 1, 5, 0},
-  {"Tattered Leather Vest", "vest", "town", 1, 0, 1},
-  {"Broken Sword","sword", NULL, 10, 0, 0},
-  {"Bag of goodies", "bag", NULL, 20, 0, 0},
-  {"Dead Rabbit", "rabbit", NULL, 1, 0, 0}
+  {"crumpled map", "map", "town", 
+  "The map it too damaged to read, it looks like it was for this area.",
+   0, 0, 0},
+  {"broken idol", "idol", "temple",
+  "Although useless, it looks expensive.", 5, 0, 0},
+  {"mug of ale", "ale", "tavern",
+  "I'm sure it tastes as good as it looks.", 0, 0, 0},
+  {"broken twig", "twig", "forest",
+  "Looks can be decieving.", 0, 1, 0},
+  {"gold coin", "coin", "forest",
+  "There is a picture of a dumb faced man with a combover on one side, and a jackass on the other.", 1, 0, 0},
+  {"Weathered Axe", "axe", "town", "Looks like it was crafted by dwarven smiths.  Bet it will come in handy.", 1, 5, 0},
+  {"Tattered Leather Vest", "vest", "town", "Everyone looks good in leather!",
+   1, 0, 1},
+  {"Broken Sword","sword", NULL, NULL, 10, 0, 0},
+  {"Bag of goodies", "bag", NULL, NULL, 20, 0, 0},
+  {"Dead Rabbit", "rabbit", NULL, NULL, 1, 0, 0}
 };
 
 /* reads the size of the objects array to get the number of objects in game */
@@ -141,17 +148,17 @@ void execute_drop(const char *noun)
 void list_inventory()
 {
   if (player_items < 1) {
-    printf("You aren't carrying anything.\n");
-
-    return;
+    printf("You don't have any items in your inventory.\n");
   }
-  printf("You are carrying: \n");
-  for (int i = 0; i < number_of_objects; i++) {
-    if (strcasecmp(objects[i].location, "player") == 0) {
-      printf("  A %s\n", objects[i].description);
+  else {
+    printf("You are carrying: \n");
+    for (int i = 0; i < number_of_objects; i++) {
+      if (strcasecmp(objects[i].location, "player") == 0) {
+        printf("  A %s\n", objects[i].description);
+      }
     }
   }
-
+  printf("You have %d Gold coins in your pouch.\n", player.gold);
   return;  
 }
 
@@ -288,4 +295,15 @@ void load_equip(const char *item)
       }  
     }
   }
+}
+
+int look_objects(const char *item)
+{
+  for (int i = 0; i < number_of_objects; i++) {
+    if (strcasecmp(objects[i].tag, item) == 0) {
+      prinft("%s: %s\n", objects[i].description, objects[i].look);
+      return 0;
+    }
+  }
+  return 1;
 }
