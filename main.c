@@ -7,6 +7,7 @@
 #include <strings.h>
 #include <string.h>
 #include <time.h>
+#include <ctype.h>
 #include "objects.h"
 #include "player.h"
 #include "misc.h"
