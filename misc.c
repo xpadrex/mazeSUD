@@ -4,9 +4,13 @@
 #include <stdlib.h>
 #include <strings.h>
 #include <string.h>
+#include <sqlite3.h>
 #include "misc.h"
 #include "player.h"
 #include "objects.h"
+
+int _number_of_objects = 0;    // local variable for the number of objects
+
 
 /* clear_screen() function - sends ascii codes to clear the terminal */
 void clear_screen()
@@ -180,4 +184,87 @@ int load_player(const char *name)
 
   wait_for_keypress();
   return 0;
+}
+
+/* load_objects() function - loads the objects.dat database into an objects array */
+void load_objects()
+{
+  FILE *file = NULL;
+  int i = 0;              // counter for objects array
+  char str[255];
+  char tok[255];
+
+
+  file = fopen("DATA/objects.dat", "r");
+
+  if (file == NULL) {
+    printf("Error loading object.dat.\n");
+    wait_for_keypress();
+    return;
+  }
+
+  while (fgets(str, sizeof(str), file) != NULL) {
+    strcpy(tok, strtok(str, ","));
+    objects[i].description = malloc(strlen(tok)+1);
+    strcpy(objects[i].description, tok);
+    strcpy(tok, strtok(NULL, ","));
+    objects[i].tag = malloc(strlen(tok)+1);
+    strcpy(objects[i].tag, tok);
+    strcpy(tok, strtok(NULL, ","));
+    objects[i].location = malloc(strlen(tok)+1);
+    strcpy(objects[i].location, tok);
+    if (strcasecmp(objects[i].location, "NULL") == 0) {
+      objects[i].location = NULL;
+    }
+    strcpy(tok, strtok(NULL, ","));
+    objects[i].look = malloc(strlen(tok)+1);
+    strcpy(objects[i].look, tok);
+    if (strcasecmp(objects[i].look, "NULL") == 0) {
+      objects[i].look = NULL;
+    }
+    strcpy(tok, strtok(NULL, ","));
+    objects[i].value = atoi(tok);
+    strcpy(tok, strtok(NULL, ","));
+    objects[i].damage = atoi(tok);
+    strcpy(tok, strtok(NULL, ","));
+    objects[i].armour = atoi(tok);
+
+    i++;
+  }
+  fclose(file);
+  _number_of_objects = i;
+
+  return;
+}
+
+/* save_player() function - saves the player data to a file in binary format */
+void save_objects()
+{
+  char *empty = "NULL";
+  FILE *file = NULL;
+
+  // open the file in write mode
+  file = fopen("DATA/objects.dat", "w+");
+
+  // always check return values to see if it was opened okay
+  if(file == NULL) {
+    fprintf(stderr, "Error opening objects.dat for writing.\n");
+    return;
+  }
+
+  for (int i = 0; i < _number_of_objects; i++) {
+    fprintf(file, "%s,%s,%s,", objects[i].description, objects[i].tag, objects[i].location);
+    if (objects[i].look == NULL) {
+      fprintf(file, "%s,", empty);
+    }
+    else {
+      fprintf(file, "%s,", objects[i].look);
+    }
+    fprintf(file, "%d,%d,%d\n", objects[i].value, objects[i].damage, objects[i].armour);
+  }
+
+  // never forget to close the file
+  fclose(file);
+  
+  return;
 }

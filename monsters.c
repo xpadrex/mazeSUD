@@ -39,3 +39,32 @@ void init_monsters()
 
   return;
 }
+
+/* look_monsters() function - searches the list of monsters and shows the look description
+ * for the monster if the tag matches the string passed to the function */
+int look_monsters(const char *name)
+{
+  for (int i = 0; i < number_of_monsters; i++) {
+    if (strcasecmp(name, monsters[i].name) == 0 && 
+      player.location == monsters[i].location) {
+      printf("You nonchalantly eye the level %d %s.  ", 
+      monsters[i].level, monsters[i].name);
+      if (monsters[i].hands != NULL) {
+        printf("He is carrying a %s.\n", monsters[i].hands->description);
+      }
+      if (player.health < monsters[i].health) {
+        printf("He looks alot stronger than you are.\n");
+        return 0;
+      }
+      else if ((player.health / 2) > monsters[i].health) {
+        printf("He doesn't look chalenging at all.\n");
+        return 0;
+      }
+      else {
+        printf("He looks to be a worthy aponent.\n");
+        return 0;
+      }            
+    }
+  } 
+  return 1;
+}

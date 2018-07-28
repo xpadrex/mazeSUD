@@ -4,6 +4,7 @@
 
 extern void init_monsters();
 extern int number_of_monsters;
+extern int look_monsters(const char *name);
 
 #ifndef __MONSTERS__
 #define __MONSTERS__

@@ -65,31 +65,18 @@ void execute_look(const char *noun)
     }
     list_objects(locations[player.location].tag);
   }
-  else if (noun != NULL) {
-    for (int i = 0; i < number_of_monsters; i++) {
-      if (strcasecmp(noun, monsters[i].name) == 0 && 
-          player.location == monsters[i].location) {
-            printf("You nonchalantly eye the level %d %s.  ", 
-            monsters[i].level, monsters[i].name);
-            if (monsters[i].hands != NULL) {
-              printf("He is carrying a %s.\n", monsters[i].hands->description);
-            }
-            if (player.health < monsters[i].health) {
-              printf("He looks alot stronger than you are.\n");
-              return;
-            }
-            else if ((player.health / 2) > monsters[i].health) {
-              printf("He doesn't look chalenging at all.\n");
-              return;
-            }
-            else {
-              printf("He looks to be a worthy aponent.\n");
-              return;
-            }            
-          } 
+  else {
+    if (look_objects(noun) == 0) {
+
+      return;
+    }
+    else if (look_monsters(noun) == 0) {
+
+      return;
     }
     printf("There isn't any %s here.\n", noun);
   }
+
   return;
 }
 

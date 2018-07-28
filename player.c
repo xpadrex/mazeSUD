@@ -123,7 +123,7 @@ void allocate_stats(int points)
   do {
     look_self();
     printf("\nYou have %d stat points to allocate towards health or attack power,\n", points);
-    printf("how would you like to allocate them?\n HEALTH, ATTACK or DONE when complete: ");
+    printf("how would you like to allocate them?\nHEALTH, ATTACK or DONE when complete: ");
     while (fgets(i, sizeof(i), stdin) == NULL);
     remove_newline(i);
     if (strcasecmp(i, "HEALTH") == 0) {

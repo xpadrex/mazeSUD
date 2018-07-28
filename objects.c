@@ -10,44 +10,22 @@
 #include "locations.h"
 #include "monsters.h"
 
-int player_items = 0;   // count of number of items carried by the player
+// int player_items = 0;   // count of number of items carried by the player
 
-/* load_objects() function - loads data from DATA/objects.dat into the objects[]
- * array 
- * THIS FUNCTION NEEDS MAJOR WORK.   I CAN'T SEEM TO GET THE HANG OF HOW TO MAKE IT WORK 
- * PROPERLY.   HAS BEEN PUT ON THE BACKBURNER FOR NOW
-void load_objects()
-{
-  char line[250];
-  int i = 0;
-
-  FILE *in = fopen("DATA/objects.dat", "r");
-
-  while (fscanf(in, "%99[^\n]\n", line) == 1) {
-    fscanf(line, "%s,%s,%s,%d,%d,%d", &objects[i].description, &objects[i].tag,
-                                &objects[i].location, objects[i].value, 
-                                objects[i].damage, objects[i].armour);
-    i++;
-  }
-  fclose(in);
-  number_of_objects = i + 1;
-
-  return;
-}
-*/
-
+object objects[9];
+/*
 object objects[] = {
   {"crumpled map", "map", "town", 
-  "The map it too damaged to read, it looks like it was for this area.",
+  "The map is too damaged to be useful, it looks like it was for this area.",
    0, 0, 0},
   {"broken idol", "idol", "temple",
   "Although useless, it looks expensive.", 5, 0, 0},
   {"mug of ale", "ale", "tavern",
   "I'm sure it tastes as good as it looks.", 0, 0, 0},
   {"broken twig", "twig", "forest",
-  "Looks can be decieving.", 0, 1, 0},
+  "Looks can be decieving.", 0, 10, 0},
   {"gold coin", "coin", "forest",
-  "There is a picture of a dumb faced man with a combover on one side, and a jackass on the other.", 1, 0, 0},
+  "There is a picture of a dumb faced man with a combover on one side.", 1, 0, 0},
   {"Weathered Axe", "axe", "town", "Looks like it was crafted by dwarven smiths.  Bet it will come in handy.", 1, 5, 0},
   {"Tattered Leather Vest", "vest", "town", "Everyone looks good in leather!",
    1, 0, 1},
@@ -55,6 +33,7 @@ object objects[] = {
   {"Bag of goodies", "bag", NULL, NULL, 20, 0, 0},
   {"Dead Rabbit", "rabbit", NULL, NULL, 1, 0, 0}
 };
+*/
 
 /* reads the size of the objects array to get the number of objects in game */
 #define number_of_objects (sizeof(objects) / sizeof(*objects))
@@ -82,14 +61,13 @@ void list_objects(const char *here)
  * in their inventory */
 void execute_get(const char *noun)
 {
-  if (noun != NULL && player_items < 20) {  
+  if (noun != NULL) {  
     for (int i = 0; i < number_of_objects; i++) {
       if (strcasecmp(objects[i].tag, noun) == 0 && 
       strcasecmp(objects[i].location, locations[player.location].tag) == 0) {
         objects[i].location = "player";
         printf("You take the %s and put it in your pack.\n", 
         objects[i].description);
-        player_items++;
 
         return;
       }
@@ -99,11 +77,11 @@ void execute_get(const char *noun)
 
     return;
   }
-  else if (player_items > 19) {
-    printf("You can't carry any more items.\n");
-
-    return;
-  }
+//  else if (player_items > 19) {
+//    printf("You can't carry any more items.\n");
+//
+//    return;
+//  }
   else {
     printf("I don't know what you want to get.\n");
   }
@@ -123,10 +101,10 @@ void execute_drop(const char *noun)
           player.hands = NULL;
         }
         else if (player.body != NULL && player.body->tag == objects[i].tag) {
+          player.armour = player.armour - player.body->armour;
           player.body = NULL;
         }
         objects[i].location = locations[player.location].tag;
-        player_items--;
 
         printf("You drop the %s on the ground.\n", objects[i].description);
 
@@ -147,18 +125,14 @@ void execute_drop(const char *noun)
 /* list_inventory() fuction - list all items on the player */
 void list_inventory()
 {
-  if (player_items < 1) {
-    printf("You don't have any items in your inventory.\n");
-  }
-  else {
-    printf("You are carrying: \n");
-    for (int i = 0; i < number_of_objects; i++) {
-      if (strcasecmp(objects[i].location, "player") == 0) {
-        printf("  A %s\n", objects[i].description);
-      }
+  printf("You are carrying: \n");
+  for (int i = 0; i < number_of_objects; i++) {
+    if (strcasecmp(objects[i].location, "player") == 0) {
+      printf("  A %s\n", objects[i].description);
     }
   }
-  printf("You have %d Gold coins in your pouch.\n", player.gold);
+  printf("%d Gold coins.\n", player.gold);
+
   return;  
 }
 
@@ -167,11 +141,11 @@ void list_inventory()
 void execute_equip(const char *noun)
 {
   if (noun != NULL) {
-    if (player_items == 0) {
+    /*if (player_items == 0) {
       printf("You don't have any items to equip");
 
       return;
-    }
+    }*/
 
     for (int i = 0; i < number_of_objects; i++) {
       if (strcasecmp(noun, objects[i].tag) == 0) {
@@ -297,11 +271,14 @@ void load_equip(const char *item)
   }
 }
 
+/* look_objects() function - searches the objects and displayes the look description 
+ * if it finds the object passed to the function */
 int look_objects(const char *item)
 {
   for (int i = 0; i < number_of_objects; i++) {
-    if (strcasecmp(objects[i].tag, item) == 0) {
-      prinft("%s: %s\n", objects[i].description, objects[i].look);
+    if (strcasecmp(objects[i].tag, item) == 0 && 
+        strcasecmp(locations[player.location].tag, objects[i].location) == 0) {
+      printf("%s: %s\n", objects[i].description, objects[i].look);
       return 0;
     }
   }

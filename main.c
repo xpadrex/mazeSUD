@@ -113,10 +113,12 @@ int main()
 {
   /* Intializes random number generator - ONCE ONLY */
   srand(time(0));
+  
+  load_objects();
 
   clear_screen();
-  printf("\n--Welcome to mazeSUD v0.3 Alpha--\n");
-  printf("--uncopyright 2018  by: xpadrex--\n\n");
+  printf("\n=-=-Welcome to mazeSUD v0.3 Alpha-=-=\n");
+  printf("=-=-uncopyright 2018  by: xpadrex-=-=\n\n");
 
   init_monsters();  // randomize monster locations
   init_loot();      // randomize loot for mosters
@@ -129,6 +131,7 @@ int main()
   printf("\nThanks for playing!\n");
   
   save_player(player.name);
+  save_objects();
   
 
   return 0;
