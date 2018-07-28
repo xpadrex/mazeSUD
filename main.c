@@ -89,19 +89,25 @@ static int parse_input()
 void main_menu()
 {
   int ok = 1;
-  char i[15];
+  char name[15];
 
   while (ok > 0) {
     printf("Enter your name, or NEW: ");
-    while (fgets(i, sizeof(i), stdin) == NULL);
-    remove_newline(i);
+    while (fgets(name, sizeof(name), stdin) == NULL);
+    remove_newline(name);
 
-    if (strcasecmp(i, "NEW") == 0) {
+    if (strcasecmp(name, "NEW") == 0) {
       create_character();
       ok = 0;
     }
     else {
-      ok = load_player(i);
+      // converts first character to upper case
+      name[0] = toupper(name[0]);
+      // converts the rest of the name to lower case
+      for (int i = 1; i != strlen(name); i++) {
+      name[i] = tolower(name[i]);
+    }
+      ok = load_player(name);
     }
   }
 
