@@ -160,7 +160,9 @@ void execute_equip(const char *noun)
           }
           else if (objects[i].armour > 0) {
             player.body = &objects[i];
+            player.armour = player.armour + player.body->armour;
             printf("You put on the %s.\n", player.body->description);
+
 
             return;
           }
@@ -204,6 +206,7 @@ void execute_unequip(const char *noun)
                 strcasecmp(player.body->tag, objects[i].tag) == 0) {
           printf("You remove the %s and put it in your pack.\n",
                   objects[i].description);
+          player.armour = player.armour - player.body->armour;
           player.body = NULL;
 
           return;
