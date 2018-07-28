@@ -276,10 +276,13 @@ void load_equip(const char *item)
 int look_objects(const char *item)
 {
   for (int i = 0; i < number_of_objects; i++) {
-    if (strcasecmp(objects[i].tag, item) == 0 && 
-        strcasecmp(locations[player.location].tag, objects[i].location) == 0) {
-      printf("%s: %s\n", objects[i].description, objects[i].look);
-      return 0;
+    if (strcasecmp(objects[i].tag, item) == 0) {
+      if (strcasecmp(locations[player.location].tag, objects[i].location) == 0 || 
+          strcasecmp(objects[i].location, "player") == 0) {
+        printf("%s: %s\n", objects[i].description, objects[i].look);
+
+        return 0;
+      }
     }
   }
   return 1;
