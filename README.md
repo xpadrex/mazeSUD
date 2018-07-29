@@ -3,9 +3,12 @@ MUD style single player RPG
 
 To-Do:
 
-- developing player classes/stats - WIP
+- developing player classes
+  and add more depth to stats
 
 - develope combat system 
+
+- create leveled Zones with monsters to match
 
 - develope level progression system for players
 
