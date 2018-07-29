@@ -5,11 +5,11 @@ To-Do:
 
 - develop player classes and add more depth to stats
 
-  Strength  - Increases attack for melee and minor health boost
-  Intellect - Increases attack for ranged and minor crit increase
-  Dexterity - Increased armour and dodge, minor crit increase
-  Fortitude - Increases health and minor attack increase
-  Luck - Increases critical chance
+  - Strength  - Increases attack for melee and minor health boost
+  - Intellect - Increases attack for ranged and minor crit increase
+  - Dexterity - Increased armour and dodge, minor crit increase
+  - Fortitude - Increases health and minor attack increase
+  - Luck      - Increases critical chance
 
 - develope combat system 
 
