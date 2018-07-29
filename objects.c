@@ -131,7 +131,7 @@ void list_inventory()
       printf("  A %s\n", objects[i].description);
     }
   }
-  printf("%d Gold coins.\n", player.gold);
+  printf("  %d Gold coins.\n", player.gold);
 
   return;  
 }
@@ -282,11 +282,18 @@ int look_objects(const char *item)
     if (strcasecmp(objects[i].tag, item) == 0) {
       if (strcasecmp(locations[player.location].tag, objects[i].location) == 0 || 
           strcasecmp(objects[i].location, "player") == 0) {
-        printf("%s: %s\n", objects[i].description, objects[i].look);
+        printf("%s:\n  %s\n", objects[i].description, objects[i].look);
+        if (objects[i].damage > 0) {
+          printf("  Can be equipped in the main hand for +%d to damage.\n", objects[i].damage);
+        }
+        else if (objects[i].armour > 0) {
+          printf("  Can be equipped for +%d armour.\n", objects[i].armour);
+        }
 
         return 0;
       }
     }
   }
+
   return 1;
 }
