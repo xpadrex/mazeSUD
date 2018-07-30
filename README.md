@@ -3,9 +3,16 @@ MUD style single player RPG
 
 To-Do:
 
-- developing player classes/stats - WIP
+- develop player classes and add more depth to stats
+
+  - Strength  - Increases attack for melee and crit chance
+  - Intellect - Increases attack for ranged and crit chance
+  - Dexterity - Increased armour and dodge, minor crit increase
+  - Fortitude - Increases health and minor attack increase
 
 - develope combat system 
+
+- create leveled Zones with monsters to match
 
 - develope level progression system for players
 
