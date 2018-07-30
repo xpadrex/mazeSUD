@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <strings.h>
 #include <string.h>
-#include <sqlite3.h>
 #include "misc.h"
 #include "player.h"
 #include "objects.h"
