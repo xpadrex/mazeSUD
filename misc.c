@@ -8,6 +8,7 @@
 #include "misc.h"
 #include "player.h"
 #include "objects.h"
+#include "locations.h"
 
 int _number_of_objects = 0;    // local variable for the number of objects
 
@@ -90,6 +91,10 @@ int save_player(const char *name)
   fprintf(file, "%d\n", player.max_health);
   fprintf(file, "%d\n", player.energy);
   fprintf(file, "%d\n", player.damage);
+  fprintf(file, "%d\n", player.str);
+  fprintf(file, "%d\n", player.intel);
+  fprintf(file, "%d\n", player.dex);
+  fprintf(file, "%d\n", player.fort);
   if (player.hands == NULL) {
     fprintf(file, "%s\n", empty);
   }
@@ -129,35 +134,33 @@ int load_player(const char *name)
   strcpy(tok, strtok(str, "\n"));
   player.name = malloc(strlen(tok)+1);
   strcpy(player.name, tok);
-  printf("%s\n", tok);
   fgets(str, sizeof(str), file);
   strcpy(tok, strtok(str, "\n"));
   player.combat_class = malloc(strlen(tok)+1);
   strcpy(player.combat_class,tok);
-  printf("%s\n", tok);
   fgets(str, sizeof(str), file);
-  printf("%s\n", str);
   player.level = atoi(str);
   fgets(str, sizeof(str), file);
-  printf("%s\n", str);
   player.xp = atoi(str);
   fgets(str, sizeof(str), file);
-  printf("%s\n", str);
   player.armour = atoi(str);
   fgets(str, sizeof(str), file);
-  printf("%s\n", str);
   player.health = atoi(str);
   fgets(str, sizeof(str), file);
-  printf("%s\n", str);
   player.max_health = atoi(str);
   fgets(str, sizeof(str), file);
-  printf("%s\n", str);
   player.energy = atoi(str);
   fgets(str, sizeof(str), file);
-  printf("%s\n", str);
   player.damage = atoi(str);
   fgets(str, sizeof(str), file);
-  printf("%s\n", str);
+  player.str = atoi(str);
+  fgets(str, sizeof(str), file);
+  player.intel = atoi(str);
+  fgets(str, sizeof(str), file);
+  player.dex = atoi(str);
+  fgets(str, sizeof(str), file);
+  player.fort = atoi(str);
+  fgets(str, sizeof(str), file);
   strcpy(tok, strtok(str, "\n"));
   if (strcasecmp(tok, "EMPTY") == 0) {
     player.hands = NULL;
@@ -166,7 +169,6 @@ int load_player(const char *name)
     load_equip(tok);
   }
   fgets(str, sizeof(str), file);
-  printf("%s\n", str);
   strcpy(tok, strtok(str, "\n"));
   if (strcasecmp(tok, "EMPTY") == 0) {
     player.body = NULL;
@@ -175,7 +177,6 @@ int load_player(const char *name)
     load_equip(str);
   }
   fgets(str, sizeof(str), file);
-  printf("%s\n", str);
   player.location = atoi(str);
   fgets(str, sizeof(str), file);
   player.gold = atoi(str);

@@ -12,7 +12,7 @@
 
 // int player_items = 0;   // count of number of items carried by the player
 
-object objects[9];
+object objects[100];
 /*
 object objects[] = {
   {"crumpled map", "map", "town", 
@@ -36,7 +36,8 @@ object objects[] = {
 */
 
 /* reads the size of the objects array to get the number of objects in game */
-#define number_of_objects (sizeof(objects) / sizeof(*objects))
+//#define number_of_objects (sizeof(objects) / sizeof(*objects))
+#define number_of_objects (_number_of_objects)
 
 /* list_objects() - function to list the objects in a location */
 void list_objects(const char *here)
@@ -65,7 +66,7 @@ void execute_get(const char *noun)
     for (int i = 0; i < number_of_objects; i++) {
       if (strcasecmp(objects[i].tag, noun) == 0 && 
       strcasecmp(objects[i].location, locations[player.location].tag) == 0) {
-        objects[i].location = "player";
+        objects[i].location = player.name;
         printf("You take the %s and put it in your pack.\n", 
         objects[i].description);
 
@@ -95,7 +96,7 @@ void execute_drop(const char *noun)
   if (noun != NULL) {
     for (int i = 0; i < number_of_objects; i++) {
       if (strcasecmp(objects[i].tag, noun) == 0 && 
-      objects[i].location == "player") {
+      objects[i].location == player.name) {
         if (player.hands != NULL && player.hands->tag == objects[i].tag) {
           player.damage = player.damage - player.hands->damage;
           player.hands = NULL;
@@ -127,7 +128,7 @@ void list_inventory()
 {
   printf("You are carrying: \n");
   for (int i = 0; i < number_of_objects; i++) {
-    if (strcasecmp(objects[i].location, "player") == 0) {
+    if (strcasecmp(objects[i].location, player.name) == 0) {
       printf("  A %s\n", objects[i].description);
     }
   }
@@ -149,7 +150,7 @@ void execute_equip(const char *noun)
 
     for (int i = 0; i < number_of_objects; i++) {
       if (strcasecmp(noun, objects[i].tag) == 0) {
-        if (strcasecmp("player", objects[i].location) == 0) {
+        if (strcasecmp(player.name, objects[i].location) == 0) {
           if (objects[i].damage > 0) {            
             player.hands = &objects[i];
             player.damage = player.damage + player.hands->damage;
@@ -259,7 +260,7 @@ void load_equip(const char *item)
 {
   for (int i = 0; i < number_of_objects; i++) {
     if (strcasecmp(objects[i].tag, item) == 0) {
-      objects[i].location = "player";
+      objects[i].location = player.name;
       if (objects[i].damage > 0) {            
         player.hands = &objects[i];
 
@@ -281,7 +282,7 @@ int look_objects(const char *item)
   for (int i = 0; i < number_of_objects; i++) {
     if (strcasecmp(objects[i].tag, item) == 0) {
       if (strcasecmp(locations[player.location].tag, objects[i].location) == 0 || 
-          strcasecmp(objects[i].location, "player") == 0) {
+          strcasecmp(objects[i].location, player.name) == 0) {
         printf("%s:\n  %s\n", objects[i].description, objects[i].look);
         if (objects[i].damage > 0) {
           printf("  Can be equipped in the main hand for +%d to damage.\n", objects[i].damage);

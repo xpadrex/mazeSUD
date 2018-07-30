@@ -6,6 +6,9 @@
 extern void look_self();
 extern void create_character();
 extern void allocate_stats(int points);
+void fortitude_to_health(int points);
+void intellect_to_damage(int points);
+void strength_to_damage(int points);
 
 #ifndef __CHARACTER__
 #define __CHARACTER__
@@ -26,6 +29,10 @@ typedef struct {
   int max_health;
   int energy;
   int damage;
+  int str;
+  int intel;
+  int dex;
+  int fort;
   object *hands;
   object *body;
   int location;
@@ -33,6 +40,6 @@ typedef struct {
 } character;
 
 extern character player;
-extern attack warrior[];
-extern attack mage[];
+extern attack fighter[];
+extern attack caster[];
 #endif

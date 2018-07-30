@@ -126,7 +126,6 @@ int main()
   clear_screen();
   printf("\n=-=-Welcome to mazeSUD v0.3 Alpha-=-=\n");
   printf("=-=-uncopyright 2018  by: xpadrex-=-=\n\n");
-  printf("number_of_locations = %d", number_of_locations);
 
   init_monsters();  // randomize monster locations
   init_loot();      // randomize loot for mosters

@@ -10,3 +10,4 @@ extern int save_player(const char *name);
 extern int load_player(const char *name);
 extern void load_objects();
 extern void save_objects();
+extern int _number_of_objects;

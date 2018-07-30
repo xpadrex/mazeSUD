@@ -12,7 +12,8 @@
 
 /* declaring the player variable (character type) */
 //character player;
-character player = {NULL, NULL, 1, 0, 0, 15, 15, 100, 5, NULL, NULL, 1, 10};
+character player  = {NULL, NULL, 1, 0, 4, 12, 12, 100,
+                   4, 8, 8, 8, 8, NULL, NULL, 1, 1};
 
 attack fighter[] = {
   {"Swing", "Swing your weapon at the target for 100%% of your attack power.", 1.0, 0},
@@ -56,17 +57,33 @@ void create_character()
  
   done = 0; 
   do {
-    printf("\nIn mazeSUD we have 2 types of player classes,\n");
+    printf("\nIn mazeSUD we have 2 types of player classes, ");
     printf("close combat melee fighters and ranged spellcasters.\n");
     printf("What would you like to be, a Fighter or a Spellcaster? ");
     while (fgets(input_class, sizeof(input_class), stdin) == NULL);
     remove_newline(input_class);
     if (strcasecmp(input_class, "SPELLCASTER") == 0) {
       player.combat_class = "Spellcaster";
+      player.health = 10;
+      player.max_health = 10;
+      player.str = 4;
+      player.intel = 8;
+      player.damage = 4;
+      player.dex = 6;
+      player.armour = 3;
+      player.fort = 6;
       done = 1;
     }
     else if (strcasecmp(input_class, "FIGHTER") == 0) {
       player.combat_class = "Fighter";
+      player.health = 12;
+      player.max_health = 12;
+      player.str = 8;
+      player.intel = 4;
+      player.damage = 4;
+      player.dex = 6;
+      player.armour = 3;
+      player.fort = 6;
       done = 1;
     }
     else {
@@ -94,7 +111,11 @@ void look_self()
   printf("   Level : %-15d", player.level);
   printf("     Exp : %d\n", player.xp);
   printf("  Armour : %-15d", player.armour);
-  printf(" Atk Pwr : %d\n", player.damage);
+  printf("  Damage : %d\n", player.damage);
+  printf("     Str : %-15d", player.str);
+  printf("     Int : %d\n", player.intel);
+  printf("     Dex : %-15d", player.dex);
+  printf("    Fort : %d\n", player.fort);
   printf("  Health : %d/%d\n", player.health, player.max_health);
   printf("  Energy : %d/100\n", player.energy);
   if (player.hands == NULL) {
@@ -116,67 +137,166 @@ void look_self()
 /* player_stats() function - lets the player allocate stats towards attack power or health */
 void allocate_stats(int points)
 {
-  char i[10];
+  char i[15];
   int s;
   int done = 0;
 
   do {
     look_self();
-    printf("\nYou have %d stat points to allocate towards health or attack power,\n", points);
-    printf("how would you like to allocate them?\nHEALTH, ATTACK or DONE when complete: ");
+    printf("\nYou have %d stat points to allocate towards any of your 4 main stats.\n", points);
+    printf("How would you like to allocate them?\n");
+    printf("STR, INT, DEX, FORT, DONE when complete or HELP: ");
     while (fgets(i, sizeof(i), stdin) == NULL);
     remove_newline(i);
-    if (strcasecmp(i, "HEALTH") == 0) {
-      printf("How many would you like to allocate to Health? [%d]", points);
+    if (strcasecmp(i, "STR") == 0) {
+      printf("How much would you like to allocate to Strength? [%d]", points);
       while (fgets(i, sizeof(i), stdin) == NULL);
       sscanf(i, "%d", &s);
       if (s == points) {
-        player.health = player.health + points;
-        player.max_health = player.max_health + points;
+        player.str = player.str + points;
+        if (strcasecmp(player.combat_class, "FIGHTER") == 0) {
+          strength_to_damage(s);
+        }
         points = 0;
       }
       else if (s < points) {
-        player.health = player.health + s;
-        player.max_health = player.max_health + s;
+        player.str = player.str + s;
+        if (strcasecmp(player.combat_class, "FIGHTER") == 0) {
+          strength_to_damage(s);
+        }
         points = points - s;
       }
       else if (s > points) {
         printf("Please enter a valid number.\n");
       }
       else {
-        player.health = player.health + points;
+        player.str = player.str + points;
+        if (strcasecmp(player.combat_class, "FIGHTER") == 0) {
+          strength_to_damage(points);
+        }
+        points = 0;
+      }      
+    }
+    else if (strcasecmp(i, "INT") == 0) {
+      printf("How much would you like to allocate to Intellect? [%d]", points);
+      while (fgets(i, sizeof(i), stdin) == NULL);
+      sscanf(i, "%d", &s);
+      if (s == points) {
+        player.intel = player.intel + points;
+        if (strcasecmp(player.combat_class, "SPELLCASTER") == 0) {
+          intellect_to_damage(s);
+        }
+        points = 0;
+      }
+      else if (s < points) {
+        player.intel = player.intel + s;
+        if (strcasecmp(player.combat_class, "SPELLCASTER") == 0) {
+          intellect_to_damage(s);
+        }
+        points = points - s;
+      }
+      else if (s > points) {
+        printf("Please enter a valid number.\n");
+      }
+      else {
+        player.intel = player.intel + points;
+        if (strcasecmp(player.combat_class, "SPELLCASTER") == 0) {
+          intellect_to_damage(points);
+        }
         points = 0;
       }
     }
-    else if (strcasecmp(i, "ATTACK") == 0) {
-      printf("How many would you like to allocate to Attack? [%d]", points);
+    else if (strcasecmp(i, "DEX") == 0) {
+      printf("How much would you like to allocate to Dexterity? [%d]", points);
       while (fgets(i, sizeof(i), stdin) == NULL);
       sscanf(i, "%d", &s);
       if (s == points) {
-        player.damage = player.damage + points;
+        player.dex = player.dex + points;
         points = 0;
       }
       else if (s < points) {
-        player.damage = player.damage + s;
+        player.dex = player.dex + s;
         points = points - s;
       }
       else if (s > points) {
         printf("Please enter a valid number.\n");
       }
       else {
-        player.damage = player.damage + points;
+        player.dex = player.dex + points;
         points = 0;
-      }      
+      }
+      player.armour = player.dex / 2;      
+    }
+    else if (strcasecmp(i, "FORT") == 0) {
+      printf("How much would you like to allocate to Fortitude? [%d]", points);
+      while (fgets(i, sizeof(i), stdin) == NULL);
+      sscanf(i, "%d", &s);
+      if (s == points) {
+        player.fort = player.fort + points;
+        fortitude_to_health(s);
+        points = 0;
+      }
+      else if (s < points) {
+        player.fort = player.fort + s;
+        fortitude_to_health(s);
+        points = points - s;
+      }
+      else if (s > points) {
+        printf("Please enter a valid number.\n");
+      }
+      else {
+        player.fort = player.fort + points;
+        fortitude_to_health(points);
+        points = 0;
+      }
     }
     else if (strcasecmp(i, "DONE") == 0) {
 
       return;
+    }
+    else if (strcasecmp(i, "HELP") == 0) {
+      printf("\n\nThe 4 main stats in mazeSUD have various affects on your character:\n");
+      printf("  STRENGTH  - Increases damage of melee attacks.\n");
+      printf("  INTELLECT - Increases damage of magic and ranged attacks.\n");
+      printf("  DEXTERITY - Increases armour, dodge and critical chance.\n");
+      printf("  FORTITUDE - Increases your health and survival.\n\n");
+      wait_for_keypress();
+    }
+    else {
+      printf("Please enter a valid choice.\n");
     }
     if (points == 0) {
 
       return;
     }
   } while (points > 0);
+  look_self();
+  wait_for_keypress();
+
+  return;
+}
+
+/* function to convert added fortitude to health */
+void fortitude_to_health(int points)
+{
+  player.max_health = player.max_health + (points / 2);
+  player.health = player.max_health;
+
+  return;
+}
+
+/* function to convert added intellect to damage */
+void intellect_to_damage(int points)
+{
+  player.damage = player.damage + (points / 2);
+
+  return;
+}
+
+/* function to convert added strength to health */
+void strength_to_damage(int points)
+{
+  player.damage = player.damage + (points / 2);
 
   return;
 }

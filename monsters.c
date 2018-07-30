@@ -13,10 +13,10 @@
 #include "monsters.h"
 
 character types[] = {
-  {"Troll", NULL, 1, 15, 15,  2, 15, 0, 8, NULL, NULL, 0},
-  {"Orc", NULL, 1, 20, 20, 3, 18, 0, 10, NULL, NULL, 0},
-  {"Wolf", NULL, 1, 12, 12, 2, 12, 0, 6, NULL, NULL, 0},
-  {"Boar", NULL, 1, 8, 8, 2, 10, 0, 4, NULL, NULL, 0}
+  {"Troll", NULL, 1, 15, 1,  12, 12, 0, 8, 5, 5, 5, 5, NULL, NULL, 0, 5},
+  {"Orc", NULL, 1, 20, 1, 15, 15, 0, 10, 6, 4, 4, 4, NULL, NULL, 0, 5},
+  {"Wolf", NULL, 1, 12, 0, 10, 10, 0, 6, 4, 3, 3, 3, NULL, NULL, 0, 2},
+  {"Boar", NULL, 1, 8, 0, 8, 8, 0, 4, 3, 3, 3, 3, NULL, NULL, 0, 1}
 };
 
 int number_of_monsters = 4;  // const for total monsters on map
