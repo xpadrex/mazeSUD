@@ -1,5 +1,5 @@
 /* 
- * objects.c - location struct, object struct and item and movement commands
+ * objects.c - object and item related commands
  */
 
 #include <stdio.h>

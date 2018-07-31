@@ -1,4 +1,6 @@
-/* locations.c */
+/* 
+ * locations.c - location and movement related functions
+ */
 
 #include <stdio.h>
 #include <strings.h>
@@ -8,11 +10,14 @@
 #include "locations.h"
 #include "monsters.h"
 
+/* location information - description, tag, N, S, E, W */
 location locations[] = {
   {"Yourself", "player", NULL, NULL, NULL, NULL},
-  {"in the town square", "Town", "tavern", "temple", "forest", NULL},
+  {"in the town square", "Town", "tavern", "temple", "forest", "hall"},
   {"at the temple of the old gods","Temple", "town", NULL, NULL, NULL},
   {"in a seedy tavern", "Tavern", NULL, "town", NULL, NULL},
+  {"in the Hall of Training.  Statues of decorated warriors line the halls.  \
+  There is a battle hardened trainer in the corner, and an arms merchant in the back", "hall", NULL, NULL, "town", NULL},
   {"in a thick dark forest", "Forest", NULL, NULL, "clearing", "town"},
   {"in a large clearing", "Clearing", NULL, NULL, "river", "forest"},
   {"at a washed out river bank", "River", NULL, NULL, NULL, "clearing"}

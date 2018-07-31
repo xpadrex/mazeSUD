@@ -34,7 +34,7 @@ void init_monsters()
 {
   for (int i = 0; i < (number_of_monsters + 1); i++) {
     monsters[i] = types[randomize(0, (types_of_monsters - 1))];
-    monsters[i].location = randomize(4, number_of_locations);
+    monsters[i].location = randomize(5, number_of_locations);
   }
 
   return;

@@ -1,4 +1,4 @@
-/* locations.h - external fuctions for LOOK and GO, location struct */
+/* locations.h - external fuctions related to locations and location struct */
 
 
 extern void execute_look(const char *noun);

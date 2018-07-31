@@ -16,15 +16,15 @@ character player  = {NULL, NULL, 1, 0, 4, 12, 12, 100,
                    4, 8, 8, 8, 8, NULL, NULL, 1, 1, 10};
 
 attack fighter[] = {
-  {"Swing", "Swing your weapon at the target for 100%% of your attack power.", 1.0, 0},
-  {"Crushing Blow", "Land a crushing blow on the target for 200%% of your attack power.", 2.0, 25},
-  {"Leeching Blow", "A percise strike that damages the target for 80%% of your attack power, and heals you for 50%% of the damage caused.", 0.5, 20}
+  {1, "Swing", "Swing your weapon at the target for 100%% of your attack power.", 1.0, 0},
+  {2, "Crushing Blow", "Land a crushing blow on the target for 200%% of your attack power.", 2.0, 25},
+  {3, "Leeching Blow", "A percise strike that damages the target for 80%% of your attack power, and heals you for 50%% of the damage caused." , 0.8, 20}
 };
 
 attack caster[] = {
-  {"Bolt", "Fire a bolt of energy at the target for 100%% of your attack power", 1.0, 0},
-  {"Magic Missle", "Fire a magical missle at the target for 200%% of your attack power", 2.0, 25},
-  {"Drain Life", "Suck the life from your enemy causing 80%% of your attack power as damage, and healing you for 50%% of the damage caused", 0.5, 20}
+  {1, "Bolt", "Fire a bolt of energy at the target for 100%% of your attack power", 1.0, 0},
+  {2, "Magic Missle", "Fire a magical missle at the target for 200%% of your attack power", 2.0, 25},
+  {3, "Drain Life", "Suck the life from your enemy causing 80%% of your attack power as damage, and healing you for 50%% of the damage caused", 0.8, 20}
 };
 
 /* 
@@ -152,17 +152,12 @@ void allocate_stats(int points)
       sscanf(i, "%d", &s);
       if (s == points) {
         player.str = player.str + points;
-        if (strcasecmp(player.combat_class, "FIGHTER") == 0) {
-          strength_to_damage(s);
-        }
+        strength_to_damage(s);
         points = 0;
-        player.points = points;
       }
       else if (s < points) {
         player.str = player.str + s;
-        if (strcasecmp(player.combat_class, "FIGHTER") == 0) {
-          strength_to_damage(s);
-        }
+        strength_to_damage(s);
         points = points - s;
       }
       else if (s > points) {
@@ -170,11 +165,8 @@ void allocate_stats(int points)
       }
       else {
         player.str = player.str + points;
-        if (strcasecmp(player.combat_class, "FIGHTER") == 0) {
-          strength_to_damage(points);
-        }
+        strength_to_damage(points);
         points = 0;
-        player.points = points;
       }      
     }
     else if (strcasecmp(i, "INT") == 0) {
@@ -183,17 +175,12 @@ void allocate_stats(int points)
       sscanf(i, "%d", &s);
       if (s == points) {
         player.intel = player.intel + points;
-        if (strcasecmp(player.combat_class, "SPELLCASTER") == 0) {
-          intellect_to_damage(s);
-        }
+        intellect_to_damage(s);
         points = 0;
-        player.points = points;
       }
       else if (s < points) {
         player.intel = player.intel + s;
-        if (strcasecmp(player.combat_class, "SPELLCASTER") == 0) {
-          intellect_to_damage(s);
-        }
+        intellect_to_damage(s);
         points = points - s;
       }
       else if (s > points) {
@@ -201,11 +188,8 @@ void allocate_stats(int points)
       }
       else {
         player.intel = player.intel + points;
-        if (strcasecmp(player.combat_class, "SPELLCASTER") == 0) {
-          intellect_to_damage(points);
-        }
+        intellect_to_damage(points);
         points = 0;
-        player.points = points;
       }
     }
     else if (strcasecmp(i, "DEX") == 0) {
@@ -215,7 +199,6 @@ void allocate_stats(int points)
       if (s == points) {
         player.dex = player.dex + points;
         points = 0;
-        player.points = points;
       }
       else if (s < points) {
         player.dex = player.dex + s;
@@ -227,7 +210,6 @@ void allocate_stats(int points)
       else {
         player.dex = player.dex + points;
         points = 0;
-        player.points = points;
       }
       player.armour = player.dex / 2;      
     }
@@ -239,7 +221,6 @@ void allocate_stats(int points)
         player.fort = player.fort + points;
         fortitude_to_health(s);
         points = 0;
-        player.points = points;
       }
       else if (s < points) {
         player.fort = player.fort + s;
@@ -253,10 +234,10 @@ void allocate_stats(int points)
         player.fort = player.fort + points;
         fortitude_to_health(points);
         points = 0;
-        player.points = points;
       }
     }
     else if (strcasecmp(i, "DONE") == 0) {
+      player.points = points;
       points = 0;
     }
     else if (strcasecmp(i, "HELP") == 0) {
@@ -271,8 +252,8 @@ void allocate_stats(int points)
       printf("Please enter a valid choice.\n");
     }
   } while (points > 0);
+  player.points = 0;
   look_self();
-  wait_for_keypress();
 
   return;
 }
@@ -286,18 +267,22 @@ void fortitude_to_health(int points)
   return;
 }
 
-/* function to convert added intellect to damage */
+/* function to convert added intellect to damage if applicable */
 void intellect_to_damage(int points)
 {
-  player.damage = player.damage + (points / 2);
+  if (strcasecmp(player.combat_class, "SPELLCASTER") == 0) {
+    player.damage = player.damage + (points / 2);
+  }
 
   return;
 }
 
-/* function to convert added strength to health */
+/* function to convert added strength to damage if applicable */
 void strength_to_damage(int points)
 {
-  player.damage = player.damage + (points / 2);
+  if (strcasecmp(player.combat_class, "FIGHTER") == 0) {
+    player.damage = player.damage + (points / 2);
+  }
 
   return;
 }

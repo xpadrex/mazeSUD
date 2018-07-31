@@ -13,6 +13,7 @@ void strength_to_damage(int points);
 #ifndef __CHARACTER__
 #define __CHARACTER__
 typedef struct {
+  int level;
   char *name;
   char *description;
   float damage;

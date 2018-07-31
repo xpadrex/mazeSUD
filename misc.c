@@ -70,10 +70,14 @@ void remove_newline(char *s)
 int save_player(const char *name)
 {
   char *empty = "EMPTY";
+  char dir[30];
+  strcpy(dir, "PLAYERS/");
   FILE *file = NULL;
 
+
+
   // open the file in write mode
-  file = fopen(name, "w+");
+  file = fopen(strcat(dir, name), "w+");
 
   // always check return values to see if it was opened okay
   if(file == NULL) {
@@ -119,11 +123,13 @@ int save_player(const char *name)
 int load_player(const char *name)
 {
   FILE *file = NULL;
+  char dir[30];
+  strcpy(dir, "PLAYERS/");
   char str[25];
   char tok[25];
 
 
-  file = fopen(name, "r");
+  file = fopen(strcat(dir, name), "r");
 
   if (file == NULL) {
     printf("That user name does not exist.\n");
