@@ -13,7 +13,7 @@
 /* declaring the player variable (character type) */
 //character player;
 character player  = {NULL, NULL, 1, 0, 4, 12, 12, 100,
-                   4, 8, 8, 8, 8, NULL, NULL, 1, 1};
+                   4, 8, 8, 8, 8, NULL, NULL, 1, 1, 10};
 
 attack fighter[] = {
   {"Swing", "Swing your weapon at the target for 100%% of your attack power.", 1.0, 0},
@@ -91,12 +91,10 @@ void create_character()
     }
   } while (done < 1);
 
-  allocate_stats(10);
-
-  printf("Hello %s the %s, welcome to mazeSUD.\n", player.name, player.combat_class);
+  allocate_stats(player.points);
+  printf("\nHello %s the %s, welcome to mazeSUD.\n", player.name, player.combat_class);
   wait_for_keypress();
-
-  save_player(player.name);
+  
   return;
 }
 
@@ -158,6 +156,7 @@ void allocate_stats(int points)
           strength_to_damage(s);
         }
         points = 0;
+        player.points = points;
       }
       else if (s < points) {
         player.str = player.str + s;
@@ -175,6 +174,7 @@ void allocate_stats(int points)
           strength_to_damage(points);
         }
         points = 0;
+        player.points = points;
       }      
     }
     else if (strcasecmp(i, "INT") == 0) {
@@ -187,6 +187,7 @@ void allocate_stats(int points)
           intellect_to_damage(s);
         }
         points = 0;
+        player.points = points;
       }
       else if (s < points) {
         player.intel = player.intel + s;
@@ -204,6 +205,7 @@ void allocate_stats(int points)
           intellect_to_damage(points);
         }
         points = 0;
+        player.points = points;
       }
     }
     else if (strcasecmp(i, "DEX") == 0) {
@@ -213,6 +215,7 @@ void allocate_stats(int points)
       if (s == points) {
         player.dex = player.dex + points;
         points = 0;
+        player.points = points;
       }
       else if (s < points) {
         player.dex = player.dex + s;
@@ -224,6 +227,7 @@ void allocate_stats(int points)
       else {
         player.dex = player.dex + points;
         points = 0;
+        player.points = points;
       }
       player.armour = player.dex / 2;      
     }
@@ -235,6 +239,7 @@ void allocate_stats(int points)
         player.fort = player.fort + points;
         fortitude_to_health(s);
         points = 0;
+        player.points = points;
       }
       else if (s < points) {
         player.fort = player.fort + s;
@@ -248,11 +253,11 @@ void allocate_stats(int points)
         player.fort = player.fort + points;
         fortitude_to_health(points);
         points = 0;
+        player.points = points;
       }
     }
     else if (strcasecmp(i, "DONE") == 0) {
-
-      return;
+      points = 0;
     }
     else if (strcasecmp(i, "HELP") == 0) {
       printf("\n\nThe 4 main stats in mazeSUD have various affects on your character:\n");
@@ -264,10 +269,6 @@ void allocate_stats(int points)
     }
     else {
       printf("Please enter a valid choice.\n");
-    }
-    if (points == 0) {
-
-      return;
     }
   } while (points > 0);
   look_self();

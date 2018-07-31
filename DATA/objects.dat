@@ -1,9 +1,10 @@
-crumpled map,map,Padre,The map is too damaged to be useful.,0,0,0
-broken idol,idol,temple,Although useless,0,5,0
+crumpled map,map,town,The map is too damaged to be useful.,0,0,0
+broken idol,idol,temple,Although useless it looks expensive.,0,5,0
 mug of ale,ale,tavern,Hope it tastes better than it looks.,0,0,0
-broken twig,twig,Padre,Looks like it would be good for hitting stuff.,0,10,0
+broken twig,twig,forest,Looks like it would be good for hitting stuff.,0,10,0
 gold coin,coin,forest,This coin looks to be a well made counterfit.,5,0,0
-Weathered Axe,axe,Andre,Well used but of good quality,5,5,0
-Tattered Leather Vest,vest,Andre,Everyone looks good in leather!,5,0,1
+Weathered Axe,axe,town,Well used but it should do the trick,2,5,0
+Tattered Leather Vest,vest,town,Everyone looks good in leather!,2,0,2
+Gnarled Quarterstaff,quarterstaff,town,Looks wizardly!,2,6,0
 Broken Sword,sword,Boar,Not much to look at.,10,0,0
 Bag of lucky-doos,bag,Boar,Any goblin would love these!,20,0,0

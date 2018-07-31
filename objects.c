@@ -275,8 +275,8 @@ void load_equip(const char *item)
   }
 }
 
-/* look_objects() function - searches the objects and displayes the look description 
- * if it finds the object passed to the function */
+/* look_objects() function - searches the objects and displayes the look  
+ * description if it finds the object passed to the function */
 int look_objects(const char *item)
 {
   for (int i = 0; i < number_of_objects; i++) {

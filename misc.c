@@ -108,6 +108,7 @@ int save_player(const char *name)
   }
   fprintf(file, "%d\n", player.location);
   fprintf(file, "%d\n", player.gold);
+  fprintf(file, "%d\n", player.points);
 
   // never forget to close the file
   fclose(file);
@@ -179,6 +180,8 @@ int load_player(const char *name)
   player.location = atoi(str);
   fgets(str, sizeof(str), file);
   player.gold = atoi(str);
+  fgets(str, sizeof(str), file);
+  player.points = atoi(str);
 
   fclose(file);
 
