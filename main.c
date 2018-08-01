@@ -13,6 +13,7 @@
 #include "misc.h"
 #include "locations.h"
 #include "monsters.h"
+#include "combat.h"
 
 
 static char input[60];                         // buffer for keyboard input
@@ -77,6 +78,9 @@ static int parse_input()
     }
     else if (strcasecmp(verb, "UNEQUIP") == 0) {
       execute_unequip(noun);
+    }
+    else if (strcasecmp(verb, "ATTACK") == 0) {
+      execute_attack(noun);
     }
     else {
       printf("I'm sorry, I don't know what you mean by %s.\n", verb);

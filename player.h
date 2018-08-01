@@ -21,24 +21,24 @@ typedef struct {
 } attack;
 
 typedef struct {
-  char *name;
-  char *combat_class;
-  int level;
-  int xp;
-  int armour;
+  char *name;           // player name
+  char *combat_class;   // class (SPELLCASTER/FIGHTER)
+  int level;            // experience level
+  int xp;               // experience points
+  int armour;           
   int health;
   int max_health;
-  int energy;
-  int damage;
-  int str;
-  int intel;
-  int dex;
-  int fort;
+  int energy;           // energy for special abilities
+  int damage;           // maximum damage
+  int str;              // strength
+  int intel;            // intellect
+  int dex;              // dexterity
+  int fort;             // fortitude
   object *hands;
   object *body;
-  int location;
-  int gold;
-  int points;
+  int location;         // location number in the locations array
+  int gold;             // gold coins (currency)
+  int points;           // skill points 
 } character;
 
 extern character player;

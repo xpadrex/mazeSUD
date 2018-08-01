@@ -244,7 +244,7 @@ void allocate_stats(int points)
       printf("\n\nThe 4 main stats in mazeSUD have various affects on your character:\n");
       printf("  STRENGTH  - Increases damage of melee attacks.\n");
       printf("  INTELLECT - Increases damage of magic and ranged attacks.\n");
-      printf("  DEXTERITY - Increases armour, dodge and critical chance.\n");
+      printf("  DEXTERITY - Increases armour, dodge and attack speed.\n");
       printf("  FORTITUDE - Increases your health and survival.\n\n");
       wait_for_keypress();
     }

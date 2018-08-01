@@ -11,3 +11,4 @@ extern int load_player(const char *name);
 extern void load_objects();
 extern void save_objects();
 extern int _number_of_objects;
+extern void show_prompt();

@@ -277,3 +277,11 @@ void save_objects()
   
   return;
 }
+
+/* show_prompt() function - shows the player prompt */
+void show_prompt()
+{
+  printf("\n[%d|%d]> ", player.health, player.energy);                 // Player prompt
+
+  return;
+}
