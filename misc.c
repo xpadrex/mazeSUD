@@ -90,6 +90,10 @@ int save_player(const char *name)
   fprintf(file, "%d\n", player.level);
   fprintf(file, "%d\n", player.xp);
   fprintf(file, "%d\n", player.armour);
+  /* give the player 1 health after death before saving */
+  if (player.health <= 0) { 
+    player.health = 1;
+  }
   fprintf(file, "%d\n", player.health);
   fprintf(file, "%d\n", player.max_health);
   fprintf(file, "%d\n", player.energy);
@@ -281,7 +285,8 @@ void save_objects()
 /* show_prompt() function - shows the player prompt */
 void show_prompt()
 {
-  printf("\n[%d|%d]> ", player.health, player.energy);                 // Player prompt
+  printf("[%d|%d]> ", player.health, player.energy);       // Player prompt
+  fflush(stdout);                                            // flush the line buffer         
 
   return;
 }

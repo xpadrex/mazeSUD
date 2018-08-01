@@ -1,16 +1,23 @@
 # mazeSUD
 MUD style single player RPG
 
-To-Do:
-
-- develop player classes and add more depth to stats
+DONE - add more depth to stats
 
   - Strength  - Increases attack for melee and crit chance
   - Intellect - Increases attack for ranged and crit chance
-  - Dexterity - Increased armour and dodge, minor crit increase
+  - Dexterity - Increased armour and attack speed
   - Fortitude - Increases health and minor attack increase
 
-- develope combat system 
+WIP - develope combat system 
+
+  - fix bug with monster not showing correctly sometimes
+  - add code for when you move from a zone during combat
+  - need to do checks for living or dead monsters
+  - create function that will "respawn" dead monsters
+  - make dead monsters drop their items in the zone killed
+
+
+To Do:
 
 - create leveled Zones with monsters to match
 
