@@ -54,7 +54,7 @@ void execute_look(const char *noun)
     }
     printf(".\n");
     for (int i = 0; i < number_of_monsters; i++) {
-      if (player.location == monsters[i].location) {
+      if (player.location == monsters[i].location && monsters[i].health > 0) {
         if (monsters_near == 0) {
           printf("There is a %s", monsters[i].name);
           monsters_near++;

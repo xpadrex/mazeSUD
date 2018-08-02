@@ -285,7 +285,7 @@ void save_objects()
 /* show_prompt() function - shows the player prompt */
 void show_prompt()
 {
-  printf("[%d|%d]> ", player.health, player.energy);       // Player prompt
+  printf("\n[%d|%d]> ", player.health, player.energy);       // Player prompt
   fflush(stdout);                                            // flush the line buffer         
 
   return;
