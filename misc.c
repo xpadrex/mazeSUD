@@ -199,7 +199,7 @@ int load_player(const char *name)
   return 0;
 }
 
-/* load_objects() function - loads the objects.dat database into an objects array */
+/* load_objects() function - loads the objects.dat into an objects array */
 void load_objects()
 {
   FILE *file = NULL;
@@ -250,7 +250,7 @@ void load_objects()
   return;
 }
 
-/* save_player() function - saves the player data to a file in binary format */
+/* save_objects() function - saves the game objects to disk in their current state */
 void save_objects()
 {
   char *empty = "NULL";

@@ -24,8 +24,9 @@
 #define WHT   "\x1B[37m"
 #define RESET "\x1B[0m"
 
-pthread_t combat;     // threads
-int monster_loc;      // local variable to be used in threads
+pthread_t combat, rest;     // threads
+int monster_loc;            // local variable to be used in threads
+int in_combat = 0;          // 1 if player is in combat
 
 /* combat_on(void * target) - function that is run in its own thread for player autoattacks and 
  *                            and mosnter attacks
@@ -33,6 +34,7 @@ int monster_loc;      // local variable to be used in threads
 void *combat_on(void *target)
 { 
   int i = *(int *)target;         // store the argument passed to thread in pointer 'i'
+  int in_combat = 1;              // set to 1 because player entered combat
 
   // printf("thread i value: %d\n", i);              // uncoment this line for debugging thread arguments
   int player_atk;         // players attacks per round
@@ -47,10 +49,12 @@ void *combat_on(void *target)
         player_attack(i);
         player_atk--;
       } while (player_atk > 0 && monsters[i].health > 0);
-      do {
-        monster_attack(i);
-        monster_atk--;
-      } while (monster_atk > 0 && player.health > 0);
+      if (monsters[i].health > 0) {
+        do {
+          monster_attack(i);
+          monster_atk--;
+        } while (monster_atk > 0 && player.health > 0);
+      }
     }
     /* monster rolls initiative */
     else {
@@ -58,10 +62,12 @@ void *combat_on(void *target)
         monster_attack(i);
         monster_atk--;
       } while (monster_atk > 0 && player.health > 0);
-      do {
-        player_attack(i);
-        player_atk--;
-      } while (player_atk > 0 && monsters[i].health > 0);
+      if (player.health > 1) {
+        do {
+          player_attack(i);
+          player_atk--;
+        } while (player_atk > 0 && monsters[i].health > 0);
+      }
     }
     if (monsters[i].health <= 0) {
       printf(RED "\nYou have killed the %s.  You gain %dxp", monsters[i].name, monsters[i].xp);
@@ -80,12 +86,18 @@ void *combat_on(void *target)
         monsters[i].hands = NULL;
       }
     }
+    else if (player.health <= 1) {
+      printf(RED "\nYou have died...\n" RESET);
+
+    }
 
     show_prompt();
     sleep(4);
 
   } while (player.health >= 1 && monsters[i].health > 0);
-      
+
+  in_combat = 0;          // out of combat, set to 0
+
   printf(YEL "**combat off**\n" RESET);
 
   show_prompt();
@@ -101,6 +113,8 @@ void execute_attack(const char *noun)
   for (int i = 0; i < number_of_monsters; i++) {
     if (strcasecmp(monsters[i].name, noun) == 0 && 
         player.location == monsters[i].location) {
+      
+      combat_off();
 
       monster_loc = i;          // set monster_loc to the location in the monsters array
       
@@ -146,4 +160,17 @@ void monster_attack(int i)
   }
 
   return;
+}
+
+/* combat_off() function - stops combat completely by calling a cancel on the thread */
+int combat_off()
+{
+  int success = 0;
+
+  if (in_combat != 0) {
+    success = pthread_cancel(combat);
+    printf(YEL "**combat off**\n" RESET);
+  }
+
+  return success;
 }

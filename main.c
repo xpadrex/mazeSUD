@@ -137,7 +137,7 @@ int main()
   clear_screen();
   execute_look("around");
 
-  while (get_input() && parse_input());
+  while (get_input() && parse_input() && player.health >= 1);
 
   printf("\nThanks for playing!\n");
   

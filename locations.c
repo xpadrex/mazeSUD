@@ -9,6 +9,7 @@
 #include "misc.h"
 #include "locations.h"
 #include "monsters.h"
+#include "combat.h"
 
 /* location information - description, tag, N, S, E, W */
 location locations[] = {
@@ -122,6 +123,8 @@ void execute_go(const char *noun)
 void move_player(const char *direction)
 {
   int i = 0;
+
+  combat_off();
 
   while (strcasecmp(direction, locations[i].tag) != 0) {
     i++;
