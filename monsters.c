@@ -34,7 +34,7 @@ void init_monsters()
 {
   for (int i = 0; i < number_of_monsters; i++) {
     monsters[i] = types[randomize(0, (types_of_monsters - 1))];
-    monsters[i].location = randomize(5, number_of_locations);
+    monsters[i].location = randomize(5, number_of_locations - 1);
   }
 
   return;
@@ -47,8 +47,7 @@ int look_monsters(const char *name)
   for (int i = 0; i < number_of_monsters; i++) {
     if (strcasecmp(name, monsters[i].name) == 0 && 
       player.location == monsters[i].location) {
-      printf("You nonchalantly eye the level %d %s.  ", 
-      monsters[i].level, monsters[i].name);
+      printf("You eye the level %d %s.  ", monsters[i].level, monsters[i].name);
       if (monsters[i].hands != NULL) {
         printf("He is carrying a %s.\n", monsters[i].hands->description);
       }

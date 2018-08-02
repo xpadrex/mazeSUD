@@ -1,7 +1,0 @@
-"Yourself", "player", NULL, NULL, NULL, NULL
-"town square", "town", "tavern", "temple", "forest", NULL
-"seedy tavern", "tavern", NULL, "town", NULL, NULL
-"temple of the old gods","temple", "town", NULL, NULL, NULL
-"dark forest", "forest", NULL, NULL, "clearing", "town"
-"large clearing", "clearing", NULL, NULL, "river", "forest"
-"raging river", "river", NULL, NULL, NULL, "clearing"
