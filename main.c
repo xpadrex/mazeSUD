@@ -82,6 +82,9 @@ static int parse_input()
     else if (strcasecmp(verb, "ATTACK") == 0) {
       execute_attack(noun);
     }
+    else if (strcasecmp(verb, "REST") == 0) {
+      execute_rest();
+    }
     else {
       printf("I'm sorry, I don't know what you mean by %s.\n", verb);
     }

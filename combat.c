@@ -92,9 +92,14 @@ void *combat_on(void *target)
     }
 
     show_prompt();
-    sleep(4);
+    if (player.health > 1 && monsters[i].health > 0) {
+      sleep(4);
+    }
+    else {
+      sleep(1);
+    }
 
-  } while (player.health >= 1 && monsters[i].health > 0);
+  } while (player.health > 1 && monsters[i].health > 0);
 
   in_combat = 0;          // out of combat, set to 0
 
@@ -173,4 +178,19 @@ int combat_off()
   }
 
   return success;
+}
+
+/* execute_rest() function - heals the player by 1% every second */
+void execute_rest()
+{
+  if (in_combat == 0) {
+    player.health = player.max_health;
+
+    return;
+  }
+  else {
+    printf("You cannot rest right now\n");
+
+    return;
+  }
 }
