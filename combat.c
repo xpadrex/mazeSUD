@@ -69,6 +69,9 @@ void *combat_on(void *target)
     }
     if (monsters[i].health <= 0) {
       printf(RED "\nYou have killed the %s.  You gain %dxp", monsters[i].name, monsters[i].xp);
+
+      respawn_monster(i);           // call function to start respawn timer
+
       if (monsters[i].gold > 0) {
         printf(" and %d gold.\n" RESET, monsters[i].gold);
       }
@@ -79,12 +82,12 @@ void *combat_on(void *target)
       player.xp += monsters[i].xp;
       player.gold += monsters[i].gold;
       if (monsters[i].hands != NULL) {
-        printf("There was a %s on the %s corpse.\n", monsters[i].hands->description, monsters[i].name);
+        printf("The %s dropped a %s.\n", monsters[i].name, monsters[i].hands->description);
         monsters[i].hands->location = locations[monsters[i].location].tag;
         monsters[i].hands = NULL;
       }
     }
-    else if (player.health <= 1) {
+    else if (player.health < 1) {
       printf(RED "\nYou have died...\n" RESET);
 
     }
@@ -114,11 +117,18 @@ void *combat_on(void *target)
  * if so creates the combat thread and enters combat */
 void execute_attack(const char *noun)
 {
+  if (noun == NULL) {
+    printf("What do you want to attack?\n");
+
+    return;
+  }
   for (int i = 0; i < number_of_monsters; i++) {
     if (strcasecmp(monsters[i].name, noun) == 0 && 
         player.location == monsters[i].location) {
       
-      combat_off();
+      if (in_combat != 0) {
+        combat_off();
+      }
 
       monster_loc = i;          // set monster_loc to the location in the monsters array
       
@@ -189,11 +199,42 @@ int combat_off()
   return success;
 }
 
+/* resting() thread - player rests and regains 10% health every second */
+void *resting()
+{
+  int counter = 0;
+
+  printf(BLU "resting..." RESET);
+  fflush(stdout);
+  sleep(5);
+  do {
+    sleep(1);
+    if (player.health < player.max_health) {
+      player.health++;
+    }
+    if (player.energy < 100) {
+      player.energy++;
+    }
+    counter++;
+    if (counter > 5) {
+      show_prompt();
+      printf(BLU "resting..." RESET);
+      fflush(stdout);
+      counter = 0;
+    }
+  } while (player.health < player.max_health || player.energy < 100);
+
+  show_prompt();
+  pthread_exit(NULL);
+
+  return NULL;
+}
+
 /* execute_rest() function - heals the player by 1% every second */
 void execute_rest()
 {
   if (in_combat == 0) {
-    player.health = player.max_health;
+    pthread_create(&rest, NULL, resting, NULL);
 
     return;
   }

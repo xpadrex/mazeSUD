@@ -13,8 +13,8 @@ WIP - develope combat system
   - DONE - make dead monsters drop their items in the zone killed
   - DONE - fix bug with monster not showing correctly sometimes
   - DONE - need to do checks for living or dead monsters
-  - add code for when you move from a zone during combat
-  - create function that will "respawn" dead monsters
+  - DONE - add code leaving combat pre-mature
+  - DONE - create function that will "respawn" dead monsters
   - add in class special abilities
 
 

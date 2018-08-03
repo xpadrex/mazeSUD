@@ -9,34 +9,12 @@
 #include "misc.h"
 #include "locations.h"
 #include "monsters.h"
+#include "combat.h"
 
 // int player_items = 0;   // count of number of items carried by the player
 
 object objects[100];
-/*
-object objects[] = {
-  {"crumpled map", "map", "town", 
-  "The map is too damaged to be useful, it looks like it was for this area.",
-   0, 0, 0},
-  {"broken idol", "idol", "temple",
-  "Although useless, it looks expensive.", 5, 0, 0},
-  {"mug of ale", "ale", "tavern",
-  "I'm sure it tastes as good as it looks.", 0, 0, 0},
-  {"broken twig", "twig", "forest",
-  "Looks can be decieving.", 0, 10, 0},
-  {"gold coin", "coin", "forest",
-  "There is a picture of a dumb faced man with a combover on one side.", 1, 0, 0},
-  {"Weathered Axe", "axe", "town", "Looks like it was crafted by dwarven smiths.  Bet it will come in handy.", 1, 5, 0},
-  {"Tattered Leather Vest", "vest", "town", "Everyone looks good in leather!",
-   1, 0, 1},
-  {"Broken Sword","sword", NULL, NULL, 10, 0, 0},
-  {"Bag of goodies", "bag", NULL, NULL, 20, 0, 0},
-  {"Dead Rabbit", "rabbit", NULL, NULL, 1, 0, 0}
-};
-*/
 
-/* reads the size of the objects array to get the number of objects in game */
-//#define number_of_objects (sizeof(objects) / sizeof(*objects))
 #define number_of_objects (_number_of_objects)
 
 /* list_objects() - function to list the objects in a location */
@@ -62,6 +40,10 @@ void list_objects(const char *here)
  * in their inventory */
 void execute_get(const char *noun)
 {
+  if (in_combat != 0) {    // can't do this action in combat
+    combat_off();
+  }
+
   if (noun != NULL) {  
     for (int i = 0; i < number_of_objects; i++) {
       if (strcasecmp(objects[i].tag, noun) == 0 && 
@@ -78,11 +60,6 @@ void execute_get(const char *noun)
 
     return;
   }
-//  else if (player_items > 19) {
-//    printf("You can't carry any more items.\n");
-//
-//    return;
-//  }
   else {
     printf("I don't know what you want to get.\n");
   }
@@ -93,6 +70,10 @@ void execute_get(const char *noun)
 /* execute_drop() function - drops an object or equipped item from the players inventory */
 void execute_drop(const char *noun)
 {
+  if (in_combat != 0) {    // can't do this action in combat
+    combat_off();
+  }
+
   if (noun != NULL) {
     for (int i = 0; i < number_of_objects; i++) {
       if (strcasecmp(objects[i].tag, noun) == 0 && 
@@ -141,13 +122,11 @@ void list_inventory()
  * the item either on the body or in the hand */
 void execute_equip(const char *noun)
 {
+  if (in_combat != 0) {    // can't do this action in combat
+    combat_off();
+  }
+
   if (noun != NULL) {
-    /*if (player_items == 0) {
-      printf("You don't have any items to equip");
-
-      return;
-    }*/
-
     for (int i = 0; i < number_of_objects; i++) {
       if (strcasecmp(noun, objects[i].tag) == 0) {
         if (strcasecmp(player.name, objects[i].location) == 0) {
@@ -177,6 +156,9 @@ void execute_equip(const char *noun)
     }
     printf("You don't have a %s.\n", noun);
   }
+  else {
+    printf("What do you want to equip?\n");
+  }
   return;
 }
 
@@ -186,6 +168,10 @@ void execute_equip(const char *noun)
  */
 void execute_unequip(const char *noun)
 {
+  if (in_combat != 0) {    // can't do this action in combat
+    combat_off();
+  }
+
   if (noun != NULL) {
     if (player.hands == NULL && player.body == NULL) {
       printf("You don't have any items equipped.\n");
@@ -288,7 +274,7 @@ int look_objects(const char *item)
           printf("  Can be equipped in the main hand for +%d to damage.\n", objects[i].damage);
         }
         else if (objects[i].armour > 0) {
-          printf("  Can be equipped for +%d armour.\n", objects[i].armour);
+          printf("  Can be equipped on the body for +%d armour.\n", objects[i].armour);
         }
 
         return 0;

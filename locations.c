@@ -18,7 +18,7 @@ location locations[] = {
   {"at the temple of the old gods","Temple", "town", NULL, NULL, NULL},
   {"in a seedy tavern", "Tavern", NULL, "town", NULL, NULL},
   {"in the Hall of Training.  Statues of decorated warriors line the halls.  \
-  There is a battle hardened trainer in the corner, and an arms merchant in the back", "hall", NULL, NULL, "town", NULL},
+  There is a battle hardened trainer in the corner, and an arms merchant in the back", "Hall", NULL, NULL, "town", NULL},
   {"in a thick dark forest", "Forest", NULL, NULL, "clearing", "town"},
   {"in a large clearing", "Clearing", NULL, NULL, "river", "forest"},
   {"at a washed out river bank", "River", NULL, NULL, NULL, "clearing"}

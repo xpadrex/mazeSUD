@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <strings.h>
+#include <pthread.h>
+#include <unistd.h>
 #include "objects.h"
 #include "player.h"
 #include "locations.h"
@@ -19,9 +21,9 @@ character types[] = {
   {"Boar", NULL, 1, 5, 3, 10, 10, 0, 5, 10, 3, 5, 3, NULL, NULL, 0, 2, 0}
 };
 
-int number_of_monsters = 4;  // const for total monsters on map
-character monsters[4];       // set array size to value of int number_of_monsters
-
+character monsters[number_of_monsters];       // set array size to value of int number_of_monsters
+pthread_t respawn[number_of_monsters];        // creat array of thread pointers for respawing monsters
+int monster_respawn_id[number_of_monsters];
 
 /* reads the size of the monsters array to get the number of types in game */
 #define types_of_monsters (sizeof(types) / sizeof(*types))
@@ -66,4 +68,25 @@ int look_monsters(const char *name)
     }
   } 
   return 1;
+}
+
+/* respawn_wait() thread - waits for 2min then respawns dead monster */
+void *respawn_wait(void *target)
+{
+  int i = *(int *)target;
+  sleep(30);
+  monsters[i].health = monsters[i].max_health;
+  pthread_exit(NULL);
+  return NULL;
+}
+
+/* respawn_monster() function - respawns a killed monster after set time limit */
+void respawn_monster(int m)
+{
+  monster_respawn_id[m] = m;
+
+  if (monsters[m].health < 1) {
+    pthread_create(&respawn[m], NULL, respawn_wait, &monster_respawn_id[m]);
+  }
+  return;
 }

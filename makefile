@@ -6,7 +6,7 @@ mazeSUD: main.o objects.o player.o misc.o locations.o monsters.o combat.o
 main.o: main.c objects.h player.h misc.h locations.h combat.h
 	gcc -c main.c
 
-objects.o: objects.c objects.h player.h misc.h locations.h monsters.h
+objects.o: objects.c objects.h player.h misc.h locations.h monsters.h combat.h
 	gcc -c objects.c
 
 player.o: player.c objects.h player.h misc.h locations.h
