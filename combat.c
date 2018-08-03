@@ -28,17 +28,15 @@ pthread_t combat, rest;     // threads
 int monster_loc;            // local variable to be used in threads
 int in_combat = 0;          // 1 if player is in combat
 
-/* combat_on(void * target) - function that is run in its own thread for player autoattacks and 
- *                            and mosnter attacks
- */
+/* combat_on(void * target) - function that is run in its own thread for player autoattacks and  *
+ *                            and mosnter attacks                                                */
 void *combat_on(void *target)
 { 
   int i = *(int *)target;         // store the argument passed to thread in pointer 'i'
-  int in_combat = 1;              // set to 1 because player entered combat
+  in_combat = 1;              // set to 1 because player entered combat
 
-  // printf("thread i value: %d\n", i);              // uncoment this line for debugging thread arguments
-  int player_atk;         // players attacks per round
-  int monster_atk;
+  int player_atk = (player.dex / 10) + 1;         // players attacks/round
+  int monster_atk = (monsters[i].dex / 10) + 1;   // monster attacks/round
   
   printf(YEL "\n**combat on**" RESET);
   
@@ -93,6 +91,8 @@ void *combat_on(void *target)
 
     show_prompt();
     if (player.health > 1 && monsters[i].health > 0) {
+      player_atk = (player.dex / 10) + 1;
+      monster_atk = (monsters[i].dex / 10) + 1;
       sleep(4);
     }
     else {
@@ -101,13 +101,12 @@ void *combat_on(void *target)
 
   } while (player.health > 1 && monsters[i].health > 0);
 
+  
   in_combat = 0;          // out of combat, set to 0
-
   printf(YEL "**combat off**\n" RESET);
-
   show_prompt();
 
-  pthread_exit(&combat);  // exit the thread when complete
+  pthread_exit(NULL);  // exit the thread when complete
   return NULL;
 }
 
@@ -137,14 +136,19 @@ void execute_attack(const char *noun)
 void player_attack(int i)
 {
   int player_dmg;
-
-  player_dmg = randomize(player.damage / 2, player.damage) - (monsters[i].armour * 0.25);
-  if (player_dmg <= 0) {
-    printf("\nYou charge the %s and miss.", monsters[i].name);
+  
+  if (randomize(1,50) > monsters[i].dex) {
+    player_dmg = randomize(player.damage / 2, player.damage) - (monsters[i].armour * 0.25);
+    if (player_dmg <= 0) {
+      printf("\nYou charge the %s and miss.", monsters[i].name);
+    }
+    else {
+      printf("\nYou bash %s for %d damage.", monsters[i].name, player_dmg);
+      monsters[i].health -= player_dmg;
+    }
   }
   else {
-    printf("\nYou bash %s for %d damage.", monsters[i].name, player_dmg);
-    monsters[i].health -= player_dmg;
+    printf("\nThe %s dodges your attack.", monsters[i].name);
   }
 
   return;
@@ -155,26 +159,31 @@ void monster_attack(int i)
 {
   int monster_dmg;
 
-  monster_dmg = randomize(monsters[i].damage / 2, monsters[i].damage) - (player.armour * 0.25);
-  if (monster_dmg <= 0) {
-    printf("\nThe %s lunges at you and misses.", monsters[i].name);
+  if (randomize(1,50) > player.dex) {
+    monster_dmg = randomize(monsters[i].damage / 2, monsters[i].damage) - (player.armour * 0.25);
+    if (monster_dmg <= 0) {
+      printf(CYN "\nThe %s lunges at you and misses." RESET, monsters[i].name);
+    }
+    else {
+      printf(RED "\nThe %s hits you for %d damage." RESET, monsters[i].name, monster_dmg);
+      player.health -= monster_dmg;
+    }
   }
   else {
-    printf("\nThe %s hits you for %d damage.", monsters[i].name, monster_dmg);
-    player.health -= monster_dmg;
+    printf(CYN "\nYou skillfully dodge the %s attack." RESET, monsters[i].name);
   }
-
   return;
 }
 
 /* combat_off() function - stops combat completely by calling a cancel on the thread */
 int combat_off()
 {
-  int success = 0;
+  int success;            // flag to pass for success of thread closing
 
   if (in_combat != 0) {
-    success = pthread_cancel(combat);
-    printf(YEL "**combat off**\n" RESET);
+    success = pthread_cancel(combat);       
+    printf(YEL "**combat off**\n" RESET);     
+    in_combat = 0;        // leaving combat, set to 0 
   }
 
   return success;
@@ -189,7 +198,7 @@ void execute_rest()
     return;
   }
   else {
-    printf("You cannot rest right now\n");
+    printf("You cannot rest right now.\n");
 
     return;
   }

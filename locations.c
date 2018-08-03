@@ -38,7 +38,6 @@ void execute_look(const char *noun)
     look_self();
   }
   else if (noun == NULL || strcasecmp(noun, "AROUND") == 0) {
-    clear_screen();
     printf("%s:\n", locations[player.location].tag);
     printf("  You are %s. There is", locations[player.location].description);
     if (locations[player.location].north != NULL) {

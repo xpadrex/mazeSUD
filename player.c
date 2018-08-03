@@ -12,8 +12,8 @@
 
 /* declaring the player variable (character type) */
 //character player;
-character player  = {NULL, NULL, 1, 0, 4, 12, 12, 100,
-                   4, 8, 8, 8, 8, NULL, NULL, 1, 1, 10};
+character player  = {NULL, NULL, 1, 0, 4, 18, 18, 100,
+                   4, 8, 8, 8, 8, NULL, NULL, 1, 1, 15};
 
 attack fighter[] = {
   {1, "Swing", "Swing your weapon at the target for 100%% of your attack power.", 1.0, 0},
@@ -64,8 +64,8 @@ void create_character()
     remove_newline(input_class);
     if (strcasecmp(input_class, "SPELLCASTER") == 0) {
       player.combat_class = "Spellcaster";
-      player.health = 10;
-      player.max_health = 10;
+      player.health = 18;
+      player.max_health = 18;
       player.str = 4;
       player.intel = 8;
       player.damage = 4;
@@ -76,8 +76,8 @@ void create_character()
     }
     else if (strcasecmp(input_class, "FIGHTER") == 0) {
       player.combat_class = "Fighter";
-      player.health = 12;
-      player.max_health = 12;
+      player.health = 20;
+      player.max_health = 20;
       player.str = 8;
       player.intel = 4;
       player.damage = 4;
