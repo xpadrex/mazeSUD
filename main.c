@@ -48,19 +48,19 @@ static int parse_input()
     }
     /* Commands for singe letter directions */
     else if (strcasecmp(verb, "N") == 0 &&
-      locations[player.location].north !=NULL) {
+      locations[player.location].north > 0) {
       move_player(locations[player.location].north);
     }
     else if (strcasecmp(verb, "S") == 0 &&
-      locations[player.location].south != NULL) {
+      locations[player.location].south > 0) {
       move_player(locations[player.location].south);
     }
     else if (strcasecmp(verb, "E") == 0 &&
-      locations[player.location].east != NULL) {
+      locations[player.location].east > 0) {
       move_player(locations[player.location].east);
     }
     else if (strcasecmp(verb, "W") == 0 &&
-      locations[player.location].west != NULL) {
+      locations[player.location].west > 0) {
       move_player(locations[player.location].west);
     }
     /* end of direction comands */
@@ -131,11 +131,13 @@ int main()
   load_objects();
 
   clear_screen();
-  printf("\n=-=-Welcome to mazeSUD v0.3 Alpha-=-=\n");
-  printf("=-=-uncopyright 2018  by: xpadrex-=-=\n\n");
+  printf("\nWelcome to mazeSUD v0.4 Alpha\n\n");
+  printf("uncopyright 2018  by: xpadrex\n");
+  printf("Design and lore   by: toiletbrush\n\n");
 
-  init_monsters();  // randomize monster locations
-  init_loot();      // randomize loot for mosters
+  load_player_list(); 
+  init_monsters();      // randomize monster locations
+  init_loot();          // randomize loot for mosters
   main_menu();   
   clear_screen();
   execute_look("around");

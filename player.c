@@ -13,7 +13,11 @@
 /* declaring the player variable (character type) */
 //character player;
 character player  = {NULL, NULL, 1, 0, 4, 18, 18, 100,
-                   4, 8, 8, 8, 8, NULL, NULL, 1, 1, 15};
+                   4, 8, 8, 8, 8, NULL, NULL, 1, 1, 15, 0};
+
+login player_list[100];
+
+int number_of_players;
 
 attack fighter[] = {
   {1, "Swing", "Swing your weapon at the target for 100%% of your attack power.", 1.0, 0},
@@ -32,7 +36,8 @@ attack caster[] = {
  * start the game 
  */
 void create_character()
-{
+{ 
+  int new_player_id = number_of_players + 1;
   
   int done;                                 // check for do/while loop
   static char input_name[20];             // variable for input of player name
@@ -54,6 +59,13 @@ void create_character()
   } while (done < 1);
 
   player.name = input_name;
+  player_list[new_player_id].name = player.name;
+  player_list[new_player_id].password = "school";
+  player.id = 1001 + (number_of_players);
+  player_list[new_player_id].id = player.id;
+
+  save_player_list(player_list[new_player_id].password);
+
  
   done = 0; 
   do {

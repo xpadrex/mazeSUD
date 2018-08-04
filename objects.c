@@ -18,16 +18,16 @@ object objects[100];
 #define number_of_objects (_number_of_objects)
 
 /* list_objects() - function to list the objects in a location */
-void list_objects(const char *here)
+void list_objects(int here)
 {
   int obj = 0;
 
   for (int i = 0; i < number_of_objects; i++) {
-    if (strcasecmp(objects[i].location, here) == 0 && obj == 0) {
+    if (objects[i].location ==  here && obj == 0) {
       printf("You see a %s", objects[i].description);
       obj = 1;
     }
-    else if (strcasecmp(objects[i].location, here) == 0 && obj != 0) {
+    else if (objects[i].location == here && obj != 0) {
       printf(", a %s", objects[i].description);
     }
   }
@@ -46,9 +46,8 @@ void execute_get(const char *noun)
 
   if (noun != NULL) {  
     for (int i = 0; i < number_of_objects; i++) {
-      if (strcasecmp(objects[i].tag, noun) == 0 && 
-      strcasecmp(objects[i].location, locations[player.location].tag) == 0) {
-        objects[i].location = player.name;
+      if (strcasecmp(objects[i].tag, noun) == 0 && objects[i].location == player.location) {
+        objects[i].location = player.id;
         printf("You take the %s and put it in your pack.\n", 
         objects[i].description);
 
@@ -77,7 +76,7 @@ void execute_drop(const char *noun)
   if (noun != NULL) {
     for (int i = 0; i < number_of_objects; i++) {
       if (strcasecmp(objects[i].tag, noun) == 0 && 
-      objects[i].location == player.name) {
+      objects[i].location == player.id) {
         if (player.hands != NULL && player.hands->tag == objects[i].tag) {
           player.damage = player.damage - player.hands->damage;
           player.hands = NULL;
@@ -86,7 +85,7 @@ void execute_drop(const char *noun)
           player.armour = player.armour - player.body->armour;
           player.body = NULL;
         }
-        objects[i].location = locations[player.location].tag;
+        objects[i].location = player.location;
 
         printf("You drop the %s on the ground.\n", objects[i].description);
 
@@ -109,7 +108,7 @@ void list_inventory()
 {
   printf("You are carrying: \n");
   for (int i = 0; i < number_of_objects; i++) {
-    if (strcasecmp(objects[i].location, player.name) == 0) {
+    if (objects[i].location == player.id) {
       printf("  A %s\n", objects[i].description);
     }
   }
@@ -129,7 +128,7 @@ void execute_equip(const char *noun)
   if (noun != NULL) {
     for (int i = 0; i < number_of_objects; i++) {
       if (strcasecmp(noun, objects[i].tag) == 0) {
-        if (strcasecmp(player.name, objects[i].location) == 0) {
+        if (player.id == objects[i].location) {
           if (objects[i].damage > 0) {            
             player.hands = &objects[i];
             player.damage = player.damage + player.hands->damage;
@@ -228,8 +227,8 @@ void init_loot()
 {
   for (int m = 0; m < number_of_monsters; m++) {
     for (int i = 0; i < number_of_objects; i++) {
-      if (objects[i].location == NULL) {
-        objects[i].location = monsters[m].name;
+      if (objects[i].location == 0) {
+        objects[i].location = monsters[m].id;
         monsters[m].hands = &objects[i];
 
         break;
@@ -246,7 +245,7 @@ void load_equip(const char *item)
 {
   for (int i = 0; i < number_of_objects; i++) {
     if (strcasecmp(objects[i].tag, item) == 0) {
-      objects[i].location = player.name;
+      objects[i].location = player.id;
       if (objects[i].damage > 0) {            
         player.hands = &objects[i];
 
@@ -267,8 +266,8 @@ int look_objects(const char *item)
 {
   for (int i = 0; i < number_of_objects; i++) {
     if (strcasecmp(objects[i].tag, item) == 0) {
-      if (strcasecmp(locations[player.location].tag, objects[i].location) == 0 || 
-          strcasecmp(objects[i].location, player.name) == 0) {
+      if (locations[player.location].room_id == objects[i].location ||
+          objects[i].location == player.id) {
         printf("%s:\n  %s\n", objects[i].description, objects[i].look);
         if (objects[i].damage > 0) {
           printf("  Can be equipped in the main hand for +%d to damage.\n", objects[i].damage);

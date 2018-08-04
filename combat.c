@@ -83,7 +83,7 @@ void *combat_on(void *target)
       player.gold += monsters[i].gold;
       if (monsters[i].hands != NULL) {
         printf("The %s dropped a %s.\n", monsters[i].name, monsters[i].hands->description);
-        monsters[i].hands->location = locations[monsters[i].location].tag;
+        monsters[i].hands->location = locations[monsters[i].location].room_id;
         monsters[i].hands = NULL;
       }
     }

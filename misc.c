@@ -117,6 +117,7 @@ int save_player(const char *name)
   fprintf(file, "%d\n", player.location);
   fprintf(file, "%d\n", player.gold);
   fprintf(file, "%d\n", player.points);
+  fprintf(file, "%d\n", player.id);
 
   // never forget to close the file
   fclose(file);
@@ -192,6 +193,8 @@ int load_player(const char *name)
   player.gold = atoi(str);
   fgets(str, sizeof(str), file);
   player.points = atoi(str);
+  fgets(str, sizeof(str), file);
+  player.id = atoi(str);
 
   fclose(file);
 
@@ -224,11 +227,7 @@ void load_objects()
     objects[i].tag = malloc(strlen(tok)+1);
     strcpy(objects[i].tag, tok);
     strcpy(tok, strtok(NULL, ","));
-    objects[i].location = malloc(strlen(tok)+1);
-    strcpy(objects[i].location, tok);
-    if (strcasecmp(objects[i].location, "NULL") == 0) {
-      objects[i].location = NULL;
-    }
+    objects[i].location = atoi(tok);
     strcpy(tok, strtok(NULL, ","));
     objects[i].look = malloc(strlen(tok)+1);
     strcpy(objects[i].look, tok);
@@ -266,7 +265,7 @@ void save_objects()
   }
 
   for (int i = 0; i < _number_of_objects; i++) {
-    fprintf(file, "%s,%s,%s,", objects[i].description, objects[i].tag, objects[i].location);
+    fprintf(file, "%s,%s,%d,", objects[i].description, objects[i].tag, objects[i].location);
     if (objects[i].look == NULL) {
       fprintf(file, "%s,", empty);
     }
@@ -287,6 +286,57 @@ void show_prompt()
 {
   printf("\n[%d|%d]> ", player.health, player.energy);       // Player prompt
   fflush(stdout);                                            // flush the line buffer         
+
+  return;
+}
+
+/* load_player_list() function - loads player name, password and UID */
+int load_player_list()
+{
+  FILE *file = NULL;
+
+  int i = 0;
+  char str[50];
+  char tok[50];
+
+  file = fopen("DATA/players.dat", "r");
+
+  if (file == NULL) {
+    fprintf(stderr, "Error opening players.dat for reading\n");
+  }
+
+  while (fgets(str, sizeof(str), file) != NULL) {
+    strcpy(tok, strtok(str, ","));
+    player_list[i].name = malloc(strlen(tok)+1);
+    strcpy(player_list[i].name, tok);
+    strcpy(tok, strtok(NULL, ","));
+    player_list[i].password = malloc(strlen(tok)+1);
+    strcpy(player_list[i].password, tok);
+    strcpy(tok, strtok(NULL, "\n"));
+    player_list[i].id = atoi(tok);
+    i++;
+  }
+
+  number_of_players = i;
+  fclose(file);
+
+  return 0;
+}
+
+/* save_player_list() function - saves player name, password and UID */
+void save_player_list(const char *password)
+{
+  FILE *file = NULL;
+
+  file = fopen("DATA/players.dat", "a");
+
+  if(file == NULL) {
+    fprintf(stderr, "Error opening file for writing.\n");
+    return;
+  }
+
+  fprintf(file, "%s,%s,%d\n", player.name, password, player.id);
+  fclose(file);
 
   return;
 }

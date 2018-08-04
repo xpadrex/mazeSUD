@@ -15,10 +15,10 @@
 #include "monsters.h"
 
 character types[] = {
-  {"Troll", NULL, 1, 12, 5,  18, 18, 0, 7, 14, 5, 8, 5, NULL, NULL, 0, 5, 0},
-  {"Orc", NULL, 1, 15, 6, 20, 20, 0, 8, 16, 4, 7, 4, NULL, NULL, 0, 5, 0},
-  {"Wolf", NULL, 1, 8, 2, 14, 14, 0, 6, 12, 3, 8, 3, NULL, NULL, 0, 2, 0},
-  {"Boar", NULL, 1, 5, 3, 10, 10, 0, 5, 10, 3, 5, 3, NULL, NULL, 0, 2, 0}
+  {"Troll", NULL, 1, 12, 5,  18, 18, 0, 7, 14, 5, 8, 5, NULL, NULL, 0, 5, 0, 0},
+  {"Orc", NULL, 1, 15, 6, 20, 20, 0, 8, 16, 4, 7, 4, NULL, NULL, 0, 5, 0, 0},
+  {"Wolf", NULL, 1, 8, 2, 14, 14, 0, 6, 12, 3, 8, 3, NULL, NULL, 0, 2, 0, 0},
+  {"Boar", NULL, 1, 5, 3, 10, 10, 0, 5, 10, 3, 5, 3, NULL, NULL, 0, 2, 0, 0}
 };
 
 character monsters[number_of_monsters];       // set array size to value of int number_of_monsters
@@ -30,13 +30,14 @@ int monster_respawn_id[number_of_monsters];
 
 
 /* init_monsters() function - randomizes the types and location of all
- * monster npc
+ * monster npcs and creates UID's for the monsters
  */
 void init_monsters()
 {
   for (int i = 0; i < number_of_monsters; i++) {
     monsters[i] = types[randomize(0, (types_of_monsters - 1))];
     monsters[i].location = randomize(5, number_of_locations - 1);
+    monsters[i].id = 100001 + i;
   }
 
   return;
@@ -74,7 +75,7 @@ int look_monsters(const char *name)
 void *respawn_wait(void *target)
 {
   int i = *(int *)target;
-  sleep(30);
+  sleep(45);
   monsters[i].health = monsters[i].max_health;
   pthread_exit(NULL);
   return NULL;

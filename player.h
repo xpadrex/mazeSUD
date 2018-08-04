@@ -9,6 +9,7 @@ extern void allocate_stats(int points);
 void fortitude_to_health(int points);
 void intellect_to_damage(int points);
 void strength_to_damage(int points);
+extern int number_of_players;
 
 #ifndef __CHARACTER__
 #define __CHARACTER__
@@ -39,8 +40,16 @@ typedef struct {
   int location;         // location number in the locations array
   int gold;             // gold coins (currency)
   int points;           // skill points 
+  int id;
 } character;
 
+typedef struct {
+  char *name;
+  char *password;
+  int id;
+} login;
+
+extern login player_list[];
 extern character player;
 extern attack fighter[];
 extern attack caster[];

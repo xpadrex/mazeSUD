@@ -26,7 +26,7 @@ To Do:
 
 - add trainer for stat points when leveling
 
-- load area data from files instead of hardcoding
+- load location data from files instead of hardcoding
 
 - fine tune the formating of text for directions and items/monsters in the location
 
