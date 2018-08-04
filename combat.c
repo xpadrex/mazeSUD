@@ -41,6 +41,7 @@ void *combat_on(void *target)
   printf(YEL "\n**combat on**" RESET);
   
   do {
+    sleep(1);
     /* player rolls initiative */
     if (randomize(1,20) >= randomize(1,20)) { 
       do {
@@ -96,7 +97,7 @@ void *combat_on(void *target)
     if (player.health > 1 && monsters[i].health > 0) {
       player_atk = (player.dex / 10) + 1;
       monster_atk = (monsters[i].dex / 10) + 1;
-      sleep(4);
+      sleep(3);
     }
     else {
       sleep(1);
@@ -137,7 +138,7 @@ void execute_attack(const char *noun)
       return;
     }
   }
-  printf("There is no %s to attack here.\n", noun);
+  printf("There is no %s here.\n", noun);
 
   return;
 }
