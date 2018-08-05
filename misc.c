@@ -298,12 +298,17 @@ int load_player_list()
 
   int i = 0;
   char str[50];
-  char tok[50];
+  char tok[20];
 
   file = fopen("DATA/players.dat", "r");
 
   if (file == NULL) {
     fprintf(stderr, "Error opening players.dat for reading\n");
+    number_of_players = 0;
+    player_list[0].name = malloc(sizeof(tok)+1);
+    player_list[0].password = malloc(sizeof(tok)+1);
+
+    return 0;
   }
 
   while (fgets(str, sizeof(str), file) != NULL) {
