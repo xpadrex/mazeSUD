@@ -161,38 +161,47 @@ int load_locations()
     return 1;
   }
 
-  while (fgets(buffer, sizeof(buffer), file) != NULL && 
-          strstr(buffer, "#") != NULL) {
-    //while (strstr(buffer, "#") != NULL) continue;
-    locations[i].room_id = atoi(tok);
-    fgets(buffer, sizeof(buffer), file);
-    strcpy(tok, strtok(buffer, "\n"));
-    locations[i].tag = malloc(strlen(tok)+1);
-    strcpy(locations[i].tag, tok);
-    fgets(buffer, sizeof(buffer), file);
-    strcpy(tok, strtok(buffer, "\n"));
-    locations[i].description = malloc(strlen(tok)+1);
-    strcpy(locations[i].description, tok);
-    fgets(buffer, sizeof(buffer), file);
-    strcpy(tok, strtok(buffer, ","));
-    locations[i].north = atoi(tok);
-    strcpy(tok, strtok(NULL, ","));
-    locations[i].south = atoi(tok);
-    strcpy(tok, strtok(NULL, ","));
-    locations[i].east = atoi(tok);
-    strcpy(tok, strtok(NULL, ","));
-    locations[i].west = atoi(tok);
-    strcpy(tok, strtok(NULL, ","));
-    locations[i].up = atoi(tok);
-    strcpy(tok, strtok(NULL, ","));
-    locations[i].down = atoi(tok);
-
-    i++;
+  while (fgets(buffer, sizeof(buffer), file) != NULL) {
+    if (strstr(buffer, "#") != NULL) {
+      continue;
+    }
+    else {
+      strcpy(tok, strtok(buffer, "\n"));
+      locations[i].room_id = atoi(tok);
+      printf("room_id: %d\n", locations[i].room_id);
+      fgets(buffer, sizeof(buffer), file);
+      strcpy(tok, strtok(buffer, "\n"));
+      locations[i].tag = malloc(strlen(tok)+1);
+      strcpy(locations[i].tag, tok);
+      printf("Tag: %s\n", locations[i].tag);
+      fgets(buffer, sizeof(buffer), file);
+      strcpy(tok, strtok(buffer, "\n"));
+      locations[i].description = malloc(strlen(tok)+1);
+      strcpy(locations[i].description, tok);
+      printf("Description: %s\n", locations[i].description);
+      fgets(buffer, sizeof(buffer), file);
+      strcpy(tok, strtok(buffer, ","));
+      locations[i].north = atoi(tok);
+      strcpy(tok, strtok(NULL, ","));
+      locations[i].south = atoi(tok);
+      strcpy(tok, strtok(NULL, ","));
+      locations[i].east = atoi(tok);
+      strcpy(tok, strtok(NULL, ","));
+      locations[i].west = atoi(tok);
+      strcpy(tok, strtok(NULL, ","));
+      locations[i].up = atoi(tok);
+      strcpy(tok, strtok(NULL, "\n"));
+      locations[i].down = atoi(tok);
+      printf("movement: %d,%d,%d,%d,%d,%d\n", locations[i].north,locations[i].south,
+        locations[i].east,locations[i].west,locations[i].up,locations[i].down);
+      i++;
+    }
   }
   fclose(file);
 
   number_of_locations = i;
   printf("Room data loaded...\n");
+  wait_for_keypress();
 
   return 0;
 }
