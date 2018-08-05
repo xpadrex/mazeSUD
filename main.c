@@ -129,11 +129,12 @@ int main()
   srand(time(0));
   
   load_objects();
+  load_locations();
 
   clear_screen();
-  printf("\nWelcome to mazeSUD v0.4 Alpha\n\n");
-  printf("uncopyright 2018  by: xpadrex\n");
-  printf("Design and lore   by: toiletbrush\n\n");
+  printf("\nWelcome to mazeSUD v0.4 Alpha uncopyright 2018\n\n");
+  printf("Programming and design by: xpadrex\n");
+  printf("       Design and lore by: toiletbrush\n\n");
 
   load_player_list(); 
   init_monsters();      // randomize monster locations

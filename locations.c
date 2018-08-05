@@ -13,7 +13,7 @@
 #include "monsters.h"
 #include "combat.h"
 
-/* location information - description, tag, N, S, E, W */
+/* location information - description, tag, N, S, E, W, U, D
 location locations[] = {
   {0, "Yourself", "player", 0, 0, 0, 0},
   {1, "in the town square", "Town", 3, 2, 5, 4, 0, 0},
@@ -24,12 +24,12 @@ location locations[] = {
   {5, "in a thick dark forest", "Forest", 0, 0, 6, 1, 0, 0},
   {6, "in a large clearing", "Clearing", 0, 0, 7, 5, 0, 0},
   {7, "at a washed out river bank", "River", 0, 0, 0, 6, 0, 0}
-};
+}; */
 
 /* reads the size of the locations array to get the number of locations */
-// location locations[];
-// int number_of_locations; 
-int number_of_locations = (sizeof(locations) / sizeof(*locations));
+location locations[100];
+int number_of_locations; 
+//int number_of_locations = (sizeof(locations) / sizeof(*locations));
 
 /* execute_look() function - looks around the area of the player and 
  * reads the area description to them */
@@ -161,8 +161,9 @@ int load_locations()
     return 1;
   }
 
-  while (fgets(buffer, sizeof(buffer), file) != NULL) {
-    while (strstr(buffer, "#") != NULL) continue;
+  while (fgets(buffer, sizeof(buffer), file) != NULL && 
+          strstr(buffer, "#") != NULL) {
+    //while (strstr(buffer, "#") != NULL) continue;
     locations[i].room_id = atoi(tok);
     fgets(buffer, sizeof(buffer), file);
     strcpy(tok, strtok(buffer, "\n"));

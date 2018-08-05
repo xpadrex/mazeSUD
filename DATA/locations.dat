@@ -5,32 +5,36 @@
 0
 player
 Yourself
-NULL,NULL,NULL,NULL,NULL,NULL
+0,0,0,0,0,0
 1
 Town
 in the town square
-3,2,5,4,NULL,NULL
+3,2,5,4,0,0
 2
 Temple
 at the temple of the old gods
-1,NULL,NULL,NULL,NULL,NULL
+1,0,0,0,0,0
 3
 Tavern
 in a seedy tavern
-NULL,1,NULL,NULL,NULL,NULL
+0,1,0,0,0,0
 4
 Hall
 in the Hall of Training.  Statues of decorated warriors line the halls.  There is a trainer in the corner and an arms merchant in the back
-NULL,NULL,1,NULL,NULL,NULL
+0,0,1,0,0,0
 5
 Forest
 in a thick dark forest
-NULL,NULL,6,1,NULL,NULL
+0,0,6,1,0,0
 6
 Clearing
 in a large clearing
-NULL,NULL,7,5,NULL,NULL
+0,0,7,5,0,0
 7
 River
-at a washed out river bank
-NULL,NULL,NULL,6,NULL,NULL
+at a washed out river bank.  There is an old ruin here with stairs leading down that looks like it has been long abandoned.
+0,0,0,6,0,8
+8
+Dungeon
+at the entrance to a Dungeon, there is sounds of battle and cries of pain coming from within.  Only the brave should enter.
+0,0,0,0,7,0

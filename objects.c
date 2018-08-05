@@ -233,6 +233,9 @@ void init_loot()
 
         break;
       }
+      else if (objects[i].location == monsters[m].id) {
+        monsters[m].hands = &objects[i];
+      }
     }
   }
   
