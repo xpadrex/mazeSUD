@@ -198,6 +198,7 @@ int load_player(const char *name)
 
   fclose(file);
 
+  printf("Welcome back %s, the level %d %s\n", player.name, player.level, player.combat_class);
   wait_for_keypress();
   return 0;
 }
@@ -339,4 +340,16 @@ void save_player_list(const char *password)
   fclose(file);
 
   return;
+}
+
+/* check_password() function - checks user name and password */
+int check_password(const char *name, const char *password)
+{
+  for (int i = 0; i < number_of_players; i++) {
+    if (strcasecmp(name, player_list[i].name) == 0 && 
+        strcasecmp(password, player_list[i].password) == 0) {
+      return 0;
+    }
+  }
+  return 1;
 }

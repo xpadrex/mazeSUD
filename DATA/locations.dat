@@ -36,5 +36,9 @@ at a washed out river bank.  There is an old ruin here with stairs leading down 
 0,0,0,6,0,8
 8
 Dungeon
-at the entrance to a Dungeon, there is sounds of battle and cries of pain coming from within.  Only the brave should enter.
-0,0,0,0,7,0
+at the entrance to a Dungeon, there is sounds of battle and cries of pain coming from within.  Only the brave should enter
+0,0,9,0,7,0
+9
+Dungeon
+in a dimly lit dungeon room.  The smell of death lingers in the air
+0,0,0,8,0,0

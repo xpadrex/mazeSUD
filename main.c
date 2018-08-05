@@ -105,7 +105,8 @@ static int parse_input()
 void main_menu()
 {
   int ok = 1;
-  char name[15];
+  char name[20];
+  char password[20];
 
   while (ok > 0) {
     printf("Enter your name, or NEW: ");
@@ -121,8 +122,13 @@ void main_menu()
       name[0] = toupper(name[0]);
       // converts the rest of the name to lower case
       for (int i = 1; i != strlen(name); i++) {
-      name[i] = tolower(name[i]);
-    }
+        name[i] = tolower(name[i]);
+      }
+      do {
+        printf("Please enter your password: ");
+        while (fgets(password, sizeof(password), stdin) == NULL);
+        remove_newline(password);
+      } while (check_password(name, password) > 0);
       ok = load_player(name);
     }
   }

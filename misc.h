@@ -14,3 +14,4 @@ extern int _number_of_objects;
 extern void show_prompt();
 extern int load_player_list();
 extern void save_player_list(const char *password);
+extern int check_password(const char *name, const char *password);
