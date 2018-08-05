@@ -63,6 +63,14 @@ static int parse_input()
       locations[player.location].west > 0) {
       move_player(locations[player.location].west);
     }
+    else if (strcasecmp(verb, "U") == 0 &&
+      locations[player.location].up > 0) {
+      move_player(locations[player.location].up);
+    }
+    else if (strcasecmp(verb, "D") == 0 &&
+      locations[player.location].down > 0) {
+      move_player(locations[player.location].down);
+    }
     /* end of direction comands */
     else if (strcasecmp(verb, "INVENTORY") == 0) {
       list_inventory();

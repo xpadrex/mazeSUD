@@ -115,6 +115,14 @@ void execute_go(const char *noun)
     locations[player.location].west > 0) {
       move_player(locations[player.location].west);
     }
+    else if (strcasecmp(noun, "DOWN") == 0 &&
+    locations[player.location].down > 0) {
+      move_player(locations[player.location].down);
+    }
+    else if (strcasecmp(noun, "UP") == 0 &&
+    locations[player.location].up > 0) {
+      move_player(locations[player.location].up);
+    }
     else {
       printf("You can't go that way right now.\n");
     }
@@ -201,7 +209,6 @@ int load_locations()
 
   number_of_locations = i;
   printf("Room data loaded...\n");
-  wait_for_keypress();
 
   return 0;
 }
