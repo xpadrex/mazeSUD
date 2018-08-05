@@ -13,7 +13,7 @@
 /* declaring the player variable (character type) */
 //character player;
 character player  = {NULL, NULL, 1, 0, 4, 18, 18, 100,
-                   4, 8, 8, 8, 8, NULL, NULL, 1, 1, 15, 0};
+                   4, 8, 8, 8, 8, NULL, NULL, 1, 1, 18, 0};
 
 login player_list[100];
 
@@ -60,7 +60,7 @@ void create_character()
 
   player.name = input_name;
   player_list[new_player_id].name = player.name;
-  player_list[new_player_id].password = "school";
+  player_list[new_player_id].password = "password";
   player.id = 1001 + (number_of_players);
   player_list[new_player_id].id = player.id;
 

@@ -22,7 +22,7 @@ static char input[60];                         // buffer for keyboard input
  * the static array 'input[]' */
 static int get_input()
 {
-  printf("\n[%d|%d]> ", player.health, player.energy);                              // Player prompt
+  printf("[%d|%d]> ", player.health, player.energy);                              // Player prompt
   return fgets(input, sizeof(input), stdin) != NULL;
 }
 

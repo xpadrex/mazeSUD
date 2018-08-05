@@ -14,19 +14,11 @@
 #include "misc.h"
 #include "combat.h"
 
-/* define the ascii codes for colours in the terminal */
-#define RED   "\x1B[31m"
-#define GRN   "\x1B[32m"
-#define YEL   "\x1B[33m"
-#define BLU   "\x1B[34m"
-#define MAG   "\x1B[35m"
-#define CYN   "\x1B[36m"
-#define WHT   "\x1B[37m"
-#define RESET "\x1B[0m"
 
-pthread_t combat, rest;     // threads
-int monster_loc;            // local variable to be used in threads
-int in_combat = 0;          // 1 if player is in combat
+
+pthread_t combat, rest, monster_combat[number_of_monsters];    
+int monster_loc[number_of_monsters];                   // local variable to be used in threads
+int in_combat = 0;                                     // 1 if player is in combat
 
 /* combat_on(void * target) - function that is run in its own thread for player autoattacks and  *
  *                            and mosnter attacks                                                */
@@ -36,49 +28,26 @@ void *combat_on(void *target)
   in_combat = 1;              // set to 1 because player entered combat
 
   int player_atk = (player.dex / 10) + 1;         // players attacks/round
-  int monster_atk = (monsters[i].dex / 10) + 1;   // monster attacks/round
   
   printf(YEL "\n**combat on**" RESET);
   
   do {
-    sleep(1);
-    /* player rolls initiative */
-    if (randomize(1,20) >= randomize(1,20)) { 
-      do {
-        player_attack(i);
-        player_atk--;
-      } while (player_atk > 0 && monsters[i].health > 0);
-      if (monsters[i].health > 0) {
-        do {
-          monster_attack(i);
-          monster_atk--;
-        } while (monster_atk > 0 && player.health > 0);
-      }
-    }
-    /* monster rolls initiative */
-    else {
-      do {
-        monster_attack(i);
-        monster_atk--;
-      } while (monster_atk > 0 && player.health > 0);
-      if (player.health > 1) {
-        do {
-          player_attack(i);
-          player_atk--;
-        } while (player_atk > 0 && monsters[i].health > 0);
-      }
-    }
+    do {
+      player_attack(i);
+      player_atk--;
+    } while (player_atk > 0 && monsters[i].health > 0);
+    
     if (monsters[i].health <= 0) {
-      printf(RED "\nYou have killed the %s.  You gain %dxp", monsters[i].name, monsters[i].xp);
+      printf(RED "\nYou have killed the %s.  You gain %d xp", monsters[i].name, monsters[i].xp);
 
       respawn_monster(i);           // call function to start respawn timer
 
       if (monsters[i].gold > 0) {
-        printf(" and %d gold.\n" RESET, monsters[i].gold);
+        monsters[i].gold = randomize(1, monsters[i].gold);
+        printf(" and %d gold", monsters[i].gold);
       }
-      else {
-        printf(".\n" RESET);
-      }
+      printf(".\n" RESET);
+      
       monsters[i].health = 0;
       player.xp += monsters[i].xp;
       player.gold += monsters[i].gold;
@@ -88,22 +57,11 @@ void *combat_on(void *target)
         monsters[i].hands = NULL;
       }
     }
-    else if (player.health < 1) {
-      printf(RED "\nYou have died...\n" RESET);
-
-    }
-
+    
     show_prompt();
-    if (player.health > 1 && monsters[i].health > 0) {
-      player_atk = (player.dex / 10) + 1;
-      monster_atk = (monsters[i].dex / 10) + 1;
-      sleep(3);
-    }
-    else {
-      sleep(1);
-    }
-
-  } while (player.health > 1 && monsters[i].health > 0);
+    player_atk = (player.dex / 10) + 1;
+    sleep(3);
+  } while (player.health > 0 && monsters[i].health > 0);
 
   
   in_combat = 0;          // out of combat, set to 0
@@ -112,6 +70,46 @@ void *combat_on(void *target)
 
   pthread_exit(NULL);  // exit the thread when complete
   return NULL;
+}
+
+/* monster_aggroed() thread - causes the monsters in a room to start auto attacking player */
+void *monster_aggroed(void *id)
+{
+  int i = *(int *)id;
+  int monster_atk = (monsters[i].dex / 10) + 1;   // monster attacks/round
+  sleep (4);
+  do {
+    do {
+      monster_attack(i);
+      monster_atk--;
+    } while (monster_atk > 0 && player.health > 0);
+    if (player.health < 1) {
+      printf(RED "\nYou have been killed by the %s.\n" RESET, monsters[i].name);
+      pthread_exit(NULL);
+      return NULL;
+    }
+
+    show_prompt();
+    if (player.health > 1 && monsters[i].health > 0) {
+      monster_atk = (monsters[i].dex / 10) + 1;
+      sleep(6);
+    }
+  } while (player.health > 1 && monsters[i].health > 0);
+
+  pthread_exit(NULL);
+
+  return NULL;
+}
+
+
+/* aggro_monster() function - causes monsters to start attacking when you are in their range */
+void aggro_monster(int i)
+{
+  monster_loc[i] = i;
+
+  pthread_create(&monster_combat[i], NULL, monster_aggroed, &monster_loc[i]);
+  
+  return;
 }
 
 /* execute_attack() function - checks to see if there is a valid target in range, 
@@ -131,9 +129,9 @@ void execute_attack(const char *noun)
         combat_off();
       }
 
-      monster_loc = i;          // set monster_loc to the location in the monsters array
+      monster_loc[i] = i;          // set monster_loc to the location in the monsters array
       
-      pthread_create(&combat, NULL, combat_on, &monster_loc);
+      pthread_create(&combat, NULL, combat_on, &monster_loc[i]);
       
       return;
     }
@@ -191,13 +189,25 @@ int combat_off()
 {
   int success;            // flag to pass for success of thread closing
 
-  if (in_combat != 0) {
+  if (in_combat != 0) {                     // if in combat, exit combat
     success = pthread_cancel(combat);       
-    printf(YEL "**combat off**\n" RESET);     
-    in_combat = 0;        // leaving combat, set to 0 
+    printf(YEL "**combat off**\n" RESET);    
+    in_combat = 0;                          // leaving combat, set to 0 
+  }
+  
+  return success;
+}
+
+/* cancel_aggro() function - gets monsters to stop attacking if you move locations */
+int cancel_aggro()
+{
+  for (int i = 0; i < number_of_monsters; i++) {
+    if (monsters[i].location == player.location) {
+      pthread_cancel(monster_combat[i]);
+    }
   }
 
-  return success;
+  return 0;
 }
 
 /* resting() thread - player rests and regains 10% health every second */

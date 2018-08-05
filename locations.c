@@ -13,21 +13,8 @@
 #include "monsters.h"
 #include "combat.h"
 
-/* location information - description, tag, N, S, E, W, U, D
-location locations[] = {
-  {0, "Yourself", "player", 0, 0, 0, 0},
-  {1, "in the town square", "Town", 3, 2, 5, 4, 0, 0},
-  {2, "at the temple of the old gods","Temple", 1, 0, 0, 0, 0, 0},
-  {3, "in a seedy tavern", "Tavern", 0, 1, 0, 0, 0, 0},
-  {4, "in the Hall of Training.  Statues of decorated warriors line the halls.  \
-  There is a battle hardened trainer in the corner, and an arms merchant in the back", "Hall", 0, 0, 1, 0, 0, 0},
-  {5, "in a thick dark forest", "Forest", 0, 0, 6, 1, 0, 0},
-  {6, "in a large clearing", "Clearing", 0, 0, 7, 5, 0, 0},
-  {7, "at a washed out river bank", "River", 0, 0, 0, 6, 0, 0}
-}; */
 
-/* reads the size of the locations array to get the number of locations */
-location locations[100];
+location locations[250];
 int number_of_locations; 
 //int number_of_locations = (sizeof(locations) / sizeof(*locations));
 
@@ -41,7 +28,7 @@ void execute_look(const char *noun)
     look_self();
   }
   else if (noun == NULL || strcasecmp(noun, "AROUND") == 0) {
-    printf("%s:\n", locations[player.location].tag);
+    printf("\n%s:\n", locations[player.location].tag);
     printf("  You are %s. There is", locations[player.location].description);
     if (locations[player.location].north > 0) {
       printf(" a %s to the north", locations[locations[player.location].north].tag);
@@ -66,10 +53,12 @@ void execute_look(const char *noun)
       if (player.location == monsters[i].location && monsters[i].health > 0) {
         if (monsters_near == 0) {
           printf("There is a %s", monsters[i].name);
+          aggro_monster(i);
           monsters_near++;
         }
         else if (monsters_near > 0) {
           printf(" and a %s", monsters[i].name);
+          aggro_monster(i);
           monsters_near++;
         }
       }
@@ -140,8 +129,9 @@ void move_player(int direction)
 {
   int i = 0;
 
+  cancel_aggro();
   combat_off();
-
+  
   while (direction != locations[i].room_id) {
     i++;
   }

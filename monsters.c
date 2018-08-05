@@ -15,10 +15,10 @@
 #include "monsters.h"
 
 character types[] = {
-  {"Troll", NULL, 1, 12, 5,  18, 18, 0, 6, 12, 5, 8, 5, NULL, NULL, 0, 5, 0, 0},
-  {"Orc", NULL, 1, 15, 6, 20, 20, 0, 7, 14, 4, 7, 4, NULL, NULL, 0, 5, 0, 0},
-  {"Wolf", NULL, 1, 8, 2, 14, 14, 0, 5, 10, 3, 8, 3, NULL, NULL, 0, 2, 0, 0},
-  {"Boar", NULL, 1, 5, 3, 10, 10, 0, 4, 8, 3, 5, 3, NULL, NULL, 0, 2, 0, 0}
+  {"Troll", NULL, 1, 12, 5,  10, 10, 0, 6, 12, 5, 8, 5, NULL, NULL, 0, 5, 0, 0},
+  {"Orc", NULL, 1, 15, 6, 12, 12, 0, 7, 14, 4, 7, 4, NULL, NULL, 0, 5, 0, 0},
+  {"Wolf", NULL, 1, 8, 2, 10, 10, 0, 5, 10, 3, 8, 3, NULL, NULL, 0, 2, 0, 0},
+  {"Boar", NULL, 1, 5, 3, 8, 8, 0, 4, 8, 3, 5, 3, NULL, NULL, 0, 2, 0, 0}
 };
 
 character monsters[number_of_monsters];       // set array size to value of int number_of_monsters
@@ -75,7 +75,7 @@ int look_monsters(const char *name)
 void *respawn_wait(void *target)
 {
   int i = *(int *)target;
-  sleep(45);
+  sleep(300);
   monsters[i].health = monsters[i].max_health;
   pthread_exit(NULL);
   return NULL;
