@@ -115,7 +115,7 @@ void main_menu()
 
     if (strcasecmp(name, "NEW") == 0) {
       create_character();
-      ok = 0;
+      return;
     }
     else {
       // converts first character to upper case
@@ -124,12 +124,16 @@ void main_menu()
       for (int i = 1; i != strlen(name); i++) {
         name[i] = tolower(name[i]);
       }
-      do {
-        printf("Please enter your password: ");
-        while (fgets(password, sizeof(password), stdin) == NULL);
-        remove_newline(password);
-      } while (check_password(name, password) > 0);
-      ok = load_player(name);
+      printf("Please enter your password: ");
+      while (fgets(password, sizeof(password), stdin) == NULL);
+      remove_newline(password);
+      if (check_password(name, password) == 0) {
+        load_player(name);
+        return;
+      }
+      else {
+        printf("Invalid player name or password.\n\n");
+      }
     }
   }
 
