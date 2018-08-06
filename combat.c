@@ -78,7 +78,7 @@ void *monster_aggroed(void *id)
 
   int monster_atk = (monsters[i].dex / 10) + 1;   // monster attacks/round
 
-  if (monsters[i].in_combat != 0) {
+  if (monsters[i].in_combat > 0) {
     sleep (4);
   }
 
@@ -139,7 +139,6 @@ void execute_attack(const char *noun)
       pthread_create(&combat, NULL, combat_on, &monster_loc[i]);   // start player attack thread
       
       if (monsters[i].in_combat = 0) {        // if monster isn't already set to attack, start attacking
-        monster_loc[i] = i;
         pthread_create(&monster_combat[i], NULL, monster_aggroed, &monster_loc[i]);
       }
       
