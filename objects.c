@@ -40,7 +40,7 @@ void list_objects(int here)
  * in their inventory */
 void execute_get(const char *noun)
 {
-  if (in_combat != 0) {    // can't do this action in combat
+  if (player.in_combat != 0) {    // can't do this action in combat
     combat_off();
   }
 
@@ -69,7 +69,7 @@ void execute_get(const char *noun)
 /* execute_drop() function - drops an object or equipped item from the players inventory */
 void execute_drop(const char *noun)
 {
-  if (in_combat != 0) {    // can't do this action in combat
+  if (player.in_combat != 0) {    // can't do this action in combat
     combat_off();
   }
 
@@ -121,7 +121,7 @@ void list_inventory()
  * the item either on the body or in the hand */
 void execute_equip(const char *noun)
 {
-  if (in_combat != 0) {    // can't do this action in combat
+  if (player.in_combat != 0) {    // can't do this action in combat
     combat_off();
   }
 
@@ -167,7 +167,7 @@ void execute_equip(const char *noun)
  */
 void execute_unequip(const char *noun)
 {
-  if (in_combat != 0) {    // can't do this action in combat
+  if (player.in_combat != 0) {    // can't do this action in combat
     combat_off();
   }
 

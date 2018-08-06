@@ -15,10 +15,10 @@
 #include "monsters.h"
 
 character types[] = {
-  {"Troll", NULL, 1, 12, 5,  10, 10, 0, 6, 12, 5, 8, 5, NULL, NULL, 0, 5, 0, 0},
-  {"Orc", NULL, 1, 15, 6, 12, 12, 0, 7, 14, 4, 7, 4, NULL, NULL, 0, 5, 0, 0},
-  {"Wolf", NULL, 1, 8, 2, 10, 10, 0, 5, 10, 3, 8, 3, NULL, NULL, 0, 2, 0, 0},
-  {"Boar", NULL, 1, 5, 3, 8, 8, 0, 4, 8, 3, 5, 3, NULL, NULL, 0, 2, 0, 0}
+  {"Troll", NULL, 1, 12, 5,  10, 10, 0, 6, 12, 5, 8, 5, NULL, NULL, 0, 5, 0, 0, 1},
+  {"Orc", NULL, 1, 15, 6, 12, 12, 0, 7, 14, 4, 7, 4, NULL, NULL, 0, 5, 0, 0, 1},
+  {"Wolf", NULL, 1, 8, 2, 10, 10, 0, 5, 10, 3, 8, 3, NULL, NULL, 0, 2, 0, 0, 0},
+  {"Boar", NULL, 1, 5, 3, 8, 8, 0, 4, 8, 3, 5, 3, NULL, NULL, 0, 2, 0, 0, 0}
 };
 
 character monsters[number_of_monsters];       // set array size to value of int number_of_monsters

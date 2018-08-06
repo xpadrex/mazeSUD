@@ -41,6 +41,7 @@ typedef struct {
   int gold;             // gold coins (currency)
   int points;           // skill points 
   int id;
+  int in_combat;        // flag for combat
 } character;
 
 typedef struct {

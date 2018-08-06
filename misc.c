@@ -196,6 +196,8 @@ int load_player(const char *name)
   fgets(str, sizeof(str), file);
   player.id = atoi(str);
 
+  player.in_combat = 0;
+
   fclose(file);
 
   printf("Welcome back %s, the level %d %s\n", player.name, player.level, player.combat_class);

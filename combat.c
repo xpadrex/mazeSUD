@@ -18,14 +18,13 @@
 
 pthread_t combat, rest, monster_combat[number_of_monsters];    
 int monster_loc[number_of_monsters];                   // local variable to be used in threads
-int in_combat = 0;                                     // 1 if player is in combat
 
 /* combat_on(void * target) - function that is run in its own thread for player autoattacks and  *
  *                            and mosnter attacks                                                */
 void *combat_on(void *target)
 { 
   int i = *(int *)target;         // store the argument passed to thread in pointer 'i'
-  in_combat = 1;              // set to 1 because player entered combat
+  player.in_combat = 1;              // set to 1 because player entered combat
 
   int player_atk = (player.dex / 10) + 1;         // players attacks/round
   
@@ -64,7 +63,7 @@ void *combat_on(void *target)
   } while (player.health > 0 && monsters[i].health > 0);
 
   
-  in_combat = 0;          // out of combat, set to 0
+  player.in_combat = 0;          // out of combat, set to 0
   printf(YEL "**combat off**\n" RESET);
   show_prompt();
 
@@ -125,7 +124,7 @@ void execute_attack(const char *noun)
     if (strcasecmp(monsters[i].name, noun) == 0 && 
         player.location == monsters[i].location) {
       
-      if (in_combat != 0) {
+      if (player.in_combat != 0) {
         combat_off();
       }
 
@@ -189,10 +188,10 @@ int combat_off()
 {
   int success;            // flag to pass for success of thread closing
 
-  if (in_combat != 0) {                     // if in combat, exit combat
+  if (player.in_combat != 0) {                     // if in combat, exit combat
     success = pthread_cancel(combat);       
     printf(YEL "**combat off**\n" RESET);    
-    in_combat = 0;                          // leaving combat, set to 0 
+    player.in_combat = 0;                          // leaving combat, set to 0 
   }
   
   return success;
@@ -244,7 +243,7 @@ void *resting()
 /* execute_rest() function - heals the player by 1% every second */
 void execute_rest()
 {
-  if (in_combat == 0) {
+  if (player.in_combat == 0) {
     pthread_create(&rest, NULL, resting, NULL);
 
     return;
