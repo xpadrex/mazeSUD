@@ -7,37 +7,37 @@ player
 Yourself
 0,0,0,0,0,0
 1
-Town
-in the town square
+Town Square
+The town square is bustling with life. Adventurers and townsfolk alike fill the streets with noise and commotion.  The Thirsty Dog Tavern is north of the square, the Temple south and the Hall of Training to the West.  To the east is an exit to the forest.
 3,2,5,4,0,0
 2
-Temple
-at the temple of the old gods
+Temple Room
+Statues of Gods old and new line the east and west walls of the temple.  Monks and Druids sit in silent meditation, you notice an altar of healing on the south side of the room.
 1,0,0,0,0,0
 3
-Tavern
-in a seedy tavern.  The room is noisy with the sound of clinking glasses and songs of battles won and lost
+Thirsty Dog
+Merchants, drunkards and adventurers fill the small dingy room.  Scents of tobbacco and other less savoury things fill the air,  and noise of clinking glasses and songs of battles won and lost seronade your ears.
 0,1,0,0,0,0
 4
-Hall
-in the Hall of Training.  Statues of decorated warriors line the halls.  There is a trainer in the corner and an arms merchant in the back
+Hall of Training
+There is murals of great battles on the walls. Warriors and mages train in their arts to improve their prowess in battle.  There is a trainer in the corner and an arms merchant in the back.
 0,0,1,0,0,0
 5
 Forest
-in a thick dark forest
+Your in a thick dark forest.  To the east there is a path leading to a clearing, to the west is the town.
 0,0,6,1,0,0
 6
-Clearing
-in a large clearing
-0,0,7,5,0,0
+Large Clearing
+You are in a large clearing.  There is an long abandoned ruin, with stairs leading down into darkness.  You can hear the sounds of a rushing stream to the east.  The path to the west leads back to the forest.
+0,0,7,5,0,8
 7
-River
-at a washed out river bank.  There is an old ruin here with stairs leading down that looks like it has been long abandoned.
-0,0,0,6,0,8
+River bank
+You are at a washed out river bank.  It would definatly not be a good idea to try and cross this river.  To the west is a path to a large clearing.
+0,0,0,6,0,0
 8
-Dungeon
-at the entrance to a Dungeon, there is sounds of battle and cries of pain coming from within.  Only the brave should enter
-0,0,9,0,7,0
+Dungeon Entrance
+You are at the entrance to a Dungeon, there is sounds of battle and cries of pain coming from within.  Only the brave should enter
+0,0,9,0,6,0
 9
 Dungeon
 in a dimly lit dungeon room.  The smell of death lingers in the air

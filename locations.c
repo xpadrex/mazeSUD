@@ -28,31 +28,15 @@ void execute_look(const char *noun)
     look_self();
   }
   else if (noun == NULL || strcasecmp(noun, "AROUND") == 0) {
-    printf("\n%s:\n", locations[player.location].tag);
-    printf("  You are %s. There is", locations[player.location].description);
-    if (locations[player.location].north > 0) {
-      printf(" a %s to the north", locations[locations[player.location].north].tag);
-    }
-    if (locations[player.location].south > 0) {
-      printf(" a %s to the south", locations[locations[player.location].south].tag);
-    }
-    if (locations[player.location].east > 0) {
-      printf(" a %s to the east", locations[locations[player.location].east].tag);
-    }
-    if (locations[player.location].west > 0) {
-      printf(" a %s to the west", locations[locations[player.location].west].tag);
-    }
-    if (locations[player.location].up > 0) {
-      printf(" stairs leading up to a %s", locations[locations[player.location].up].tag);
-    }
-    if (locations[player.location].down > 0) {
-      printf(" stairs leading down to a %s", locations[locations[player.location].down].tag);
-    }
-    printf(".\n");
+    printf(LMAG "\n%s:\n" RESET, locations[player.location].tag);
+    printf("  %s\n", locations[player.location].description);
+    list_objects(locations[player.location].room_id);
+    print_exits(player.location);
+    printf("\n" RESET);
     for (int i = 0; i < number_of_monsters; i++) {
       if (player.location == monsters[i].location && monsters[i].health > 0) {
         if (monsters_near == 0) {
-          printf("There is a %s", monsters[i].name);
+          printf(LYEL "There is a %s", monsters[i].name);
           aggro_monster(i);
           monsters_near++;
         }
@@ -64,9 +48,8 @@ void execute_look(const char *noun)
       }
     }
     if (monsters_near > 0) {
-      printf(" nearby.\n");
-    }
-    list_objects(locations[player.location].room_id);
+      printf(" nearby.\n" RESET);
+    }    
   }
   else {
     if (look_objects(noun) == 0) {
@@ -148,8 +131,8 @@ int load_locations()
   FILE *file = NULL;
 
   int i = 0;
-  char buffer[256];
-  char tok[256];
+  char buffer[500];
+  char tok[500];
 
   file = fopen("DATA/locations.dat", "r");
 
@@ -201,4 +184,83 @@ int load_locations()
   printf("Room data loaded...\n");
 
   return 0;
+}
+
+/* print_exits() function - will nicely format and print available exits in a room */
+void print_exits(int loc)
+{
+  int number_of_exits = 0;
+  char exits[6][10];
+  int north = 0;
+  int south = 0;
+  int east = 0;
+  int west = 0;
+  int up = 0;
+  int down = 0;
+
+  if (locations[loc].north > 0) {
+    number_of_exits++;
+  }
+  if (locations[loc].south > 0) {
+    number_of_exits++;
+  }
+  if (locations[loc].east > 0) {
+    number_of_exits++;
+  }
+  if (locations[loc].west > 0) {
+    number_of_exits++;
+  }
+  if (locations[loc].up > 0) {
+    number_of_exits++;
+  }
+  if (locations[loc].down > 0) {
+    number_of_exits++;
+  }
+
+  for (int i = 0; i < number_of_exits; i++) {
+    if (locations[loc].north > 0 && north == 0) {
+      strcpy(exits[i], "north");
+      printf("north\n");
+      north = 1;
+    }
+    else if (locations[loc].south > 0 && south == 0) {
+      strcpy(exits[i], "south");
+      south = 1;
+    }
+    else if (locations[loc].east > 0 && east == 0) {
+      strcpy(exits[i], "east");
+      east = 1;
+    }
+    else if (locations[loc].west > 0 && west == 0) {
+      strcpy(exits[i], "west");
+      west = 1;
+    }
+    else if (locations[loc].up > 0 && up == 0) {
+      strcpy(exits[i], "up");
+      up = 1;
+    }
+    else if (locations[loc].down > 0 && down == 0) {
+      strcpy(exits[i], "down");
+      down = 1;
+    }
+  }
+
+  printf(GRN "Exits are: ");
+  if (number_of_exits == 1) {
+    printf("%s." RESET, exits[0]);
+  }
+  else if (number_of_exits == 2) {
+    printf("%s and %s." RESET, exits[0], exits[1]);
+  }
+  else if (number_of_exits == 3) {
+    printf("%s, %s and %s." RESET, exits[0], exits[1], exits[2]);
+  }
+  else if (number_of_exits == 4) {
+    printf("%s, %s, %s and %s." RESET, exits[0], exits[1], exits[2], exits[3]);
+  }
+  else if (number_of_exits == 5) {
+    printf("%s, %s, %s, %s and %s." RESET, exits[0], exits[1], exits[2], exits[3], exits[4]);
+  }
+
+  return;
 }

@@ -200,7 +200,7 @@ int load_player(const char *name)
 
   fclose(file);
 
-  printf("Welcome back %s, the level %d %s\n", player.name, player.level, player.combat_class);
+  printf("\nWelcome back %s, the level %d %s\n", player.name, player.level, player.combat_class);
   wait_for_keypress();
   return 0;
 }

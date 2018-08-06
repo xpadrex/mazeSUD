@@ -9,5 +9,5 @@ extern void respawn_monster(int m);
 #ifndef __MONSTERS__
 #define __MONSTERS__
 extern character monsters[];
-#define number_of_monsters 4
+#define number_of_monsters 5
 #endif

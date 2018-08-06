@@ -34,10 +34,25 @@ int monster_respawn_id[number_of_monsters];
  */
 void init_monsters()
 {
+  int duplicate = 0;    // int to keep count of how many monster locations are duplicated
+
   for (int i = 0; i < number_of_monsters; i++) {
     monsters[i] = types[randomize(0, (types_of_monsters - 1))];
-    monsters[i].location = randomize(5, number_of_locations - 1);
+    do {
+      monsters[i].location = randomize(5, number_of_locations);
+      /* check to see if the location is duplicated */
+      for (int check; check < i; check++) {     
+        if (monsters[check].location = monsters[i].location) {
+          duplicate++;
+        }
+      }
+      if (duplicate < 2) {
+        break;
+      }
+    } while (duplicate != 0);
+    //} while (duplicate < 1);     // will let only one monster per location
     monsters[i].id = 100001 + i;
+    duplicate = 0;
   }
 
   return;

@@ -13,7 +13,7 @@
 /* declaring the player variable (character type) */
 //character player;
 character player  = {NULL, NULL, 1, 0, 4, 18, 18, 100,
-                   4, 8, 8, 8, 8, NULL, NULL, 1, 1, 18, 0};
+                   4, 8, 8, 8, 8, NULL, NULL, 1, 1, 18, 0, 0};
 
 login player_list[100];
 

@@ -87,7 +87,7 @@ static int parse_input()
     else if (strcasecmp(verb, "UNEQUIP") == 0) {
       execute_unequip(noun);
     }
-    else if (strcasecmp(verb, "ATTACK") == 0) {
+    else if (strcasecmp(verb, "ATTACK") == 0 || strcasecmp(verb, "A") == 0) {
       execute_attack(noun);
     }
     else if (strcasecmp(verb, "REST") == 0) {
@@ -148,6 +148,7 @@ int main()
   
   load_objects();
   load_locations();
+  //wait_for_keypress();
 
   clear_screen();
   printf("\nWelcome to mazeSUD v0.4 Alpha uncopyright 2018\n\n");

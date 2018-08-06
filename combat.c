@@ -76,7 +76,10 @@ void *monster_aggroed(void *id)
 {
   int i = *(int *)id;
   int monster_atk = (monsters[i].dex / 10) + 1;   // monster attacks/round
-  sleep (4);
+  if (monsters[i].in_combat != 0) {
+    sleep (6);
+  }
+
   do {
     do {
       monster_attack(i);
@@ -104,10 +107,11 @@ void *monster_aggroed(void *id)
 /* aggro_monster() function - causes monsters to start attacking when you are in their range */
 void aggro_monster(int i)
 {
-  monster_loc[i] = i;
+  if (monsters[i].in_combat > 0) {
+    monster_loc[i] = i;
+    pthread_create(&monster_combat[i], NULL, monster_aggroed, &monster_loc[i]);
+  }
 
-  pthread_create(&monster_combat[i], NULL, monster_aggroed, &monster_loc[i]);
-  
   return;
 }
 
@@ -122,7 +126,7 @@ void execute_attack(const char *noun)
   }
   for (int i = 0; i < number_of_monsters; i++) {
     if (strcasecmp(monsters[i].name, noun) == 0 && 
-        player.location == monsters[i].location) {
+        player.location == monsters[i].location && monsters[i].health > 0) {
       
       if (player.in_combat != 0) {
         combat_off();
@@ -130,7 +134,12 @@ void execute_attack(const char *noun)
 
       monster_loc[i] = i;          // set monster_loc to the location in the monsters array
       
-      pthread_create(&combat, NULL, combat_on, &monster_loc[i]);
+      pthread_create(&combat, NULL, combat_on, &monster_loc[i]);   // start player attack thread
+      
+      if (monsters[i].in_combat = 0) {        // if monster isn't already set to attack, start attacking
+        monster_loc[i] = i;
+        pthread_create(&monster_combat[i], NULL, monster_aggroed, &monster_loc[i]);
+      }
       
       return;
     }
@@ -148,15 +157,15 @@ void player_attack(int i)
   if (randomize(1,50) > monsters[i].dex) {
     player_dmg = randomize(player.damage / 2, player.damage) - (monsters[i].armour * 0.25);
     if (player_dmg <= 0) {
-      printf("\nYou charge the %s and miss.", monsters[i].name);
+      printf(LCYN "\nYou charge the %s." RESET, monsters[i].name);
     }
     else {
-      printf("\nYou bash %s for %d damage.", monsters[i].name, player_dmg);
+      printf(LRED "\nYou bash %s for %d damage." RESET, monsters[i].name, player_dmg);
       monsters[i].health -= player_dmg;
     }
   }
   else {
-    printf("\nThe %s dodges your attack.", monsters[i].name);
+    printf(LCYN "\nThe %s dodges your attack." RESET, monsters[i].name);
   }
 
   return;
@@ -170,7 +179,7 @@ void monster_attack(int i)
   if (randomize(1,50) > player.dex) {
     monster_dmg = randomize(monsters[i].damage / 2, monsters[i].damage) - (player.armour * 0.25);
     if (monster_dmg <= 0) {
-      printf(CYN "\nThe %s lunges at you and misses." RESET, monsters[i].name);
+      printf(CYN "\nThe %s lunges at you." RESET, monsters[i].name);
     }
     else {
       printf(RED "\nThe %s hits you for %d damage." RESET, monsters[i].name, monster_dmg);
@@ -216,7 +225,7 @@ void *resting()
 
   printf(BLU "resting..." RESET);
   fflush(stdout);
-  sleep(5);
+  sleep(2);
   do {
     sleep(1);
     if (player.health < player.max_health) {
