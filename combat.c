@@ -75,9 +75,11 @@ void *combat_on(void *target)
 void *monster_aggroed(void *id)
 {
   int i = *(int *)id;
+
   int monster_atk = (monsters[i].dex / 10) + 1;   // monster attacks/round
+
   if (monsters[i].in_combat != 0) {
-    sleep (6);
+    sleep (4);
   }
 
   do {
@@ -94,7 +96,7 @@ void *monster_aggroed(void *id)
     show_prompt();
     if (player.health > 1 && monsters[i].health > 0) {
       monster_atk = (monsters[i].dex / 10) + 1;
-      sleep(6);
+      sleep(4);
     }
   } while (player.health > 1 && monsters[i].health > 0);
 
