@@ -126,10 +126,10 @@ void execute_attack(const char *noun)
 
     return;
   }
+
   for (int i = 0; i < number_of_monsters; i++) {
     if (strcasecmp(monsters[i].name, noun) == 0 && 
         player.location == monsters[i].location && monsters[i].health > 0) {
-      
       if (player.in_combat != 0) {
         combat_off();
       }
@@ -138,7 +138,7 @@ void execute_attack(const char *noun)
       
       pthread_create(&combat, NULL, combat_on, &monster_loc[i]);   // start player attack thread
       
-      if (monsters[i].in_combat = 0) {        // if monster isn't already set to attack, start attacking
+      if (monsters[monster_loc[i]].in_combat == 0) {        // if monster isn't already set to attack, start attacking
         pthread_create(&monster_combat[i], NULL, monster_aggroed, &monster_loc[i]);
       }
       
