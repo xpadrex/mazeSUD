@@ -29,7 +29,7 @@ void execute_look(const char *noun)
   }
   else if (noun == NULL || strcasecmp(noun, "AROUND") == 0) {
     printf(LMAG "\n%s:\n" RESET, locations[player.location].tag);
-    printf("  %s\n", locations[player.location].description);
+    printf("    %s\n", locations[player.location].description);
     list_objects(locations[player.location].room_id);
     print_exits(player.location);
     printf("\n" RESET);
@@ -149,17 +149,17 @@ int load_locations()
     else {
       strcpy(tok, strtok(buffer, "\n"));
       locations[i].room_id = atoi(tok);
-      printf("room_id: %d\n", locations[i].room_id);
+      //printf("room_id: %d\n", locations[i].room_id);
       fgets(buffer, sizeof(buffer), file);
       strcpy(tok, strtok(buffer, "\n"));
       locations[i].tag = malloc(strlen(tok)+1);
       strcpy(locations[i].tag, tok);
-      printf("Tag: %s\n", locations[i].tag);
+      //printf("Tag: %s\n", locations[i].tag);
       fgets(buffer, sizeof(buffer), file);
       strcpy(tok, strtok(buffer, "\n"));
       locations[i].description = malloc(strlen(tok)+1);
       strcpy(locations[i].description, tok);
-      printf("Description: %s\n", locations[i].description);
+      //printf("Description: %s\n", locations[i].description);
       fgets(buffer, sizeof(buffer), file);
       strcpy(tok, strtok(buffer, ","));
       locations[i].north = atoi(tok);
@@ -173,8 +173,8 @@ int load_locations()
       locations[i].up = atoi(tok);
       strcpy(tok, strtok(NULL, "\n"));
       locations[i].down = atoi(tok);
-      printf("movement: %d,%d,%d,%d,%d,%d\n", locations[i].north,locations[i].south,
-        locations[i].east,locations[i].west,locations[i].up,locations[i].down);
+      //printf("movement: %d,%d,%d,%d,%d,%d\n", locations[i].north,locations[i].south,
+      //  locations[i].east,locations[i].west,locations[i].up,locations[i].down);
       i++;
     }
   }
@@ -220,7 +220,6 @@ void print_exits(int loc)
   for (int i = 0; i < number_of_exits; i++) {
     if (locations[loc].north > 0 && north == 0) {
       strcpy(exits[i], "north");
-      printf("north\n");
       north = 1;
     }
     else if (locations[loc].south > 0 && south == 0) {
@@ -245,7 +244,7 @@ void print_exits(int loc)
     }
   }
 
-  printf(GRN "Exits are: ");
+  printf(LGRN "Exits: ");
   if (number_of_exits == 1) {
     printf("%s." RESET, exits[0]);
   }

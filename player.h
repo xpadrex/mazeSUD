@@ -40,7 +40,7 @@ typedef struct {
   int location;         // location number in the locations array
   int gold;             // gold coins (currency)
   int points;           // skill points 
-  int id;
+  int id;               // unique id used to identify what items are on the character
   int in_combat;        // flag for combat
 } character;
 

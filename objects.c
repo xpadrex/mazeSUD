@@ -24,14 +24,14 @@ void list_objects(int here)
 
   for (int i = 0; i < number_of_objects; i++) {
     if (objects[i].location ==  here && obj == 0) {
-      printf("You see a %s", objects[i].description);
+      printf(LBLU "You see a %s", objects[i].description);
       obj = 1;
     }
     else if (objects[i].location == here && obj != 0) {
-      printf(", a %s", objects[i].description);
+      printf(", %s", objects[i].description);
     }
   }
-  printf("\n");
+  printf("\n" RESET);
 
   return;
 }
@@ -227,7 +227,7 @@ void init_loot()
 {
   for (int m = 0; m < number_of_monsters; m++) {
     for (int i = 0; i < number_of_objects; i++) {
-      if (objects[i].location == 0) {
+      if (objects[i].location == 9999) {
         objects[i].location = monsters[m].id;
         monsters[m].hands = &objects[i];
 
@@ -271,15 +271,20 @@ int look_objects(const char *item)
     if (strcasecmp(objects[i].tag, item) == 0) {
       if (locations[player.location].room_id == objects[i].location ||
           objects[i].location == player.id) {
-        printf("%s:\n  %s\n", objects[i].description, objects[i].look);
-        if (objects[i].damage > 0) {
-          printf("  Can be equipped in the main hand for +%d to damage.\n", objects[i].damage);
+        if (objects[i].look == NULL) {
+          return 0;
         }
-        else if (objects[i].armour > 0) {
-          printf("  Can be equipped on the body for +%d armour.\n", objects[i].armour);
-        }
+        else {
+          printf(LMAG "%s:\n" RESET "  %s\n", objects[i].description, objects[i].look);
+          if (objects[i].damage > 0) {
+            printf("  Can be equipped in the main hand for +%d to damage.\n", objects[i].damage);
+          }
+          else if (objects[i].armour > 0) {
+            printf("  Can be equipped on the body for +%d armour.\n", objects[i].armour);
+          }
 
-        return 0;
+          return 0;
+        }
       }
     }
   }

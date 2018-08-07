@@ -13,7 +13,7 @@
 /* declaring the player variable (character type) */
 //character player;
 character player  = {NULL, NULL, 1, 0, 4, 18, 18, 100,
-                   4, 8, 8, 8, 8, NULL, NULL, 1, 1, 18, 0, 0};
+                   4, 8, 8, 8, 8, NULL, NULL, 1, 1, 20, 0, 0};
 
 login player_list[100];
 
@@ -85,6 +85,13 @@ void create_character()
       player.armour = 3;
       player.fort = 6;
       done = 1;
+      /* place starting player equipment in start zone */
+      memcpy(&objects[_number_of_objects], &objects[7], sizeof(objects[7]));
+      objects[_number_of_objects].location = 1;
+      _number_of_objects++;
+      memcpy(&objects[_number_of_objects], &objects[8], sizeof(objects[8]));
+      objects[_number_of_objects].location = 1;
+      _number_of_objects++;
     }
     else if (strcasecmp(input_class, "FIGHTER") == 0) {
       player.combat_class = "Fighter";
@@ -97,6 +104,13 @@ void create_character()
       player.armour = 3;
       player.fort = 6;
       done = 1;
+      /* place starting player equipment in start zone */
+      memcpy(&objects[_number_of_objects], &objects[5], sizeof(objects[5]));
+      objects[_number_of_objects].location = 1;
+      _number_of_objects++;
+      memcpy(&objects[_number_of_objects], &objects[6], sizeof(objects[6]));
+      objects[_number_of_objects].location = 1;
+      _number_of_objects++;
     }
     else {
       printf("Sorry, %s is not a valid option.\n", input_class);

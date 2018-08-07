@@ -79,14 +79,16 @@ void *monster_aggroed(void *id)
   int monster_atk = (monsters[i].dex / 10) + 1;   // monster attacks/round
 
   if (monsters[i].in_combat > 0) {
-    sleep (4);
+    sleep (3);
   }
 
+  sleep(1); 
   do {
-    do {
+    while (monster_atk > 0 && player.health > 0 && monsters[i].health > 0) {
       monster_attack(i);
       monster_atk--;
-    } while (monster_atk > 0 && player.health > 0);
+    } 
+
     if (player.health < 1) {
       printf(RED "\nYou have been killed by the %s.\n" RESET, monsters[i].name);
       pthread_exit(NULL);
@@ -94,11 +96,11 @@ void *monster_aggroed(void *id)
     }
 
     show_prompt();
-    if (player.health > 1 && monsters[i].health > 0) {
+    if (player.health > 0 && monsters[i].health > 0) {
       monster_atk = (monsters[i].dex / 10) + 1;
       sleep(4);
     }
-  } while (player.health > 1 && monsters[i].health > 0);
+  } while (player.health > 0 && monsters[i].health > 0);
 
   pthread_exit(NULL);
 
@@ -161,13 +163,19 @@ void player_attack(int i)
       printf(LCYN "\nYou charge the %s." RESET, monsters[i].name);
     }
     else {
-      printf(LRED "\nYou bash %s for %d damage." RESET, monsters[i].name, player_dmg);
+      if (strcasecmp(player.combat_class, "SPELLCASTER") == 0) {
+        printf(LRED "\nYou thwap the %s for %d damage." RESET, monsters[i].name, player_dmg);
+      }
+      else {
+        printf(LRED "\nYou hack the %s for %d damage." RESET, monsters[i].name, player_dmg);
+      }
       monsters[i].health -= player_dmg;
     }
   }
   else {
-    printf(LCYN "\nThe %s dodges your attack." RESET, monsters[i].name);
+    printf(LCYN "\nThe %s avoids your attack." RESET, monsters[i].name);
   }
+  fflush(stdout);
 
   return;
 }
@@ -190,6 +198,8 @@ void monster_attack(int i)
   else {
     printf(CYN "\nYou skillfully dodge the %s attack." RESET, monsters[i].name);
   }
+  fflush(stdout);
+
   return;
 }
 

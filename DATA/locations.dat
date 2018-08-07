@@ -24,21 +24,81 @@ There is murals of great battles on the walls. Warriors and mages train in their
 0,0,1,0,0,0
 5
 Forest
-Your in a thick dark forest.  To the east there is a path leading to a clearing, to the west is the town.
-0,0,6,1,0,0
+The thick dark forest is alive with the sounds of birds and other woodland creatures.  To the east there is a path leading to a clearing and to the north lies a farm.  West leads back to town.
+8,0,6,1,0,0
 6
 Large Clearing
 You are in a large clearing.  There is an long abandoned ruin, with stairs leading down into darkness.  You can hear the sounds of a rushing stream to the east.  The path to the west leads back to the forest.
-0,0,7,5,0,8
+0,0,7,5,0,10
 7
 River bank
-You are at a washed out river bank.  It would definatly not be a good idea to try and cross this river.  To the west is a path to a large clearing.
-0,0,0,6,0,0
+You are at a washed out river bank.  It would definatly not be a good idea to try and cross this river.  To the west is a path to a large clearing, and a field lies to the north.
+9,0,0,6,0,0
 8
-Dungeon Entrance
-You are at the entrance to a Dungeon, there is sounds of battle and cries of pain coming from within.  Only the brave should enter
-0,0,9,0,6,0
+Abandoned Farm
+The farm looks overgrown and unkept.  The stable has a few primitive arrows sticking from it.  It doesn't appear that there has been any farming going on here for years.  There is a field to the east.
+0,5,9,0,0,0
 9
-Dungeon
-in a dimly lit dungeon room.  The smell of death lingers in the air
-0,0,0,8,0,0
+Field
+Although this area obviously wasn't farmed for years, the smell of manuer still fills the air.  You can hear rushing water to the south.
+0,7,0,8,0,0
+10
+Dungeon Room 1
+This room is choked with corpses. The bodies of orcs and ogres lie in tangled heaps where they died, and the floor is sticky with dried blood. It looks like the orcs and ogres were fighting. Some side was the victor but you're not sure which one. The bodies are largely stripped of valuables.
+11,13,12,14,6,0
+11
+Dungeon Room 2
+Stone blocks of all sizes squat in this chamber under a thin layer of dust. Some of the blocks are completely square, but many of them show evidence of the sculptor's chisel: Rough heads, arms, faces, and other forms are visible. A workbench against the eastern wall is cluttered with ruster stoneworking implements of common design.
+0,10,0,15,0,0
+12
+Dungeon Room 3
+Rows of empty weapon racks and a dozen or more stands for missing suits of armor indicate that this room was once an armory. Some debris litters the floor--wrecked stands and hacked arming dummies, but nothing of value is readily apparent.
+16,17,24,10,0,0
+13
+Dungeon Room 4
+In the center of this room lies a 30-foot-wide round pit, its edges lined with rusting iron spikes. About 5 feet away from the pit's edge stand several stone semicircular benches. The scent of sweat and blood lingers, which makes the pit's resemblance to a fighting pit or gladiatorial arena even stronger.
+10,0,17,0,0,0
+14
+Dungeon Passage
+The long passage is dimly lit, light filters in through small cracks in the old stone walls.  There is a room at the west end of the passage, and a door on the southern wall.
+0,21,10,0,0,0
+15
+Dungeon Room 5
+You inhale a briny smell like the sea as you crack open the door to this chamber. Within you spy the source of the scent: a dark and still pool of brackish water within a low circular wall. Above it stands a strange statue of a lobster-headed and clawed woman. The statue is nearly 15 feet tall and holds the lobster claws crossed over its naked breasts.
+18,20,11,0,0,0
+16
+Dungeon Room 6
+Several stone sarcophagi stand in dusty ruin about the chamber. The carved stone sarcophagi lids each resemble al elflike humanoid with odd hints of reptilian characteristics. The stone coffins cast ominous shadows in available light.
+0,12,0,0,0,0
+17
+Dungeon Room 7
+This room is decorated with a pair of fine silk wall hangings, and the scent of jasmine hangs in the air. A bet takes up one corner of the chamber, and a desk with chair sits opposite.
+12,0,0,13,0,0
+18
+Dungeon Room 8
+This room stinks with the wet, pungent scent of mildew. Black mold grows in tangled veins across the walls and parts of the floor. This room appears to be a dead end.
+0,15,0,0,0,0
+19
+Dungeon Room 9
+Broken glass from jars and vats competes with stony debris, small rusted tools, and loose embalmed body parts cover the floor here.  This room appears to be a dead end.
+0,0,14,0,0,0
+20
+Dungeon Room 10
+Urns of all sizes cover almost every inch of available floor space. Many of the urns have tipped over or broken, spilling fine ashes mixed with charred bones across the stone floor. The air here is quite dusty.  This room is a dead end.
+15,0,0,0,0,0
+21
+Dungeon Room 11
+Thick cobwebs fill the corners of the small room, and wisps of webbing hang from the ceiling and waver in a wind you can barely feel. One corner of the ceiling has a particularly large clot of webbing within which a goblin's bones are tangled.
+14,22,0,0,0,0
+22
+Dungeon Room 12
+This stark, square room seems barely lived in. Only a single cot and an empty armor rack keep it from appearing to be nothing more than a closet.
+21,23,0,0,0,0
+23
+Dungeon Passage
+The passage is damp and smells of mould.  There is pedistals along the north wall with nothing but years of dust atop them.  You can see a light to the east.
+22,0,13,0,0,0
+24
+Dungeon Passage
+Broken cobwebs fill the passege, and an unsettling clicking sound can be heard.  There passage turns to the west up ahead and continues on.
+16,0,0,12,0,0
