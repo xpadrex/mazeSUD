@@ -66,48 +66,7 @@ void execute_look(const char *noun)
   return;
 }
 
-/* execute_go() function - checks the direction the player input to make sure  
- * it is a valid path, if it is, calles the move_player() function */
-void execute_go(const char *noun)
-{
-  if (noun != NULL) {
-    if (strcasecmp(noun, "NORTH") == 0 &&
-    locations[player.location].north > 0) {
-      move_player(locations[player.location].north);
-    }
-    else if (strcasecmp(noun, "SOUTH") == 0 &&
-    locations[player.location].south > 0) {
-      move_player(locations[player.location].south);
-    }
-    else if (strcasecmp(noun, "EAST") == 0 &&
-    locations[player.location].east > 0) {
-      move_player(locations[player.location].east);
-    }
-    else if (strcasecmp(noun, "WEST") == 0 &&
-    locations[player.location].west > 0) {
-      move_player(locations[player.location].west);
-    }
-    else if (strcasecmp(noun, "DOWN") == 0 &&
-    locations[player.location].down > 0) {
-      move_player(locations[player.location].down);
-    }
-    else if (strcasecmp(noun, "UP") == 0 &&
-    locations[player.location].up > 0) {
-      move_player(locations[player.location].up);
-    }
-    else {
-      printf("You can't go that way right now.\n");
-    }
-
-    return;
-  }
-  printf("What direction do you want to go?\n");
-
-  return;
-}
-
-/* move_player() function - moves the player to the area passed to the function 
-*/
+/* move_player() function - moves the player in the direction passed to the function */
 void move_player(int direction)
 {
   int i = 0;

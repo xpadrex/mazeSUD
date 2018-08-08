@@ -15,6 +15,7 @@ extern void show_prompt();
 extern int load_player_list();
 extern void save_player_list(const char *password);
 extern int check_password(const char *name, const char *password);
+extern void print_file(const char *file_name);
 
 /* define the ascii codes for colours in the terminal */
 #define RED   "\x1B[31m"

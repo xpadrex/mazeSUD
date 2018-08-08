@@ -10,9 +10,13 @@ void fortitude_to_health(int points);
 void intellect_to_damage(int points);
 void strength_to_damage(int points);
 extern int number_of_players;
+extern void execute_training(const char *noun);
+
+#define xp_to_level 400
 
 #ifndef __CHARACTER__
 #define __CHARACTER__
+
 typedef struct {
   int level;
   char *name;

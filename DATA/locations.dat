@@ -11,7 +11,7 @@ Town Square
 The town square is bustling with life. Adventurers and townsfolk alike fill the streets with noise and commotion.  The Thirsty Dog Tavern is north of the square, the Temple south and the Hall of Training to the West.  To the east is an exit to the forest.
 3,2,5,4,0,0
 2
-Temple Room
+Temple Chamber
 Statues of Gods old and new line the east and west walls of the temple.  Monks and Druids sit in silent meditation, you notice an altar of healing on the south side of the room.
 1,0,0,0,0,0
 3
@@ -20,7 +20,7 @@ Merchants, drunkards and adventurers fill the small dingy room.  Scents of tobba
 0,1,0,0,0,0
 4
 Hall of Training
-There is murals of great battles on the walls. Warriors and mages train in their arts to improve their prowess in battle.  There is a trainer in the corner and an arms merchant in the back.
+There are murals of great battles on the walls. Warriors and mages train in their arts to improve their prowess in battle.  There are class trainers in the center of the room near wooden practice dummies and an arms merchant in the back.
 0,0,1,0,0,0
 5
 Forest

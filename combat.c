@@ -90,7 +90,21 @@ void *monster_aggroed(void *id)
     } 
 
     if (player.health < 1) {
+      int rez_fee;
       printf(RED "\nYou have been killed by the %s.\n" RESET, monsters[i].name);
+      rez_fee = player.gold * 0.1;
+      printf("Your inventory has been left with your corpse, and you had to pay %d gold\n"
+            "to the temple for your resurection.\n" RESET, rez_fee);
+      for (int i = 0; i < _number_of_objects; i++) {
+        if (objects[i].location == player.id && objects[i].equipped == 0) {
+          objects[i].location = player.location;
+        }
+      }
+      player.health = 1;
+      player.location = 2;
+      player.gold -= rez_fee;
+      show_prompt();
+
       pthread_exit(NULL);
       return NULL;
     }
@@ -233,6 +247,7 @@ int cancel_aggro()
 void *resting()
 {
   int counter = 0;
+  int hps = player.health * 0.01;
 
   printf(BLU "resting..." RESET);
   fflush(stdout);
@@ -240,13 +255,16 @@ void *resting()
   do {
     sleep(1);
     if (player.health < player.max_health) {
-      player.health++;
+      player.health = player.health + hps;
+      if (player.health > player.max_health) {
+        player.health = player.max_health;
+      }
     }
     if (player.energy < 100) {
       player.energy++;
     }
     counter++;
-    if (counter > 5) {
+    if (counter > 6) {
       show_prompt();
       printf(BLU "resting..." RESET);
       fflush(stdout);
@@ -262,13 +280,21 @@ void *resting()
 
 /* execute_rest() function - heals the player by 1% every second */
 void execute_rest()
-{
+{ 
+  for (int i = 0; i < number_of_monsters; i++) {
+    if (monsters[i].location == player.location) {
+      printf("You can't rest with enemys nearby.\n");
+
+      return;
+    }
+  }
   if (player.in_combat == 0) {
     pthread_create(&rest, NULL, resting, NULL);
 
     return;
   }
   else {
+
     printf("You cannot rest right now.\n");
 
     return;

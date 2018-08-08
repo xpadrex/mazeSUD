@@ -43,9 +43,6 @@ static int parse_input()
     else if (strcasecmp(verb, "LOOK") == 0) {
       execute_look(noun);
     }
-    else if (strcasecmp(verb, "GO") == 0) {
-      execute_go(noun);
-    }
     /* Commands for singe letter directions */
     else if (strcasecmp(verb, "N") == 0 &&
       locations[player.location].north > 0) {
@@ -92,6 +89,12 @@ static int parse_input()
     }
     else if (strcasecmp(verb, "REST") == 0) {
       execute_rest();
+    }
+    else if (strcasecmp(verb, "HELP") == 0) {
+      print_file("help.txt");
+    }
+    else if (strcasecmp(verb, "TRAIN") == 0) {
+      execute_training(noun);
     }
     else {
       printf("I'm sorry, I don't know what you mean by %s.\n", verb);

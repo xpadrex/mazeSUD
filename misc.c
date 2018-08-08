@@ -243,6 +243,8 @@ void load_objects()
     objects[i].damage = atoi(tok);
     strcpy(tok, strtok(NULL, ","));
     objects[i].armour = atoi(tok);
+    strcpy(tok, strtok(NULL, ","));
+    objects[i].equipped = atoi(tok);
 
     i++;
   }
@@ -275,7 +277,8 @@ void save_objects()
     else {
       fprintf(file, "%s,", objects[i].look);
     }
-    fprintf(file, "%d,%d,%d\n", objects[i].value, objects[i].damage, objects[i].armour);
+    fprintf(file, "%d,%d,%d,%d\n", objects[i].value, objects[i].damage, 
+                                    objects[i].armour, objects[i].equipped);
   }
 
   // never forget to close the file
@@ -359,4 +362,36 @@ int check_password(const char *name, const char *password)
     }
   }
   return 1;
+}
+
+/* print_file() function - prints a file line by line on the screen */
+void print_file(const char *file_name)
+{
+  char dir[30];
+  strcpy(dir, "TEXT/");
+  char str[125];
+  char tok[125];
+  int counter = 0;
+
+  FILE *file = NULL;
+
+  file = fopen(strcat(dir, file_name), "r");
+
+  if (file == NULL) {
+    printf("Error loading %s.\n", file_name);
+
+    return;
+  }
+
+  while (fgets(str, sizeof(str), file) != NULL) {
+    //strcpy(tok, strtok(str, "\n"));
+    printf("%s", str);
+    if (counter > 20) {
+      counter = 0;
+      wait_for_keypress();
+    }
+    counter++;
+  }
+
+  return;
 }

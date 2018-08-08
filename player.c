@@ -82,7 +82,7 @@ void create_character()
       player.intel = 8;
       player.damage = 4;
       player.dex = 6;
-      player.armour = 3;
+      player.armour = 1;
       player.fort = 6;
       done = 1;
       /* place starting player equipment in start zone */
@@ -101,7 +101,7 @@ void create_character()
       player.intel = 4;
       player.damage = 4;
       player.dex = 6;
-      player.armour = 3;
+      player.armour = 2;
       player.fort = 6;
       done = 1;
       /* place starting player equipment in start zone */
@@ -272,6 +272,9 @@ void allocate_stats(int points)
       printf("  INTELLECT - Increases damage of magic and ranged attacks.\n");
       printf("  DEXTERITY - Increases armour, dodge and attack speed.\n");
       printf("  FORTITUDE - Increases your health and survival.\n\n");
+      printf("Once your stats reach the base level (40) 2 training points are required to\n"
+             "raise it one point.  You can save your training points for later or use them\n"
+             "all up now.   Return to the Hall of Training any time to TRAIN STATS\n");
       wait_for_keypress();
     }
     else {
@@ -308,6 +311,52 @@ void strength_to_damage(int points)
 {
   if (strcasecmp(player.combat_class, "FIGHTER") == 0) {
     player.damage = player.damage + (points / 2);
+  }
+
+  return;
+}
+
+/* execute_training() function - trains character to level up or add unused stat points */
+void execute_training(const char *noun)
+{
+  int next_level;
+  if (player.level == 1) {
+    next_level = xp_to_level;
+  }
+  else {
+    next_level = (player.level + 1) * ((player.level + 1) * xp_to_level);
+  }
+
+  if (player.location != 4) {
+    printf("You must be at the Hall of Training to train.\n");
+
+    return;
+  }
+
+  printf(LCYN "%s Trainer:\n" RESET, player.combat_class);
+  if (noun == NULL) {
+    if (player.xp >= next_level) {
+      player.level++;
+      player.points += 5;
+      player.max_health += 5;
+      player.health = player.max_health;
+      printf("  With your training and hard work, you have reached level %d.\n", player.level);
+      printf("  You gain 5 health and 5 training points.\nType ""TRAIN STATS"" to allocate your points.\n");
+    }
+    else {
+      printf("  You still need %d xp before you can reach the next level.\n", next_level - player.xp);
+    }
+  }
+  else if (strcasecmp(noun, "STATS") == 0) {
+    if (player.points > 0) {
+      allocate_stats(player.points);
+    }
+    else {
+      printf("  You don't have any training points.\n");
+    }
+  }
+  else {
+    printf("  I don't know what you mean by %s.  Stop wasting my time!\n", noun);
   }
 
   return;

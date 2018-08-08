@@ -77,11 +77,13 @@ void execute_drop(const char *noun)
     for (int i = 0; i < number_of_objects; i++) {
       if (strcasecmp(objects[i].tag, noun) == 0 && 
       objects[i].location == player.id) {
-        if (player.hands != NULL && player.hands->tag == objects[i].tag) {
+        if (player.hands != NULL && strcasecmp(player.hands->tag, objects[i].tag) == 0) {
+          objects[i].equipped = 0;
           player.damage = player.damage - player.hands->damage;
           player.hands = NULL;
         }
-        else if (player.body != NULL && player.body->tag == objects[i].tag) {
+        else if (player.body != NULL && strcasecmp(player.body->tag, objects[i].tag) == 0) {
+          objects[i].equipped = 0;
           player.armour = player.armour - player.body->armour;
           player.body = NULL;
         }
@@ -106,7 +108,7 @@ void execute_drop(const char *noun)
 /* list_inventory() fuction - list all items on the player */
 void list_inventory()
 {
-  printf("You are carrying: \n");
+  printf(LBLU "You are carrying: \n" RESET);
   for (int i = 0; i < number_of_objects; i++) {
     if (objects[i].location == player.id) {
       printf("  A %s\n", objects[i].description);
@@ -134,6 +136,7 @@ void execute_equip(const char *noun)
             player.damage = player.damage + player.hands->damage;
             printf("You ready the %s in your hand.\n",
                     player.hands->description);
+            objects[i].equipped = 1;
 
             return;        
           }
@@ -141,6 +144,7 @@ void execute_equip(const char *noun)
             player.body = &objects[i];
             player.armour = player.armour + player.body->armour;
             printf("You put on the %s.\n", player.body->description);
+            objects[i].equipped = 1;
 
 
             return;
@@ -185,6 +189,7 @@ void execute_unequip(const char *noun)
                   objects[i].description);
           player.damage = player.damage - player.hands->damage;
           player.hands = NULL;
+          objects[i].equipped = 0;
 
           return;
         }
@@ -194,6 +199,7 @@ void execute_unequip(const char *noun)
                   objects[i].description);
           player.armour = player.armour - player.body->armour;
           player.body = NULL;
+          objects[i].equipped = 0;
 
           return;
         }

@@ -22,9 +22,9 @@ To Do:
 
 - create leveled Zones with monsters to match
 
-- develope level progression system for players
+- DONE - develope level progression system for players
 
-- add trainer for stat points when leveling
+- DONE - add trainer for stat points when leveling
 
 - DONE - load location data from files instead of hardcoding
 

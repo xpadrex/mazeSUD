@@ -2,7 +2,6 @@
 
 
 extern void execute_look(const char *noun);
-extern void execute_go(const char *noun);
 extern void move_player(int direction);
 extern int load_locations();
 void print_exits(int loc);
