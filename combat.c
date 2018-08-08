@@ -248,6 +248,9 @@ void *resting()
 {
   int counter = 0;
   int hps = player.health * 0.01;
+  if (hps < 1) {
+    hps = 1;
+  }
 
   printf(BLU "resting..." RESET);
   fflush(stdout);
