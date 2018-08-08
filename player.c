@@ -320,13 +320,8 @@ void strength_to_damage(int points)
 void execute_training(const char *noun)
 {
   int next_level;
-  if (player.level == 1) {
-    next_level = xp_to_level;
-  }
-  else {
-    next_level = (player.level + 1) * ((player.level + 1) * xp_to_level);
-  }
-
+  next_level = player.level * (player.level * xp_to_level);
+  
   if (player.location != 4) {
     printf("You must be at the Hall of Training to train.\n");
 
