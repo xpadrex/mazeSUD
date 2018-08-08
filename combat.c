@@ -282,7 +282,7 @@ void *resting()
 void execute_rest()
 { 
   for (int i = 0; i < number_of_monsters; i++) {
-    if (monsters[i].location == player.location) {
+    if (monsters[i].location == player.location && monsters[i].health > 0) {
       printf("You can't rest with enemys nearby.\n");
 
       return;
