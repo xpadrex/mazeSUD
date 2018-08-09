@@ -26,7 +26,7 @@ void *combat_on(void *target)
   int i = *(int *)target;         // store the argument passed to thread in pointer 'i'
   player.in_combat = 1;              // set to 1 because player entered combat
 
-  int player_atk = (player.dex / 10) + 1;         // players attacks/round
+  int player_atk = (player.dex / 20) + 1;         // players attacks/round
   
   printf(YEL "\n**combat on**" RESET);
   
@@ -55,12 +55,13 @@ void *combat_on(void *target)
         monsters[i].hands->location = locations[monsters[i].location].room_id;
         monsters[i].hands = NULL;
       }
-      break;
     }
     
-    show_prompt();
-    player_atk = (player.dex / 20) + 1;
-    sleep(3);
+    if (monsters[i].health > 0 && player.health > 0) {
+      show_prompt();
+      player_atk = (player.dex / 20) + 1;
+      sleep(3);
+    }
   } while (player.health > 0 && monsters[i].health > 0);
 
   
@@ -112,7 +113,7 @@ void *monster_aggroed(void *id)
 
     show_prompt();
     if (player.health > 0 && monsters[i].health > 0) {
-      monster_atk = (monsters[i].dex / 10) + 1;
+      monster_atk = (monsters[i].dex / 20) + 1;
       sleep(4);
     }
   } while (player.health > 0 && monsters[i].health > 0);
