@@ -6,11 +6,14 @@ and a short descriptioin of each:
 
     N,S,E,W,U,D    - Move north, south, east, west, up or down.
     A + name       - Attack an enemy in range.
-    GET + name     - Pick up an item and put it in inventory.
-    DROP + name    - Drop an item from inventory to the ground.
+    GET + item     - Pick up an item and put it in inventory.
+    DROP + item    - Drop an item from inventory to the ground.
     INVENTORY      - List items you are carrying.
-    EQUIP + name   - Equip the item to use in battle.
-    UNEQUIP + name - Remove the item from your hands/body and put in bag.
+    EQUIP + item   - Equip the item to use in battle.
+    UNEQUIP + item - Remove the item from your hands/body and put in bag.
+    LIST           - List items for sale when at a merchant
+    BUY + item     - Buy an item from a merchant
+    SELL + item    - Sell an item to a merchant
     LOOK + name    - Look at an item or location.
     LOOK SELF      - Shows player stats and equiped items.
     REST           - Enter a state of meditation to restore health/energy

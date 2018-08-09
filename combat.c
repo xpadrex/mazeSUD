@@ -55,10 +55,11 @@ void *combat_on(void *target)
         monsters[i].hands->location = locations[monsters[i].location].room_id;
         monsters[i].hands = NULL;
       }
+      break;
     }
     
     show_prompt();
-    player_atk = (player.dex / 10) + 1;
+    player_atk = (player.dex / 20) + 1;
     sleep(3);
   } while (player.health > 0 && monsters[i].health > 0);
 
@@ -76,7 +77,7 @@ void *monster_aggroed(void *id)
 {
   int i = *(int *)id;
 
-  int monster_atk = (monsters[i].dex / 10) + 1;   // monster attacks/round
+  int monster_atk = (monsters[i].dex / 20) + 1;   // monster attacks/round
 
   if (monsters[i].in_combat > 0) {
     sleep (3);

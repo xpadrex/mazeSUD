@@ -297,3 +297,107 @@ int look_objects(const char *item)
 
   return 1;
 }
+
+/* execute_list() function - lists items for sale if in a shop */
+void execute_list()
+{
+  int items_for_sale = 0;
+
+  if (player.location != 4) {
+    printf("There are no merchants here.\n");
+
+    return;
+  }
+
+  for (int i = 0; i < number_of_objects; i++) {
+    if (objects[i].location == player.location + 4000) {
+      items_for_sale++;
+      if (items_for_sale == 1) {
+        printf(LCYN "Items for sale:\n" RESET);
+      }
+      printf("  %-26s %10d gold\n", objects[i].description, objects[i].value);
+    }
+  }
+
+  if (items_for_sale < 1) {
+    printf("This merchant currently has no inventory.\n");
+  }
+  
+  return;
+}
+
+/* execute_sell() function - sells an item from the players inventory */
+void execute_sell(const char *noun) 
+{
+  if (player.location != 4) {
+    printf("There is nobody to buy anything here.\n");
+
+    return;
+  }
+  else if (noun == NULL) {
+    printf("What do you want to sell?\n");
+
+    return;
+  }
+
+  for (int i = 0; i < number_of_objects; i++) {
+    if (objects[i].location == player.id && strcasecmp(objects[i].tag, noun) == 0) {
+      /* if the item is equipped, remove it from the equipment slot */
+      if (objects[i].equipped != 0) {     
+        if (player.hands != NULL && 
+            strcasecmp(player.hands->tag, objects[i].tag) == 0) {
+          player.damage = player.damage - player.hands->damage;
+          player.hands = NULL;
+          objects[i].equipped = 0;
+        }
+        else if (player.body != NULL && 
+                strcasecmp(player.body->tag, objects[i].tag) == 0) {
+          player.armour = player.armour - player.body->armour;
+          player.body = NULL;
+          objects[i].equipped = 0;
+        }
+      }
+      printf("You sell %s for %d gold.\n", objects[i].description, objects[i].value);
+      objects[i].location = player.location + 4000;
+      player.gold += objects[i].value;
+
+      return;
+    }
+  }
+  printf("You don't have a %s.\n", noun);
+
+  return;
+}
+
+/* execute_buy() function - buys an item from the vendor */
+void execute_buy(const char *noun)
+{
+  if (player.location != 4) {
+    printf("There is nobody to buy anything here.\n");
+
+    return;
+  }
+  else if (noun == NULL) {
+    printf("What do you want to sell?\n");
+
+    return;
+  }
+
+  for (int i = 0; i < number_of_objects; i++){
+    if (objects[i].location == player.location + 4000 && strcasecmp(noun, objects[i].tag) == 0) {
+      if (player.gold < objects[i].value) {
+        printf("You don't have enough gold to buy %s.\n", objects[i].description);
+
+        return;
+      }
+      player.gold -= objects[i].value;
+      objects[i].location = player.id;
+      printf("You buy %s for %d gold.\n", objects[i].description, objects[i].value);
+
+      return;
+    }
+  }
+  printf("The merchant doesn't have any %s.\n", noun);
+
+  return;
+}

@@ -96,6 +96,15 @@ static int parse_input()
     else if (strcasecmp(verb, "TRAIN") == 0) {
       execute_training(noun);
     }
+    else if (strcasecmp(verb, "LIST") == 0) {
+      execute_list();
+    }
+    else if (strcasecmp(verb, "SELL") == 0) {
+      execute_sell(noun);
+    }
+    else if (strcasecmp(verb, "BUY") == 0) {
+      execute_buy(noun);
+    }
     else {
       printf("I'm sorry, I don't know what you mean by %s.\n", verb);
     }
@@ -155,10 +164,8 @@ int main()
 
   clear_screen();
   print_file("title.txt");
-  printf("\nWelcome to mazeSUD v0.4 Alpha uncopyright 2018\n\n");
-  printf("Programming and design by: xpadrex\n");
-  printf("       Design and lore by: toiletbrush\n\n");
-
+  printf("\n  Welcome to mazeSUD v0.4 Alpha\n\n");
+  
   load_player_list(); 
   init_monsters();      // randomize monster locations
   init_loot();          // randomize loot for mosters
