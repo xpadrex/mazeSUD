@@ -290,7 +290,12 @@ void save_objects()
 /* show_prompt() function - shows the player prompt */
 void show_prompt()
 {
-  printf("\n[%d|%d]> ", player.health, player.energy);       // Player prompt
+  if (player.health < (player.max_health * 0.3)) {
+    printf("\n[" LRED "%d" RESET "|%d]> ", player.health, player.energy);             // show health in red when below 30%
+  }
+  else {
+    printf("\n[%d|%d]> ", player.health, player.energy);                              // Player prompt
+  }
   fflush(stdout);                                            // flush the line buffer         
 
   return;
@@ -370,7 +375,6 @@ void print_file(const char *file_name)
   char dir[30];
   strcpy(dir, "TEXT/");
   char str[125];
-  char tok[125];
   int counter = 0;
 
   FILE *file = NULL;
@@ -384,7 +388,6 @@ void print_file(const char *file_name)
   }
 
   while (fgets(str, sizeof(str), file) != NULL) {
-    //strcpy(tok, strtok(str, "\n"));
     printf("%s", str);
     if (counter > 20) {
       counter = 0;

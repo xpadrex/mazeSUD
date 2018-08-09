@@ -39,9 +39,11 @@ void create_character()
 { 
   int new_player_id = number_of_players + 1;
   
-  int done;                                 // check for do/while loop
+  int done;                               // check for do/while loop
   static char input_name[20];             // variable for input of player name
-  static char input_class[20];             // variable for input of player name
+  static char input_password[20];         
+  static char input_password_verify[20];
+  static char input_class[20];            // variable for input of player name
 
   do {
     printf("By what name shall you be called? ");
@@ -57,10 +59,19 @@ void create_character()
 
     done = yes_or_no();
   } while (done < 1);
+  
+  do {
+    printf("Please enter a password: ");
+    while (fgets(input_password, sizeof(input_password), stdin) == NULL);
+    remove_newline(input_password);
+    printf("Please re-enter your password: ");
+    while (fgets(input_password_verify, sizeof(input_password_verify), stdin) == NULL);
+    remove_newline(input_password_verify);
+  } while (strcmp(input_password, input_password_verify) != 0);
 
   player.name = input_name;
   player_list[new_player_id].name = player.name;
-  player_list[new_player_id].password = "password";
+  player_list[new_player_id].password = input_password;
   player.id = 1001 + (number_of_players);
   player_list[new_player_id].id = player.id;
 
@@ -119,6 +130,7 @@ void create_character()
 
   allocate_stats(player.points);
   printf("\nHello %s the %s, welcome to mazeSUD.\n", player.name, player.combat_class);
+  save_player(player.name);
   wait_for_keypress();
   
   return;
@@ -264,7 +276,7 @@ void allocate_stats(int points)
     }
     else if (strcasecmp(i, "DONE") == 0) {
       player.points = points;
-      points = 0;
+      return;
     }
     else if (strcasecmp(i, "HELP") == 0) {
       printf("\n\nThe 4 main stats in mazeSUD have various affects on your character:\n");
@@ -332,11 +344,11 @@ void execute_training(const char *noun)
   if (noun == NULL) {
     if (player.xp >= next_level) {
       player.level++;
-      player.points += 5;
+      player.points += 4;
       player.max_health += 5;
       player.health = player.max_health;
       printf("  With your training and hard work, you have reached level %d.\n", player.level);
-      printf("  You gain 5 health and 5 training points.\nType ""TRAIN STATS"" to allocate your points.\n");
+      printf("  You gain 5 health and 4 training points.\nType ""TRAIN STATS"" to allocate your points.\n");
     }
     else {
       printf("  You still need %d xp before you can reach the next level.\n", next_level - player.xp);

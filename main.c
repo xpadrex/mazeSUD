@@ -22,7 +22,7 @@ static char input[60];                         // buffer for keyboard input
  * the static array 'input[]' */
 static int get_input()
 {
-  printf("[%d|%d]> ", player.health, player.energy);                              // Player prompt
+  show_prompt();
   return fgets(input, sizeof(input), stdin) != NULL;
 }
 
@@ -154,6 +154,7 @@ int main()
   //wait_for_keypress();
 
   clear_screen();
+  print_file("title.txt");
   printf("\nWelcome to mazeSUD v0.4 Alpha uncopyright 2018\n\n");
   printf("Programming and design by: xpadrex\n");
   printf("       Design and lore by: toiletbrush\n\n");
