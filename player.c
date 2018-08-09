@@ -97,10 +97,10 @@ void create_character()
       player.fort = 6;
       done = 1;
       /* place starting player equipment in start zone */
-      memcpy(&objects[_number_of_objects], &objects[7], sizeof(objects[7]));
+      memcpy(&objects[_number_of_objects], &objects[2], sizeof(objects[3]));
       objects[_number_of_objects].location = 1;
       _number_of_objects++;
-      memcpy(&objects[_number_of_objects], &objects[8], sizeof(objects[8]));
+      memcpy(&objects[_number_of_objects], &objects[3], sizeof(objects[3]));
       objects[_number_of_objects].location = 1;
       _number_of_objects++;
     }
@@ -116,10 +116,10 @@ void create_character()
       player.fort = 6;
       done = 1;
       /* place starting player equipment in start zone */
-      memcpy(&objects[_number_of_objects], &objects[5], sizeof(objects[5]));
+      memcpy(&objects[_number_of_objects], &objects[0], sizeof(objects[0]));
       objects[_number_of_objects].location = 1;
       _number_of_objects++;
-      memcpy(&objects[_number_of_objects], &objects[6], sizeof(objects[6]));
+      memcpy(&objects[_number_of_objects], &objects[1], sizeof(objects[1]));
       objects[_number_of_objects].location = 1;
       _number_of_objects++;
     }
