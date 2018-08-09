@@ -15,12 +15,13 @@
 #include "monsters.h"
 
 character types[] = {
-  {"Wolf", NULL, 1, 8, 2, 10, 10, 0, 5, 10, 3, 8, 3, NULL, NULL, 0, 2, 0, 0, 0},
-  {"Boar", NULL, 1, 5, 3, 8, 8, 0, 4, 8, 3, 5, 3, NULL, NULL, 0, 2, 0, 0, 0},
-  {"Troll", NULL, 1, 12, 5,  10, 10, 0, 6, 12, 5, 8, 5, NULL, NULL, 0, 5, 0, 0, 1},
-  {"Orc", "Peon", 1, 15, 6, 12, 12, 0, 7, 14, 4, 7, 4, NULL, NULL, 0, 5, 0, 0, 1},
-  {"Ogre", "Warrior", 2, 24, 9, 17, 17, 0, 9, 18, 5, 5, 8, NULL, NULL, 0, 8, 0, 0, 1},
-  {"Goblin", "Warrior", 2, 22, 8, 15, 15, 0, 9, 18, 5, 5, 8, NULL, NULL, 0, 14, 0, 0, 1}
+  {"Wolf", NULL, 1, 8, 2, 12, 12, 0, 5, 10, 3, 8, 3, NULL, NULL, 0, 2, 0, 0, 0},
+  {"Boar", NULL, 1, 5, 3, 10, 10, 0, 5, 8, 3, 5, 3, NULL, NULL, 0, 2, 0, 0, 0},
+  {"Troll", NULL, 1, 12, 5,  15, 15, 0, 7, 12, 5, 8, 5, NULL, NULL, 0, 5, 0, 0, 1},
+  {"Orc", NULL, 1, 15, 6, 16, 16, 0, 7, 14, 4, 7, 4, NULL, NULL, 0, 5, 0, 0, 1},
+  {"Ogre", NULL, 2, 24, 9, 22, 22, 0, 8, 18, 5, 5, 8, NULL, NULL, 0, 8, 0, 0, 1},
+  {"Goblin", NULL, 2, 22, 8, 18, 18, 0, 8, 18, 5, 5, 8, NULL, NULL, 0, 14, 0, 0, 1},
+  {"Dire Wolf", NULL, 3, 38, 6, 20, 20, 0, 9, 18, 5, 14, 10, NULL, NULL, 0, 6, 0, 0, 0}
 };
 
 character monsters[number_of_monsters];       // set array size to value of int number_of_monsters
@@ -38,7 +39,7 @@ void init_monsters()
 {
   int duplicate = 0;    // int to keep count of how many monster locations are duplicated
 
-  for (int i = 0; i < 6; i++) {             // initialize random lvl 1 monsters in start zone
+  for (int i = 0; i < 8; i++) {             // initialize random lvl 1 monsters in start zone
     monsters[i] = types[randomize(0, 2)];
     monsters[i].location = randomize(5, 9);
     /* code for checking for duplicate monster locations

@@ -36,12 +36,23 @@ void execute_look(const char *noun)
     for (int i = 0; i < number_of_monsters; i++) {
       if (player.location == monsters[i].location && monsters[i].health > 0) {
         if (monsters_near == 0) {
-          printf(LYEL "There is a %s", monsters[i].name);
+          if (monsters[i].in_combat == 1) {
+            printf(LYEL "There is a " RED "%s" LYEL, monsters[i].name);
+          }
+          else {
+            printf(LYEL "There is a %s", monsters[i].name);
+          }
           aggro_monster(i);
           monsters_near++;
         }
         else if (monsters_near > 0) {
-          printf(" and a %s", monsters[i].name);
+          printf(" and a ");
+          if (monsters[i].in_combat == 1) {
+            printf(RED "%s" LYEL, monsters[i].name);
+          }
+          else {
+            printf("%s", monsters[i].name);
+          }
           aggro_monster(i);
           monsters_near++;
         }
