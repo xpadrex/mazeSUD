@@ -117,6 +117,9 @@ static int parse_input()
     else if (strcasecmp(verb, "C") == 0 || strcasecmp(verb, "CAST") == 0) {
       execute_cast(noun);
     }
+    else if (strcasecmp(verb, "SPELLS") == 0) {
+      execute_list_spells();
+    }
     else {
       printf("I'm sorry, I don't know what you mean by %s.\n", verb);
     }

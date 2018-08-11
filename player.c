@@ -27,20 +27,20 @@ player_classes[] = {{{"Fighter"},
                      {3, "Drain Life", "DL", "Suck the life from your enemy causing 50%% damage, and healing you for 50%% of the damage caused.", 0.5, 0.5, 20}}}}
 */
 
-
 char *classes[] = {
   "Fighter",
   "Spellcaster"
 };
 
+
 attack fighter[] = {
-  {2, "Crushing Blow", "CB", "Land a crushing blow on the target for 150%% damage.", 1.5, 0, 25},
-  {3, "Leeching Blow", "LB", "A percise strike that damages the target for 50%% damage, and heals you for 50%% of the damage caused." , 0.5, 0.5, 20}
+  {2, "Crushing Blow", "CB", "Land a crushing blow on the target for 150% damage.", 1.5, 0, 25},
+  {3, "Leeching Blow", "LB", "A percise strike that damages the target for 50% damage, and heals you for 50% of the damage caused." , 0.5, 0.5, 20}
 };
 
 attack caster[] = {
-  {2, "Magic Missle", "MM", "Fire a magical missle at the target for 200%% damage.", 2.0, 0, 30},
-  {3, "Drain Life", "DL", "Suck the life from your enemy causing 50%% damage, and healing you for 50%% of the damage caused.", 0.5, 0.5, 20}
+  {2, "Magic Missle", "MM", "Fire a magical missle at the target for 200% damage.", 2.0, 0, 30},
+  {3, "Drain Life", "DL", "Suck the life from your enemy causing 50% damage, and healing you for 50% of the damage caused.", 0.5, 0.5, 20}
 };
 
 int number_of_spells = sizeof(fighter) / sizeof(*fighter);
@@ -345,8 +345,7 @@ void strength_to_damage(int points)
 /* execute_training() function - trains character to level up or add unused stat points */
 void execute_training(const char *noun)
 {
-  int next_level;
-  next_level = player.level * (player.level * xp_to_level);
+  int next_level = player.level * (player.level * xp_to_level);
   
   if (player.location != 4) {
     printf("You must be at the Hall of Training to train.\n");
@@ -390,6 +389,35 @@ void execute_training(const char *noun)
   }
   else {
     printf("  I don't know what you mean by %s.  Stop wasting my time!\n", noun);
+  }
+
+  return;
+}
+
+/* execute_list_spells() function - lists the spells known to the player */
+void execute_list_spells()
+{
+  if (player.level < 2) {
+    printf("You haven't learned any spells yet.  You will gain spells/special attacks as you level up\n");
+
+    return;
+  }
+
+  if (player.combat_class == 0) {
+    for (int i = 0; i < number_of_spells; i++) {
+      if (fighter[i].level <= player.level) {
+        printf(LCYN "Name: %-20s Short: %s            Energy: %d\n" RESET, fighter[i].name, fighter[i].tag, fighter[i].energy);
+        printf("  %s\n", fighter[i].description);
+      }
+    }
+  }
+  else if (player.combat_class == 1) {
+    for (int i = 0; i < number_of_spells; i++) {
+      if (caster[i].level <= player.level) {
+        printf(LCYN "Name: %-20s Short: %s            Energy: %d\n" RESET, caster[i].name, caster[i].tag, fighter[i].energy);
+        printf("  %s\n", caster[i].description);
+      }
+    }
   }
 
   return;

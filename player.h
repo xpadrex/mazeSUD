@@ -13,28 +13,23 @@ extern int number_of_players;
 extern int number_of_spells;
 extern char *classes[];
 extern void execute_training(const char *noun);
+extern void execute_list_spells();
 
 #define xp_to_level 400
 
 #ifndef __CHARACTER__
 #define __CHARACTER__
 
-typedef struct {
-  int level;
-  char *name;
-  char *tag;
-  char *description;
-  float damage;
-  float healing;
-  int energy;
-} attack;
 
-/*
 typedef struct {
-  char *player_class;
-  attack spells[10];
-} classes;
-*/
+    int level;
+    char *name;
+    char *tag;
+    char *description;
+    float damage;
+    float healing;
+    int energy;
+} attack;
 
 typedef struct {
   char *name;           // player name
@@ -68,6 +63,5 @@ typedef struct {
 extern login player_list[];
 extern character player;
 extern attack fighter[];
-// extern classes player_classes[];
 extern attack caster[];
 #endif

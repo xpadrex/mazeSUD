@@ -276,7 +276,7 @@ void *resting()
     hps = 1;
   }
 
-  printf(BLU "resting..." RESET);
+  printf(BLU "(resting)" RESET);
   fflush(stdout);
   sleep(2);
   do {

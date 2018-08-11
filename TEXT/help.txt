@@ -7,7 +7,7 @@ and a short descriptioin of each:
     N,S,E,W,U,D    - Move north, south, east, west, up or down.
     A + name       - Attack an enemy in range.
     C + name       - Cast a spell/special ability.
-    SPELLS         - List knows spells/special abilities.
+    SPELLS         - List known spells/special abilities.
     GET + item     - Pick up an item and put it in inventory.
     DROP + item    - Drop an item from inventory to the ground.
     INVENTORY      - List items you are carrying.
