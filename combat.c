@@ -269,6 +269,7 @@ int cancel_aggro()
 /* resting() thread - player rests and regains 10% health every second */
 void *resting()
 {
+  int location = player.location;
   int counter = 0;
   int hps = player.health / 100;
   if (hps < 1) {
@@ -296,9 +297,16 @@ void *resting()
 
     counter++;
 
-    if (counter > 6) {
+    if (player.location != location || player.in_combat != 0) {  // stop resting if you move or enter combat
       show_prompt();
-      printf(BLU "resting..." RESET);
+      pthread_exit(NULL);
+
+      return NULL;
+    }
+
+    if (counter > 10) {
+      show_prompt();
+      printf(BLU "(resting)" RESET);
       fflush(stdout);
       counter = 0;
     }
