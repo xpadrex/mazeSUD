@@ -86,7 +86,7 @@ int save_player(const char *name)
   }
 
   fprintf(file, "%s\n", player.name);
-  fprintf(file, "%s\n", player.combat_class);
+  fprintf(file, "%d\n", player.combat_class);
   fprintf(file, "%d\n", player.level);
   fprintf(file, "%d\n", player.xp);
   fprintf(file, "%d\n", player.armour);
@@ -146,9 +146,7 @@ int load_player(const char *name)
   player.name = malloc(strlen(tok)+1);
   strcpy(player.name, tok);
   fgets(str, sizeof(str), file);
-  strcpy(tok, strtok(str, "\n"));
-  player.combat_class = malloc(strlen(tok)+1);
-  strcpy(player.combat_class,tok);
+  player.combat_class = atoi(str);
   fgets(str, sizeof(str), file);
   player.level = atoi(str);
   fgets(str, sizeof(str), file);
@@ -200,7 +198,7 @@ int load_player(const char *name)
 
   fclose(file);
 
-  printf("\nWelcome back %s, the level %d %s\n", player.name, player.level, player.combat_class);
+  printf("\nWelcome back %s, the level %d %s\n", player.name, player.level, classes[player.combat_class]);
   wait_for_keypress();
   return 0;
 }

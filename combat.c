@@ -24,17 +24,21 @@ int monster_loc[number_of_monsters];                   // local variable to be u
 void *combat_on(void *target)
 { 
   int i = *(int *)target;         // store the argument passed to thread in pointer 'i'
-  player.in_combat = 1;              // set to 1 because player entered combat
+
+  if (player.in_combat == 0) {
+    player.in_combat = 1;              // set to 1 because player entered combat
+    printf(YEL "\n**combat on**" RESET);
+  }
 
   int player_atk = (player.dex / 20) + 1;         // players attacks/round
+    
   
-  printf(YEL "\n**combat on**" RESET);
   
   do {
-    do {
+    while (player_atk > 0 && monsters[i].health > 0) {
       player_attack(i);
       player_atk--;
-    } while (player_atk > 0 && monsters[i].health > 0);
+    } 
     
     if (monsters[i].health <= 0) {
       printf(RED "\nYou have killed the %s.  You gain %d xp", monsters[i].name, monsters[i].xp);
@@ -140,6 +144,23 @@ void aggro_monster(int i)
 void execute_attack(const char *noun)
 {
   if (noun == NULL) {
+    for (int i = 0; i < number_of_monsters; i++) {
+      if (monsters[i].location == player.location && monsters[i].health > 0) {
+        if (player.in_combat != 0) {
+          combat_off();
+        }
+
+        monster_loc[i] = i;          // set monster_loc to the location in the monsters array
+      
+        pthread_create(&combat, NULL, combat_on, &monster_loc[i]);   // start player attack thread
+      
+        if (monsters[monster_loc[i]].in_combat == 0) {        // if monster isn't already set to attack, start attacking
+          pthread_create(&monster_combat[i], NULL, monster_aggroed, &monster_loc[i]);
+        }
+      
+        return;
+      }
+    }
     printf("What do you want to attack?\n");
 
     return;
@@ -179,7 +200,7 @@ void player_attack(int i)
       printf(LCYN "\nYou charge the %s." RESET, monsters[i].name);
     }
     else {
-      if (strcasecmp(player.combat_class, "SPELLCASTER") == 0) {
+      if (player.combat_class == 1) {
         printf(LRED "\nYou thwap the %s for %d damage." RESET, monsters[i].name, player_dmg);
       }
       else {
@@ -249,7 +270,7 @@ int cancel_aggro()
 void *resting()
 {
   int counter = 0;
-  int hps = player.health * 0.01;
+  int hps = player.health / 100;
   if (hps < 1) {
     hps = 1;
   }
@@ -265,10 +286,16 @@ void *resting()
         player.health = player.max_health;
       }
     }
+
     if (player.energy < 100) {
       player.energy++;
+      if (player.energy < 100) {
+        player.energy++;
+      }
     }
+
     counter++;
+
     if (counter > 6) {
       show_prompt();
       printf(BLU "resting..." RESET);
@@ -304,4 +331,132 @@ void execute_rest()
 
     return;
   }
+}
+
+/* execute_cast() function - casts a player special ability */
+void execute_cast(const char *noun)
+{
+  if (noun == NULL) {
+    printf("You must specify a spell to cast, type SPELLS to list them.\n");
+
+    return;
+  }
+
+  char* tok = calloc(strlen(noun)+1, sizeof(char));
+  strcpy(tok, noun);
+  char* spell = strtok(tok, " ");
+  char* target = strtok(NULL, "\n");
+  
+
+  
+  if (target == NULL) {      // attack nearest enemy if no target is given
+    for (int i = 0; i < number_of_monsters; i++) {
+      if (monsters[i].location == player.location && monsters[i].health > 0) {
+        if (player.in_combat == 0) {
+          execute_attack(NULL);
+        }
+
+        if (player.combat_class == 0) {
+          cast_fighter(i, spell);
+        }
+        else if (player.combat_class == 1) {
+          cast_spellcaster(i, spell);
+        }
+        
+        return;
+      }
+    }
+    printf("There are no targets in range.\n");
+
+    return;
+  }
+  
+
+  for (int i = 0; i < number_of_monsters; i++) {    // attack specified target if available
+    if (strcasecmp(monsters[i].name, target) == 0 && 
+        player.location == monsters[i].location && monsters[i].health > 0) {
+      if (player.in_combat == 0) {  // puts player in combat if they aren't already
+        execute_attack(target);
+      }
+      if (player.combat_class == 0) {
+        cast_fighter(i, spell);
+      }
+      else if (player.combat_class == 1) {
+        cast_spellcaster(i, spell);
+      }
+      
+      return;
+    }
+  }
+  printf("That is not a valid target.\n");
+
+  return;
+}
+
+/* cast_figher() function - casts a special attack for the fighter class */
+void cast_fighter(int target, const char *spell)
+{
+  int d;
+  int h;
+
+  for (int i = 0; i < number_of_spells; i++) {
+    if (strcasecmp(spell, fighter[i].tag) == 0 && player.level >= fighter[i].level) {
+      if (fighter[i].energy > player.energy) {
+        printf("\nYou don't have enough energy to cast that.");
+
+        return;
+      }
+      d = fighter[i].damage * (randomize(player.damage / 2, player.damage));
+      h = fighter[i].healing * d;
+      player.energy -= fighter[i].energy;
+      printf(LRED "\nYou execute a %s on the %s for %d damage." RESET, fighter[i].name, monsters[target].name, d);
+      monsters[target].health -= d;
+      if (h > 0 && player.health < player.max_health) {
+        player.health += h;
+        if (player.health > player.max_health) {
+          player.health = player.max_health;
+        }
+        printf(LBLU "\nYou are healed for %d hp." RESET, h);
+      }
+
+      return;
+    }
+  }
+  printf("Not a valid spell.\n");
+
+  return;
+}
+
+/* cast_spellcaster() function - casts a spell for the spell caster class */
+void cast_spellcaster(int target, const char *spell)
+{
+  int d;
+  int h;
+
+  for (int i = 0; i < number_of_spells; i++) {
+    if (strcasecmp(spell, caster[i].tag) == 0 && player.level >= caster[i].level) {
+      if (caster[i].energy > player.energy) {
+        printf("\nYou don't have enough energy to cast that.");
+
+        return;
+      }
+      d = caster[i].damage * (randomize(player.damage / 2, player.damage));
+      h = caster[i].healing * d;
+      player.energy -= caster[i].energy;
+      printf(LRED "\nYou cast %s on the %s for %d damage." RESET, caster[i].name, monsters[target].name, d);
+      monsters[target].health -= d;
+      if (h > 0 && player.health < player.max_health) {
+        player.health += h;
+        if (player.health > player.max_health) {
+          player.health = player.max_health;
+        }
+        printf(LBLU "\nYou are healed for %d hp." RESET, h);
+      }
+
+      return;
+    }
+  }
+  printf("Not a valid spell.\n");
+
+  return;
 }

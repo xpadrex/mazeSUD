@@ -10,6 +10,8 @@ void fortitude_to_health(int points);
 void intellect_to_damage(int points);
 void strength_to_damage(int points);
 extern int number_of_players;
+extern int number_of_spells;
+extern char *classes[];
 extern void execute_training(const char *noun);
 
 #define xp_to_level 400
@@ -20,14 +22,23 @@ extern void execute_training(const char *noun);
 typedef struct {
   int level;
   char *name;
+  char *tag;
   char *description;
   float damage;
+  float healing;
   int energy;
 } attack;
 
+/*
+typedef struct {
+  char *player_class;
+  attack spells[10];
+} classes;
+*/
+
 typedef struct {
   char *name;           // player name
-  char *combat_class;   // class (SPELLCASTER/FIGHTER)
+  int combat_class;   // class (number represents the element in the classes array)
   int level;            // experience level
   int xp;               // experience points
   int armour;           
@@ -57,5 +68,6 @@ typedef struct {
 extern login player_list[];
 extern character player;
 extern attack fighter[];
+// extern classes player_classes[];
 extern attack caster[];
 #endif

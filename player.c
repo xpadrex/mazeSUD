@@ -12,24 +12,38 @@
 
 /* declaring the player variable (character type) */
 //character player;
-character player  = {NULL, NULL, 1, 0, 4, 18, 18, 100,
-                   4, 8, 8, 8, 8, NULL, NULL, 1, 1, 20, 0, 0};
+character player  = {NULL, 0, 1, 0, 4, 18, 18, 100, 4, 8, 8, 8, 8, NULL, NULL, 1, 1, 20, 0, 0};
 
 login player_list[100];
 
 int number_of_players;
 
+/*
+player_classes[] = {{{"Fighter"},
+                   {{2, "Crushing Blow", "CB", "Land a crushing blow on the target for 150%% damage.", 1.5, 0, 25},
+                    {3, "Leeching Blow", "LB", "A percise strike that damages the target for 50%% damage, and heals you for 50%% of the damage caused." , 0.5, 0.5, 20}}},
+                    {{"Spellcaster"}, 
+                    {{2, "Magic Missle", "MM", "Fire a magical missle at the target for 200%% damage.", 2.0, 0, 30},
+                     {3, "Drain Life", "DL", "Suck the life from your enemy causing 50%% damage, and healing you for 50%% of the damage caused.", 0.5, 0.5, 20}}}}
+*/
+
+
+char *classes[] = {
+  "Fighter",
+  "Spellcaster"
+};
+
 attack fighter[] = {
-  {1, "Swing", "Swing your weapon at the target for 100%% of your attack power.", 1.0, 0},
-  {2, "Crushing Blow", "Land a crushing blow on the target for 200%% of your attack power.", 2.0, 25},
-  {3, "Leeching Blow", "A percise strike that damages the target for 80%% of your attack power, and heals you for 50%% of the damage caused." , 0.8, 20}
+  {2, "Crushing Blow", "CB", "Land a crushing blow on the target for 150%% damage.", 1.5, 0, 25},
+  {3, "Leeching Blow", "LB", "A percise strike that damages the target for 50%% damage, and heals you for 50%% of the damage caused." , 0.5, 0.5, 20}
 };
 
 attack caster[] = {
-  {1, "Bolt", "Fire a bolt of energy at the target for 100%% of your attack power", 1.0, 0},
-  {2, "Magic Missle", "Fire a magical missle at the target for 200%% of your attack power", 2.0, 25},
-  {3, "Drain Life", "Suck the life from your enemy causing 80%% of your attack power as damage, and healing you for 50%% of the damage caused", 0.8, 20}
+  {2, "Magic Missle", "MM", "Fire a magical missle at the target for 200%% damage.", 2.0, 0, 30},
+  {3, "Drain Life", "DL", "Suck the life from your enemy causing 50%% damage, and healing you for 50%% of the damage caused.", 0.5, 0.5, 20}
 };
+
+int number_of_spells = sizeof(fighter) / sizeof(*fighter);
 
 /* 
  * create_character() function - creates the player character when you first 
@@ -86,7 +100,7 @@ void create_character()
     while (fgets(input_class, sizeof(input_class), stdin) == NULL);
     remove_newline(input_class);
     if (strcasecmp(input_class, "SPELLCASTER") == 0) {
-      player.combat_class = "Spellcaster";
+      player.combat_class = 1;
       player.health = 18;
       player.max_health = 18;
       player.str = 4;
@@ -97,7 +111,7 @@ void create_character()
       player.fort = 6;
       done = 1;
       /* place starting player equipment in start zone */
-      memcpy(&objects[_number_of_objects], &objects[2], sizeof(objects[3]));
+      memcpy(&objects[_number_of_objects], &objects[2], sizeof(objects[2]));
       objects[_number_of_objects].location = 1;
       _number_of_objects++;
       memcpy(&objects[_number_of_objects], &objects[3], sizeof(objects[3]));
@@ -105,7 +119,7 @@ void create_character()
       _number_of_objects++;
     }
     else if (strcasecmp(input_class, "FIGHTER") == 0) {
-      player.combat_class = "Fighter";
+      player.combat_class = 0;
       player.health = 20;
       player.max_health = 20;
       player.str = 8;
@@ -129,7 +143,7 @@ void create_character()
   } while (done < 1);
 
   allocate_stats(player.points);
-  printf("\nHello %s the %s, welcome to mazeSUD.\n", player.name, player.combat_class);
+  printf("\nHello %s the %s, welcome to mazeSUD.\n", player.name, classes[player.combat_class]);
   save_player(player.name);
   wait_for_keypress();
   
@@ -143,7 +157,7 @@ void create_character()
 void look_self() 
 {
   printf("\n    Name : %-15s", player.name);
-  printf("   Class : %s\n", player.combat_class);
+  printf("   Class : %s\n", classes[player.combat_class]);
   printf("   Level : %-15d", player.level);
   printf("     Exp : %d\n", player.xp);
   printf("  Armour : %-15d", player.armour);
@@ -311,7 +325,7 @@ void fortitude_to_health(int points)
 /* function to convert added intellect to damage if applicable */
 void intellect_to_damage(int points)
 {
-  if (strcasecmp(player.combat_class, "SPELLCASTER") == 0) {
+  if (player.combat_class == 1) {
     player.damage = player.damage + (points / 2);
   }
 
@@ -321,7 +335,7 @@ void intellect_to_damage(int points)
 /* function to convert added strength to damage if applicable */
 void strength_to_damage(int points)
 {
-  if (strcasecmp(player.combat_class, "FIGHTER") == 0) {
+  if (player.combat_class == 0) {
     player.damage = player.damage + (points / 2);
   }
 
@@ -340,7 +354,7 @@ void execute_training(const char *noun)
     return;
   }
 
-  printf(LCYN "%s Trainer:\n" RESET, player.combat_class);
+  printf(LCYN "%s Trainer:\n" RESET, classes[player.combat_class]);
   if (noun == NULL) {
     if (player.xp >= next_level) {
       player.level++;
@@ -348,7 +362,19 @@ void execute_training(const char *noun)
       player.max_health += 5;
       player.health = player.max_health;
       printf("  With your training and hard work, you have reached level %d.\n", player.level);
-      printf("  You gain 5 health and 4 training points.\nType ""TRAIN STATS"" to allocate your points.\n");
+      printf("  You gain 5 health and 4 training points. Type ""TRAIN STATS""\n  to allocate your points.\n");
+      for (int i = 0; i < number_of_spells; i++) {
+        if (player.combat_class == 0) {
+          if (player.level == fighter[i].level) {
+            printf("  You have learned a new spell: %s\n", fighter[i].name);
+          }
+        }
+        else if (player.combat_class == 1) {
+          if (player.level == caster[i].level) {
+            printf("  You have learned a new spell: %s\n", caster[i].name);
+          }
+        }
+      }
     }
     else {
       printf("  You still need %d xp before you can reach the next level.\n", next_level - player.xp);

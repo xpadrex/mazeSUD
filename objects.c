@@ -134,7 +134,7 @@ void execute_equip(const char *noun)
           if (objects[i].damage > 0) {            
             player.hands = &objects[i];
             player.damage = player.damage + player.hands->damage;
-            printf("You ready the %s in your hand.\n",
+            printf("You ready the %s in your hands.\n",
                     player.hands->description);
             objects[i].equipped = 1;
 
@@ -150,7 +150,7 @@ void execute_equip(const char *noun)
             return;
           }
           else {
-            printf("You can't equip a %s.\n", objects[i].description);
+            printf("You can't wear a %s.\n", objects[i].description);
 
             return;
           }
@@ -160,7 +160,7 @@ void execute_equip(const char *noun)
     printf("You don't have a %s.\n", noun);
   }
   else {
-    printf("What do you want to equip?\n");
+    printf("What do you want to wear?\n");
   }
   return;
 }
@@ -177,7 +177,7 @@ void execute_unequip(const char *noun)
 
   if (noun != NULL) {
     if (player.hands == NULL && player.body == NULL) {
-      printf("You don't have any items equipped.\n");
+      printf("You aren't wearing any items.\n");
 
       return;
     }
@@ -204,7 +204,7 @@ void execute_unequip(const char *noun)
           return;
         }
         else {
-          printf("You don't have a %s equiped.\n", noun);
+          printf("You aren't wearing a %s.\n", noun);
 
           return;
         }

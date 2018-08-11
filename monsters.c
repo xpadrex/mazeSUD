@@ -15,13 +15,13 @@
 #include "monsters.h"
 
 character types[] = {
-  {"Wolf", NULL, 1, 8, 2, 12, 12, 0, 5, 10, 3, 8, 3, NULL, NULL, 0, 2, 0, 0, 0},
-  {"Boar", NULL, 1, 5, 3, 10, 10, 0, 5, 8, 3, 5, 3, NULL, NULL, 0, 2, 0, 0, 0},
-  {"Troll", NULL, 1, 12, 5,  15, 15, 0, 7, 12, 5, 8, 5, NULL, NULL, 0, 5, 0, 0, 1},
-  {"Orc", NULL, 1, 15, 6, 16, 16, 0, 7, 14, 4, 7, 4, NULL, NULL, 0, 5, 0, 0, 1},
-  {"Ogre", NULL, 2, 24, 9, 22, 22, 0, 8, 18, 5, 5, 8, NULL, NULL, 0, 8, 0, 0, 1},
-  {"Goblin", NULL, 2, 22, 8, 18, 18, 0, 8, 18, 5, 5, 8, NULL, NULL, 0, 14, 0, 0, 1},
-  {"Dire Wolf", NULL, 3, 38, 6, 20, 20, 0, 9, 18, 5, 14, 10, NULL, NULL, 0, 6, 0, 0, 0}
+  {"Wolf", 0, 1, 12, 2, 12, 12, 0, 5, 10, 3, 8, 3, NULL, NULL, 0, 6, 0, 0, 0},
+  {"Boar", 0, 1, 8, 3, 10, 10, 0, 5, 8, 3, 5, 3, NULL, NULL, 0, 6, 0, 0, 0},
+  {"Troll", 0, 1, 15, 5,  15, 15, 0, 7, 12, 5, 8, 5, NULL, NULL, 0, 12, 0, 0, 1},
+  {"Orc", 0, 1, 22, 6, 16, 16, 0, 7, 14, 4, 7, 4, NULL, NULL, 0, 12, 0, 0, 1},
+  {"Ogre", 0, 2, 28, 9, 22, 22, 0, 8, 18, 5, 5, 8, NULL, NULL, 0, 15, 0, 0, 1},
+  {"Goblin", 0, 2, 26, 8, 18, 18, 0, 8, 18, 5, 5, 8, NULL, NULL, 0, 25, 0, 0, 1},
+  {"Dire Wolf", 0, 3, 38, 6, 20, 20, 0, 9, 18, 5, 14, 10, NULL, NULL, 0, 6, 0, 0, 0}
 };
 
 character monsters[number_of_monsters];       // set array size to value of int number_of_monsters
@@ -37,30 +37,16 @@ int monster_respawn_id[number_of_monsters];
  */
 void init_monsters()
 {
-  int duplicate = 0;    // int to keep count of how many monster locations are duplicated
-
   for (int i = 0; i < 8; i++) {             // initialize random lvl 1 monsters in start zone
     monsters[i] = types[randomize(0, 2)];
     monsters[i].location = randomize(5, 9);
-    /* code for checking for duplicate monster locations
-    do {
-      monsters[i].location = randomize(5, 9);
-      // check to see if the location is duplicated
-      for (int check; check < i; check++) {     
-        if (monsters[check].location = monsters[i].location) {
-          duplicate++;
-        }
-      }
-      if (duplicate < 2) {
-        break;
-      }
-    } while (duplicate != 0);  // (duplicate < 1); will let only one monster per location
-    duplicate = 0; */
+    check_for_duplicate(i, 5, 9);
   }
 
   for (int i = 6; i < number_of_monsters; i++) {   // random level 2 monsters for Dungeon
     monsters[i] = types[randomize(3, (types_of_monsters - 1))];
     monsters[i].location = randomize(10, 24);
+    check_for_duplicate(i, 10, 24);
   }
   
   
@@ -117,5 +103,24 @@ void respawn_monster(int m)
   if (monsters[m].health < 1) {
     pthread_create(&respawn[m], NULL, respawn_wait, &monster_respawn_id[m]);
   }
+  return;
+}
+
+/* check_for_duplicate() function - checks for repeated monster locations and only
+ * allows for 2 monsters per room maximum */
+void check_for_duplicate(int current, int low, int high)
+{
+  int duplicate = 0;
+
+  do {
+    for (int x = 0; x < current; x++) {
+      if (monsters[current].location == monsters[x].location) {
+        duplicate++;
+        monsters[current].location = randomize(low, high);
+        break;
+      }
+    }
+  } while (duplicate > 1);
+
   return;
 }
