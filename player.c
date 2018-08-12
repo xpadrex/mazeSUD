@@ -12,9 +12,34 @@
 
 /* declaring the player variable (character type) */
 //character player;
-character player  = {NULL, 0, 1, 0, 4, 18, 18, 100, 4, 8, 8, 8, 8, NULL, NULL, 1, 1, 20, 0, 0};
+character player  = {NULL,  // name
+                     0,     // combat_class
+                     1,     // level
+                     0,     // xp
+                     4,     // armour
+                     18,    // health
+                     18,    // max_health
+                     100,   // energy
+                     100,   // max_energy
+                     4,     // damage
+                     4,     // magic
+                     8,     // defence
+                     8,     // str
+                     8,     // int
+                     8,     // wis
+                     8,     // dex
+                     8,     // fort
+                     NULL,  // hands
+                     NULL,  // body
+                     1,     // location
+                     1,     // gold
+                     10,    // skill points
+                     0,     // user id
+                     0};    // combat on/off flag
 
 login player_list[100];
+
+bonus bonuses = {0, 0, 0, 0};
 
 int number_of_players;
 
@@ -32,7 +57,16 @@ char *classes[] = {
   "Spellcaster"
 };
 
+spell spells[] = {
+  {"Fighter",
+  {{2, "Crushing Blow", "CB", "Land a crushing blow on the target for 150% damage.", 1.5, 0, 25},
+  {3, "Leeching Blow", "LB", "A percise strike that damages the target for 50% damage, and heals you for 50% of the damage caused." , 0.5, 0.5, 20}}},
+  {"Spellcaster",
+  {{1, "Magic Missle", "MM", "Fire a magical missle at the target for 200% damage.", 2.0, 0, 30},
+  {3, "Drain Life", "DL", "Suck the life from your enemy causing 50% damage, and healing you for 50% of the damage caused.", 0.5, 0.5, 20}}}
+};
 
+/* legacy code - to be removed */
 attack fighter[] = {
   {2, "Crushing Blow", "CB", "Land a crushing blow on the target for 150% damage.", 1.5, 0, 25},
   {3, "Leeching Blow", "LB", "A percise strike that damages the target for 50% damage, and heals you for 50% of the damage caused." , 0.5, 0.5, 20}
@@ -44,6 +78,7 @@ attack caster[] = {
 };
 
 int number_of_spells = sizeof(fighter) / sizeof(*fighter);
+/* end of legacy code */
 
 /* 
  * create_character() function - creates the player character when you first 
@@ -105,9 +140,12 @@ void create_character()
       player.max_health = 18;
       player.str = 4;
       player.intel = 8;
-      player.damage = 4;
+      player.wis = 6;
+      player.damage = 2;
+      player.magic = 4;
+      player.defence = 6;
       player.dex = 6;
-      player.armour = 1;
+      player.armour = 0;
       player.fort = 6;
       done = 1;
       /* place starting player equipment in start zone */
@@ -124,10 +162,13 @@ void create_character()
       player.max_health = 20;
       player.str = 8;
       player.intel = 4;
+      player.wis = 6;
       player.damage = 4;
-      player.dex = 6;
+      player.magic = 2;
+      player.defence = 8;
+      player.dex = 8;
       player.armour = 2;
-      player.fort = 6;
+      player.fort = 8;
       done = 1;
       /* place starting player equipment in start zone */
       memcpy(&objects[_number_of_objects], &objects[0], sizeof(objects[0]));
@@ -160,11 +201,14 @@ void look_self()
   printf("   Class : %s\n", classes[player.combat_class]);
   printf("   Level : %-15d", player.level);
   printf("     Exp : %d\n", player.xp);
-  printf("  Armour : %-15d", player.armour);
-  printf("  Damage : %d\n", player.damage);
+  printf("  Armour : %-15d", player.armour + bonuses.armour);
+  printf(" Defense : %d\n", player.defence + bonuses.defence);
+  printf("  Damage : %-15d", player.damage + bonuses.damage);
+  printf("   Magic : %d\n", player.magic + bonuses.magic);
   printf("     Str : %-15d", player.str);
   printf("     Int : %d\n", player.intel);
-  printf("     Dex : %-15d", player.dex);
+  printf("     Wis : %-15d", player.wis);
+  printf("     Dex : %d\n", player.dex);
   printf("    Fort : %d\n", player.fort);
   printf("  Health : %d/%d\n", player.health, player.max_health);
   printf("  Energy : %d/100\n", player.energy);
@@ -195,7 +239,7 @@ void allocate_stats(int points)
     look_self();
     printf("\nYou have %d stat points to allocate towards any of your 4 main stats.\n", points);
     printf("How would you like to allocate them?\n");
-    printf("STR, INT, DEX, FORT, DONE when complete or HELP: ");
+    printf("STR, INT, WIS, DEX, FORT, DONE when complete or HELP: ");
     while (fgets(i, sizeof(i), stdin) == NULL);
     remove_newline(i);
     if (strcasecmp(i, "STR") == 0) {
@@ -250,10 +294,12 @@ void allocate_stats(int points)
       sscanf(i, "%d", &s);
       if (s == points) {
         player.dex = player.dex + points;
+        dexterity_to_defence(points);
         points = 0;
       }
       else if (s < points) {
         player.dex = player.dex + s;
+        dexterity_to_defence(s);
         points = points - s;
       }
       else if (s > points) {
@@ -261,6 +307,7 @@ void allocate_stats(int points)
       }
       else {
         player.dex = player.dex + points;
+        dexterity_to_defence(points);
         points = 0;
       }
       player.armour = player.dex / 2;      
@@ -288,15 +335,39 @@ void allocate_stats(int points)
         points = 0;
       }
     }
+    else if (strcasecmp(i, "WIS") == 0) {
+      printf("How much would you like to allocate to Wisdom? [%d]", points);
+      while (fgets(i, sizeof(i), stdin) == NULL);
+      sscanf(i, "%d", &s);
+      if (s == points) {
+        player.wis = player.wis + points;
+        wisdom_to_energy(s);
+        points = 0;
+      }
+      else if (s < points) {
+        player.wis = player.wis + s;
+        wisdom_to_energy(s);
+        points = points - s;
+      }
+      else if (s > points) {
+        printf("Please enter a valid number.\n");
+      }
+      else {
+        player.wis = player.wis + points;
+        wisdom_to_energy(points);
+        points = 0;
+      }
+    }
     else if (strcasecmp(i, "DONE") == 0) {
       player.points = points;
       return;
     }
     else if (strcasecmp(i, "HELP") == 0) {
-      printf("\n\nThe 4 main stats in mazeSUD have various affects on your character:\n");
+      printf("\n\nThe 5 main stats in mazeSUD have various affects on your character:\n");
       printf("  STRENGTH  - Increases damage of melee attacks.\n");
       printf("  INTELLECT - Increases damage of magic and ranged attacks.\n");
-      printf("  DEXTERITY - Increases armour, dodge and attack speed.\n");
+      printf("  WISDOM    - Increases maximum energy and spell/special abilitys you can learn\n");
+      printf("  DEXTERITY - Increases defense and attack speed.\n");
       printf("  FORTITUDE - Increases your health and survival.\n\n");
       printf("Once your stats reach the base level (40) 2 training points are required to\n"
              "raise it one point.  You can save your training points for later or use them\n"
@@ -313,10 +384,27 @@ void allocate_stats(int points)
   return;
 }
 
+
+/* function to convert dexterity to defense */
+void dexterity_to_defence(int points)
+{
+  player.defence = player.dex * 1;
+  return;
+}
+
+/* function to convert wisdom to energy */
+void wisdom_to_energy(int points)
+{
+  player.max_energy = player.max_energy + (points * 5);
+  player.energy = player.max_energy;
+
+  return;
+}
+
 /* function to convert added fortitude to health */
 void fortitude_to_health(int points)
 {
-  player.max_health = player.max_health + (points / 2);
+  player.max_health = player.max_health + points;
   player.health = player.max_health;
 
   return;
@@ -325,20 +413,16 @@ void fortitude_to_health(int points)
 /* function to convert added intellect to damage if applicable */
 void intellect_to_damage(int points)
 {
-  if (player.combat_class == 1) {
-    player.damage = player.damage + (points / 2);
-  }
-
+  player.magic = player.intel / 2;
+  
   return;
 }
 
 /* function to convert added strength to damage if applicable */
 void strength_to_damage(int points)
 {
-  if (player.combat_class == 0) {
-    player.damage = player.damage + (points / 2);
-  }
-
+  player.damage = player.str / 2;
+  
   return;
 }
 
@@ -358,25 +442,20 @@ void execute_training(const char *noun)
     if (player.xp >= next_level) {
       player.level++;
       player.points += 4;
-      player.max_health += 5;
+      player.max_health += 4;
       player.health = player.max_health;
-      printf("  With your training and hard work, you have reached level %d.\n", player.level);
-      printf("  You gain 5 health and 4 training points. Type ""TRAIN STATS""\n  to allocate your points.\n");
-      for (int i = 0; i < number_of_spells; i++) {
-        if (player.combat_class == 0) {
-          if (player.level == fighter[i].level) {
-            printf("  You have learned a new spell: %s\n", fighter[i].name);
-          }
-        }
-        else if (player.combat_class == 1) {
-          if (player.level == caster[i].level) {
-            printf("  You have learned a new spell: %s\n", caster[i].name);
-          }
+      printf(WHT"  With your training and hard work, you have reached level %d.\n", player.level);
+      printf("  You gain 4 health and 4 training points. Type ""TRAIN STATS"" to allocate your points.\n" RESET);
+      for (int i = 0; spells[player.combat_class].attacks[i].name != NULL; i++) {
+        if (player.level == spells[player.combat_class].attacks[i].level) {
+            printf(WHT "  You have learned a new spell: %s\n" RESET, spells[player.combat_class].attacks[i].name);
+
+            return;
         }
       }
     }
     else {
-      printf("  You still need %d xp before you can reach the next level.\n", next_level - player.xp);
+      printf(WHT "  You still need %d xp before you can reach the next level.\n" RESET, next_level - player.xp);
     }
   }
   else if (strcasecmp(noun, "STATS") == 0) {
@@ -384,11 +463,11 @@ void execute_training(const char *noun)
       allocate_stats(player.points);
     }
     else {
-      printf("  You don't have any training points.\n");
+      printf(WHT "  You don't have any training points.\n" RESET);
     }
   }
   else {
-    printf("  I don't know what you mean by %s.  Stop wasting my time!\n", noun);
+    printf(WHT "  I'm a busy man, stop wasting my time with this %s of yours!\n" RESET, noun);
   }
 
   return;
@@ -397,28 +476,16 @@ void execute_training(const char *noun)
 /* execute_list_spells() function - lists the spells known to the player */
 void execute_list_spells()
 {
-  if (player.level < 2) {
-    printf("You haven't learned any spells yet.  You will gain spells/special attacks as you level up\n");
+  int i = 0;
 
-    return;
-  }
-
-  if (player.combat_class == 0) {
-    for (int i = 0; i < number_of_spells; i++) {
-      if (fighter[i].level <= player.level) {
-        printf(LCYN "Name: %-20s Short: %s            Energy: %d\n" RESET, fighter[i].name, fighter[i].tag, fighter[i].energy);
-        printf("  %s\n", fighter[i].description);
-      }
+  while (spells[player.combat_class].attacks[i].name != NULL) {
+    if (spells[player.combat_class].attacks[i].level <= player.level) {
+      printf(LCYN "Name: %-18s Short: %s               Energy cost: %d\n" RESET, spells[player.combat_class].attacks[i].name,
+                                                                                spells[player.combat_class].attacks[i].tag,
+                                                                                spells[player.combat_class].attacks[i].energy);
+      printf(WHT "  %s\n" RESET, spells[player.combat_class].attacks[i].description);
     }
+    i++;
   }
-  else if (player.combat_class == 1) {
-    for (int i = 0; i < number_of_spells; i++) {
-      if (caster[i].level <= player.level) {
-        printf(LCYN "Name: %-20s Short: %s            Energy: %d\n" RESET, caster[i].name, caster[i].tag, fighter[i].energy);
-        printf("  %s\n", caster[i].description);
-      }
-    }
-  }
-
   return;
 }

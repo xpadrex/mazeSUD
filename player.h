@@ -9,6 +9,8 @@ extern void allocate_stats(int points);
 void fortitude_to_health(int points);
 void intellect_to_damage(int points);
 void strength_to_damage(int points);
+void dexterity_to_defence(int points);
+void wisdom_to_energy(int points);
 extern int number_of_players;
 extern int number_of_spells;
 extern char *classes[];
@@ -37,6 +39,13 @@ typedef struct {
 } spell;
 
 typedef struct {
+  int damage;
+  int magic;
+  int defence;
+  int armour;
+} bonus;
+
+typedef struct {
   char *name;           // player name
   int combat_class;   // class (number represents the element in the classes array)
   int level;            // experience level
@@ -45,9 +54,13 @@ typedef struct {
   int health;
   int max_health;
   int energy;           // energy for special abilities
+  int max_energy;       // maximum energy
   int damage;           // maximum damage
+  int magic;            // max spell damage
+  int defence;
   int str;              // strength
   int intel;            // intellect
+  int wis;              // wisdom
   int dex;              // dexterity
   int fort;             // fortitude
   object *hands;
@@ -67,6 +80,8 @@ typedef struct {
 
 extern login player_list[];
 extern character player;
+extern bonus bonuses;
+extern spell spells[];
 extern attack fighter[];
 extern attack caster[];
 #endif

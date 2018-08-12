@@ -10,5 +10,4 @@ extern void execute_rest();
 extern void aggro_monster(int i);
 extern int cancel_aggro();
 extern void execute_cast(const char *noun);
-void cast_fighter(int target, const char *spell);
-void cast_spellcaster(int target, const char *spell);
+void cast_spell(int target, const char *spell);

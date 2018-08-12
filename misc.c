@@ -97,9 +97,12 @@ int save_player(const char *name)
   fprintf(file, "%d\n", player.health);
   fprintf(file, "%d\n", player.max_health);
   fprintf(file, "%d\n", player.energy);
+  fprintf(file, "%d\n", player.max_energy);
   fprintf(file, "%d\n", player.damage);
+  fprintf(file, "%d\n", player.magic);
   fprintf(file, "%d\n", player.str);
   fprintf(file, "%d\n", player.intel);
+  fprintf(file, "%d\n", player.wis);
   fprintf(file, "%d\n", player.dex);
   fprintf(file, "%d\n", player.fort);
   if (player.hands == NULL) {
@@ -144,9 +147,9 @@ int load_player(const char *name)
   fgets(str, sizeof(str), file);
   strcpy(tok, strtok(str, "\n"));
   player.name = malloc(strlen(tok)+1);
-  strcpy(player.name, tok);
+  strcpy(player.name, tok);          
   fgets(str, sizeof(str), file);
-  player.combat_class = atoi(str);
+  player.combat_class = atoi(str);     
   fgets(str, sizeof(str), file);
   player.level = atoi(str);
   fgets(str, sizeof(str), file);
@@ -160,11 +163,17 @@ int load_player(const char *name)
   fgets(str, sizeof(str), file);
   player.energy = atoi(str);
   fgets(str, sizeof(str), file);
+  player.max_energy = atoi(str);
+  fgets(str, sizeof(str), file);
   player.damage = atoi(str);
+  fgets(str, sizeof(str), file);
+  player.magic = atoi(str);
   fgets(str, sizeof(str), file);
   player.str = atoi(str);
   fgets(str, sizeof(str), file);
   player.intel = atoi(str);
+  fgets(str, sizeof(str), file);
+  player.wis = atoi(str);
   fgets(str, sizeof(str), file);
   player.dex = atoi(str);
   fgets(str, sizeof(str), file);

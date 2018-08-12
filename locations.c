@@ -85,6 +85,7 @@ void move_player(int direction)
   cancel_aggro();
   combat_off();
   
+  
   while (direction != locations[i].room_id) {
     i++;
   }
@@ -237,7 +238,7 @@ void print_exits(int loc)
 /* execute_show_exits() function - shows a detailed list of the exits */
 void execute_show_exits()
 {
-  printf(LCYN "Obvious Exits:\n" RESET);
+  printf(LCYN "Obvious Exits:\n" WHT);
   if (locations[player.location].north > 0) {
     printf("  NORTH - %s\n", locations[locations[player.location].north].tag);
   }
@@ -256,6 +257,7 @@ void execute_show_exits()
   if (locations[player.location].down > 0) {
     printf("  DOWN  - %s\n", locations[locations[player.location].down].tag);
   }
+  printf(RESET);
 
   return;
 }
