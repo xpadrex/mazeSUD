@@ -4,8 +4,10 @@
 extern void execute_look(const char *noun);
 extern void move_player(int direction);
 extern int load_locations();
+extern void execute_show_exits();
 void print_exits(int loc);
 extern int number_of_locations;
+
 
 #ifndef __LOCATION__
 #define __LOCATION__

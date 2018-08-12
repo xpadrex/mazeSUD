@@ -19,8 +19,7 @@
 pthread_t combat, rest, monster_combat[number_of_monsters];    
 int monster_loc[number_of_monsters];                   // local variable to be used in threads
 
-/* combat_on(void * target) - function that is run in its own thread for player autoattacks and  *
- *                            and mosnter attacks                                                */
+/* combat_on(void * target) - function that is run in its own thread for player autoattacks and  */
 void *combat_on(void *target)
 { 
   int i = *(int *)target;         // store the argument passed to thread in pointer 'i'
@@ -384,6 +383,9 @@ void execute_cast(const char *noun)
     if (strcasecmp(monsters[i].name, target) == 0 && 
         player.location == monsters[i].location && monsters[i].health > 0) {
       if (player.in_combat == 0) {  // puts player in combat if they aren't already
+        player.in_combat = 1;              // set to 1 because player entered combat
+        printf(YEL "\n**combat on**" RESET);
+        
         execute_attack(target);
       }
       if (player.combat_class == 0) {

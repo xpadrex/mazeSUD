@@ -22,14 +22,19 @@ extern void execute_list_spells();
 
 
 typedef struct {
-    int level;
-    char *name;
-    char *tag;
-    char *description;
-    float damage;
-    float healing;
-    int energy;
+  int level;
+  char *name;
+  char *tag;
+  char *description;
+  float damage;
+  float healing;
+  int energy;
 } attack;
+
+typedef struct {
+  char *class_name;
+  attack attacks[10];
+} spell;
 
 typedef struct {
   char *name;           // player name

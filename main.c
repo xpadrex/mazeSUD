@@ -120,8 +120,11 @@ static int parse_input()
     else if (strcasecmp(verb, "SPELLS") == 0) {
       execute_list_spells();
     }
+    else if (strcasecmp(verb, "EXITS") == 0) {
+      execute_show_exits();
+    }
     else {
-      printf("I'm sorry, I don't know what you mean by %s.\n", verb);
+      printf("I don't know what you mean by %s.\n", verb);
     }
   }
 

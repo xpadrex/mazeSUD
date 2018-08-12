@@ -233,3 +233,29 @@ void print_exits(int loc)
 
   return;
 }
+
+/* execute_show_exits() function - shows a detailed list of the exits */
+void execute_show_exits()
+{
+  printf(LCYN "Obvious Exits:\n" RESET);
+  if (locations[player.location].north > 0) {
+    printf("  NORTH - %s\n", locations[locations[player.location].north].tag);
+  }
+  if (locations[player.location].south > 0) {
+    printf("  SOUTH - %s\n", locations[locations[player.location].south].tag);
+  }
+  if (locations[player.location].east > 0) {
+    printf("  EAST  - %s\n", locations[locations[player.location].east].tag);
+  }
+  if (locations[player.location].west > 0) {
+    printf("  WEST  - %s\n", locations[locations[player.location].west].tag);
+  }
+  if (locations[player.location].up > 0) {
+    printf("  UP    - %s\n", locations[locations[player.location].up].tag);
+  }
+  if (locations[player.location].down > 0) {
+    printf("  DOWN  - %s\n", locations[locations[player.location].down].tag);
+  }
+
+  return;
+}
