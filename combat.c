@@ -388,6 +388,10 @@ void execute_cast(const char *noun)
       if (player.in_combat == 0) {      // puts player in combat if they aren't already
         execute_attack(target);
       }
+      if (player.combat_class == 1) {
+        printf(LYEL "\ncasting...");
+        sleep(1);
+      }
       cast_spell(i, spell);
       
             
