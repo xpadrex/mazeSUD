@@ -87,10 +87,10 @@ static int parse_input()
     else if (strcasecmp(verb, "DROP") == 0) {
       execute_drop(noun);
     }
-    else if (strcasecmp(verb, "WEAR") == 0) {
+    else if (strcasecmp(verb, "EQ") == 0 || strcasecmp(verb, "EQUIP") == 0) {
       execute_equip(noun);
     }
-    else if (strcasecmp(verb, "REMOVE") == 0) {
+    else if (strcasecmp(verb, "REMOVE") == 0 || strcasecmp(verb, "RM") == 0) {
       execute_unequip(noun);
     }
     else if (strcasecmp(verb, "ATTACK") == 0 || strcasecmp(verb, "A") == 0) {
@@ -122,6 +122,9 @@ static int parse_input()
     }
     else if (strcasecmp(verb, "EXITS") == 0) {
       execute_show_exits();
+    }
+    else if (strcasecmp(verb, "STATS") == 0) {
+      look_self();
     }
     else {
       printf("I don't know what you mean by %s.\n", verb);

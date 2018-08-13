@@ -9,7 +9,7 @@ Chainmail Armour,chainmail armour,4004,A solid protective garment.,400,0,12,0
 crumpled note,note,1,Welcome to mazeSUD!  For help type 'HELP'.,0,0,0,0
 broken idol,idol,2,Although useless it looks to be made of real gold.,0,15,0,0
 mug of ale,ale,3,Hope it tastes better than it looks.,0,0,0,0
-broken twig,twig,5,Looks like it would be good for hitting stuff.,0,10,0,0
+broken twig,twig,1001,Looks like it would be good for hitting stuff.,0,10,0,1
 gold coin,coin,10,This coin looks to be a well made counterfit.,5,0,0,0
 Broken Sword,sword,10,Looks like it was a finely crafted sword before it broke.,10,0,0,0
 Bag of lucky-doos,bag,4004,Any goblin would love these!,20,0,0,0

@@ -30,9 +30,10 @@ void *combat_on(void *target)
   }
 
   int player_atk = (player.dex / 20) + 1;         // players attacks/round
-    
+
   do {
     while (player_atk > 0 && monsters[i].health > 0) {
+      sleep(2 / (player.dex / 20 + 1));
       player_attack(i);
       player_atk--;
     } 
@@ -61,7 +62,7 @@ void *combat_on(void *target)
     if (monsters[i].health > 0 && player.health > 0) {
       show_prompt();
       player_atk = (player.dex / 20) + 1;
-      sleep(3);
+      sleep(2 / (player.dex / 20 + 1));
     }
   } while (player.health > 0 && monsters[i].health > 0);
 
@@ -366,8 +367,12 @@ void execute_cast(const char *noun)
         if (player.in_combat == 0) {
           execute_attack(monsters[i].name);
         }
+        if (player.combat_class == 1) {
+          printf(LYEL "\ncasting...");
+          sleep(1);
+        }
         cast_spell(i, spell);
-               
+                       
         return;
       }
     }
@@ -384,6 +389,7 @@ void execute_cast(const char *noun)
         execute_attack(target);
       }
       cast_spell(i, spell);
+      
             
       return;
     }

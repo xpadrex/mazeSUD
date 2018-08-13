@@ -33,7 +33,7 @@ character player  = {NULL,  // name
                      NULL,  // body
                      1,     // location
                      1,     // gold
-                     10,    // skill points
+                     15,    // skill points
                      0,     // user id
                      0};    // combat on/off flag
 
@@ -477,9 +477,11 @@ void execute_training(const char *noun)
 void execute_list_spells()
 {
   int i = 0;
+  int spells_available = 0;
 
   while (spells[player.combat_class].attacks[i].name != NULL) {
     if (spells[player.combat_class].attacks[i].level <= player.level) {
+      spells_available++;
       printf(LCYN "Name: %-18s Short: %s               Energy cost: %d\n" RESET, spells[player.combat_class].attacks[i].name,
                                                                                 spells[player.combat_class].attacks[i].tag,
                                                                                 spells[player.combat_class].attacks[i].energy);
@@ -487,5 +489,9 @@ void execute_list_spells()
     }
     i++;
   }
+  if (spells_available == 0) {
+    printf("You don't have any spells/specials yet.\n");
+  }
+
   return;
 }
