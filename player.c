@@ -211,7 +211,7 @@ void look_self()
   printf("     Dex : %d\n", player.dex);
   printf("    Fort : %d\n", player.fort);
   printf("  Health : %d/%d\n", player.health, player.max_health);
-  printf("  Energy : %d/100\n", player.energy);
+  printf("  Energy : %d/%d\n", player.energy, player.max_energy);
   if (player.hands == NULL) {
     printf("\nYou have nothing in your hands.\n");
   }
