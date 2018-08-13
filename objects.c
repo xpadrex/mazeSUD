@@ -131,7 +131,10 @@ void execute_equip(const char *noun)
     for (int i = 0; i < number_of_objects; i++) {
       if (strcasecmp(noun, objects[i].tag) == 0) {
         if (player.id == objects[i].location) {
-          if (objects[i].damage > 0) {            
+          if (objects[i].damage > 0) {
+            if (player.hands != NULL && player.hands->damage > 0) {
+              bonuses.damage = bonuses.damage - player.hands->damage;
+            }            
             player.hands = &objects[i];
             bonuses.damage = bonuses.damage + player.hands->damage;
             printf("You ready the %s in your hands.\n",
@@ -141,6 +144,9 @@ void execute_equip(const char *noun)
             return;        
           }
           else if (objects[i].armour > 0) {
+            if (player.body != NULL && player.body->armour > 0) {
+              bonuses.armour = bonuses.armour - player.body->armour;
+            }            
             player.body = &objects[i];
             bonuses.armour = bonuses.armour + player.body->armour;
             printf("You put on the %s.\n", player.body->description);
