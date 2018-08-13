@@ -389,8 +389,8 @@ void execute_cast(const char *noun)
         execute_attack(target);
       }
       if (player.combat_class == 1) {
-        sleep(1);
         printf(LYEL "\ncasting...");
+        sleep(1);
       }
       cast_spell(i, spell);
       
@@ -419,7 +419,8 @@ void cast_spell(int target, const char *spell)
         return;
       }
 
-      d = spells[player.combat_class].attacks[i].damage * (randomize(player.damage / 2, player.damage));
+      d = spells[player.combat_class].attacks[i].damage * 
+          (randomize((player.damage + bonuses.damage) / 2, player.damage + bonuses.damage));
       h = spells[player.combat_class].attacks[i].healing * d;
       player.energy -= spells[player.combat_class].attacks[i].energy;
       if (player.combat_class == 1) {
