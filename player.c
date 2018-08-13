@@ -33,7 +33,7 @@ character player  = {NULL,  // name
                      NULL,  // body
                      1,     // location
                      1,     // gold
-                     15,    // skill points
+                     18,    // skill points
                      0,     // user id
                      0};    // combat on/off flag
 
