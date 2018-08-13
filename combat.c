@@ -199,7 +199,7 @@ void player_attack(int i)
   int player_dmg;
   
   if (randomize(1,50) > monsters[i].dex) {
-    player_dmg = randomize(player.damage / 2, player.damage) - (monsters[i].armour * 0.25);
+    player_dmg = randomize((player.damage + bonuses.damage) / 2, player.damage + bonuses.damage) - monsters[i].armour * 0.25;
     if (player_dmg <= 0) {
       printf(LCYN "\nYou charge the %s." RESET, monsters[i].name);
     }
@@ -227,7 +227,7 @@ void monster_attack(int i)
   int monster_dmg;
 
   if (randomize(1,50) > player.dex) {
-    monster_dmg = randomize(monsters[i].damage / 2, monsters[i].damage) - (player.armour * 0.25);
+    monster_dmg = randomize(monsters[i].damage / 2, monsters[i].damage) - ((player.armour + bonuses.armour) * 0.25);
     if (monster_dmg <= 0) {
       printf(CYN "\nThe %s lunges at you." RESET, monsters[i].name);
     }
@@ -292,9 +292,9 @@ void *resting()
       }
     }
 
-    if (player.energy < 100) {
+    if (player.energy < player.max_energy) {
       player.energy++;
-      if (player.energy < 100) {
+      if (player.energy < player.max_energy) {
         player.energy++;
       }
     }
@@ -389,8 +389,8 @@ void execute_cast(const char *noun)
         execute_attack(target);
       }
       if (player.combat_class == 1) {
-        printf(LYEL "\ncasting...");
         sleep(1);
+        printf(LYEL "\ncasting...");
       }
       cast_spell(i, spell);
       
