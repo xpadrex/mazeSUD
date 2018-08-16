@@ -280,7 +280,7 @@ void *resting()
     hps = 1;
   }
 
-  printf(BLU "(resting)" RESET);
+  printf(LBLU "(resting)" RESET);
   fflush(stdout);
   sleep(2);
   do {
@@ -293,9 +293,9 @@ void *resting()
     }
 
     if (player.energy < player.max_energy) {
-      player.energy++;
-      if (player.energy < player.max_energy) {
-        player.energy++;
+      player.energy += 2;
+      if (player.energy > player.max_energy) {
+        player.energy == player.max_energy;
       }
     }
 
@@ -310,11 +310,11 @@ void *resting()
 
     if (counter > 20) {
       show_prompt();
-      printf(BLU "(resting)" RESET);
+      printf(LBLU "(resting)" RESET);
       fflush(stdout);
       counter = 0;
     }
-  } while (player.health < player.max_health || player.energy < 100);
+  } while (player.health < player.max_health || player.energy < player.max_energy);
 
   show_prompt();
   pthread_exit(NULL);
@@ -437,7 +437,7 @@ void cast_spell(int target, const char *spell)
         if (player.health > player.max_health) {
           player.health = player.max_health;
         }
-        printf(LBLU "\nYou are healed for %d hp." RESET, h);
+        printf(LBLU "\nYou are healed for %d health." RESET, h);
       }
 
       return;

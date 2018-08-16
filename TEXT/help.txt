@@ -4,22 +4,23 @@ example, if you see a Elven Longsword, you type "GET LONGSWORD" and you will
 pick up the sword and put it into your inventory.  Here is a list of commands
 and a short descriptioin of each:
 
-    N,S,E,W,U,D    - Move north, south, east, west, up or down.
-    A + name       - Attack an enemy in range.
-    C + name       - Cast a spell/special ability.
-    SPELLS         - List known spells/special abilities.
-    GET + item     - Pick up an item and put it in inventory.
-    DROP + item    - Drop an item from inventory to the ground.
-    INVENTORY      - List items you are carrying.
-    WEAR + item    - Equip the item to use in battle.
-    REMOVE + item  - Remove the item from your hands/body and put in bag.
-    LIST           - List items for sale when at a merchant
-    BUY + item     - Buy an item from a merchant
-    SELL + item    - Sell an item to a merchant
-    LOOK + name    - Look at an item or location.
-    LOOK SELF      - Shows player stats and equiped items.
-    REST           - Enter a state of meditation to restore health/energy
-    TRAIN          - Use in Hall of Training to gain levels from your XP
-    CLEAR          - Clear your console screen
-    QUIT           - Your character will camp for the night, you will exit.
+    N,S,E,W,U,D      - Move north, south, east, west, up or down.
+    A + target       - Attack an enemy in range.
+    C +spell +target - Cast a spell/special ability.
+    SPELLS           - List known spells/special abilities.
+    GET + item       - Pick up an item and put it in inventory.
+    DROP + item      - Drop an item from inventory to the ground.
+    INVENTORY        - List items you are carrying.
+    EQ + weapon      - Equip a weapon in your hand
+    WEAR + item      - Put on a piece of armour
+    REMOVE + item    - Remove the item from your hands/body and put in bag.
+    LIST             - List items for sale when at a merchant
+    BUY + item       - Buy an item from a merchant
+    SELL + item      - Sell an item to a merchant
+    LOOK + name      - Look at an item or location.
+    STATS            - Shows player stats and equiped items.
+    REST             - Enter a state of meditation to restore health/energy
+    TRAIN            - Use in Hall of Training to gain levels from your XP
+    CLEAR            - Clear your console screen
+    QUIT             - Your character will camp for the night, you will exit.
 
