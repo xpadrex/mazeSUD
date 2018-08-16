@@ -3,10 +3,11 @@ MUD style single player RPG
 
 DONE - add more depth to stats
 
-  - Strength  - Increases attack for melee and crit chance
-  - Intellect - Increases attack for ranged and crit chance
+  - Strength  - Increases attack for melee
+  - Intellect - Increases attack for ranged
   - Dexterity - Increased armour and attack speed
-  - Fortitude - Increases health and minor attack increase
+  - Fortitude - Increases health
+  - Wisdom    - Increases energy/mana
 
 WIP - develope combat system
 
@@ -15,10 +16,14 @@ WIP - develope combat system
   - DONE - need to do checks for living or dead monsters
   - DONE - add code leaving combat pre-mature
   - DONE - create function that will "respawn" dead monsters
-  - add in class special abilities
+  - DONE - add in class special abilities (more need to be added)
 
 
 To Do:
+
+- create game server/client
+
+- Add new classes, items, areas and monsters
 
 - create leveled Zones with monsters to match
 
