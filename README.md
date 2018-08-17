@@ -23,6 +23,8 @@ To Do:
 
 - migrate data from text files to SQlite database
 
+- create multiple instances of "player" struct when other players log into game
+
 - create game server/client
 
 - Add new classes, items, areas and monsters
