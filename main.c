@@ -87,7 +87,7 @@ static int parse_input()
     else if (strcasecmp(verb, "DROP") == 0) {
       execute_drop(noun);
     }
-    else if (strcasecmp(verb, "EQ") == 0 || strcasecmp(verb, "EQUIP") == 0) {
+    else if (strcasecmp(verb, "EQ") == 0 || strcasecmp(verb, "EQUIP") == 0 || strcasecmp(verb, "WEAR") == 0) {
       execute_equip(noun);
     }
     else if (strcasecmp(verb, "REMOVE") == 0 || strcasecmp(verb, "RM") == 0) {
