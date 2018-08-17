@@ -21,6 +21,8 @@ WIP - develope combat system
 
 To Do:
 
+- migrate data from text files to SQlite database
+
 - create game server/client
 
 - Add new classes, items, areas and monsters
